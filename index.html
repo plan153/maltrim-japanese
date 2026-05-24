@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>말트임 일본어 🇯🇵</title>
+<title>말트임 일본어 v1.2 🇯🇵</title>
 <style>
 :root {
   --primary: #1e3a8a;
@@ -53,6 +53,13 @@ body {
 }
 .header-logo { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
 .header-logo span { color: var(--primary-light); }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.v-badge {
+  font-size: 10px; font-weight: 700;
+  background: rgba(245,158,11,.15); color: var(--accent);
+  border: 1px solid rgba(245,158,11,.3);
+  padding: 2px 7px; border-radius: 8px;
+}
 .day-badge {
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: #fff;
@@ -127,7 +134,6 @@ body {
   min-height: 18px;
 }
 .jp-reading.hidden { opacity: 0; }
-
 .jp-text {
   font-size: 30px;
   font-weight: 800;
@@ -139,7 +145,6 @@ body {
   word-break: break-all;
 }
 .jp-text.blurred { filter: blur(9px); user-select: none; }
-
 .kr-meaning {
   font-size: 13px;
   color: var(--text-dim);
@@ -147,7 +152,6 @@ body {
   min-height: 18px;
 }
 .kr-meaning.hidden { opacity: 0; }
-
 .btn-show {
   background: transparent;
   border: 1px solid var(--primary-light);
@@ -163,10 +167,7 @@ body {
 .btn-show:hover, .btn-show:active { background: var(--primary-light); color: #fff; }
 
 /* ── AUDIO CONTROLS ──────────────────────────── */
-.audio-row {
-  display: flex;
-  gap: 10px;
-}
+.audio-row { display: flex; gap: 10px; }
 .btn-audio {
   flex: 1;
   padding: 13px 10px;
@@ -190,7 +191,6 @@ body {
 }
 .btn-play:hover { border-color: var(--primary-light); color: var(--primary-light); }
 .btn-play.playing { border-color: var(--accent); color: var(--accent); }
-
 .btn-lr {
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: #fff;
@@ -206,27 +206,16 @@ body {
 }
 
 /* ── MIC AREA ────────────────────────────────── */
-.mic-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+.mic-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .mic-hint { font-size: 12px; color: var(--text-dim); }
 .waveform {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  height: 28px;
-  opacity: 0;
-  transition: opacity .3s;
+  display: flex; align-items: center; gap: 4px;
+  height: 28px; opacity: 0; transition: opacity .3s;
 }
 .waveform.active { opacity: 1; }
 .wave-bar {
-  width: 4px;
-  background: var(--danger);
-  border-radius: 3px;
-  animation: wave .7s ease-in-out infinite;
+  width: 4px; background: var(--danger);
+  border-radius: 3px; animation: wave .7s ease-in-out infinite;
 }
 .wave-bar:nth-child(1) { animation-delay: 0s; }
 .wave-bar:nth-child(2) { animation-delay: .1s; }
@@ -235,10 +224,7 @@ body {
 .wave-bar:nth-child(5) { animation-delay: .2s; }
 .wave-bar:nth-child(6) { animation-delay: .1s; }
 .wave-bar:nth-child(7) { animation-delay: 0s; }
-@keyframes wave {
-  0%,100% { height: 5px; }
-  50% { height: 22px; }
-}
+@keyframes wave { 0%,100% { height: 5px; } 50% { height: 22px; } }
 
 .btn-mic {
   width: 78px; height: 78px;
@@ -254,17 +240,13 @@ body {
   position: relative;
 }
 .btn-mic:hover { border-color: var(--primary-light); transform: scale(1.05); }
-.btn-mic.recording {
-  background: var(--danger);
-  border-color: var(--danger);
-  animation: micPulse 1s infinite;
-}
+.btn-mic.recording { background: var(--danger); border-color: var(--danger); animation: micPulse 1s infinite; }
 @keyframes micPulse {
   0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.45); }
-  50% { box-shadow: 0 0 0 18px rgba(239,68,68,0); }
+  50%      { box-shadow: 0 0 0 18px rgba(239,68,68,0); }
 }
 
-/* ── FEEDBACK ────────────────────────────────── */
+/* ── FEEDBACK PANEL ──────────────────────────── */
 .feedback-panel {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -272,49 +254,140 @@ body {
   padding: 16px;
   display: none;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   animation: slideUp .3s ease;
 }
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .feedback-panel.show { display: flex; }
-.fb-label { font-size: 11px; color: var(--text-dim); margin-bottom: 2px; }
-.fb-text { font-size: 18px; font-family: var(--font-jp); line-height: 1.7; }
-.diff-ok { color: var(--success); }
-.diff-ng { color: var(--danger); text-decoration: line-through; }
-.diff-miss { color: var(--accent); }
-.score-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  align-self: flex-start;
+.fb-label { font-size: 11px; color: var(--text-dim); margin-bottom: 3px; }
+.fb-text  { font-size: 18px; font-family: var(--font-jp); line-height: 1.7; }
+
+/* diff colours */
+.diff-ok   { color: var(--success); }
+.diff-ng   { color: var(--danger); text-decoration: line-through; position: relative; cursor: help; }
+.diff-miss { color: var(--accent); position: relative; cursor: help; }
+
+/* Speech-bubble tooltip ─ [기능 C] */
+.diff-ng::after, .diff-miss::after {
+  content: attr(data-hint);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 11px;
+  font-family: var(--font-kr);
+  padding: 4px 9px;
+  border-radius: 7px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+  border: 1px solid var(--border);
+  z-index: 50;
 }
-.score-high { background: rgba(16,185,129,.18); color: var(--success); }
-.score-mid  { background: rgba(245,158,11,.18); color: var(--accent); }
-.score-low  { background: rgba(239,68,68,.18);  color: var(--danger); }
+.diff-ng::before, .diff-miss::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 1px);
+  left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface2);
+  pointer-events: none;
+  opacity: 0; transition: opacity .2s;
+  z-index: 51;
+}
+.diff-ng:hover::after, .diff-miss:hover::after,
+.diff-ng:hover::before, .diff-miss:hover::before { opacity: 1; }
+
+/* ── [기능 D] SPEEDOMETER ─────────────────────── */
+.speedo-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.speedo-svg { width: 140px; height: 140px; }
+.speedo-track { fill: none; stroke: var(--surface2); stroke-width: 11; }
+.speedo-fill  {
+  fill: none; stroke-width: 11; stroke-linecap: round;
+  stroke-dasharray: 0 314;
+  transition: stroke-dasharray 1.1s cubic-bezier(.4,0,.2,1), stroke .5s;
+}
+.speedo-score-num {
+  font-size: 26px; font-weight: 900;
+  text-anchor: middle; dominant-baseline: auto;
+  fill: var(--text);
+}
+.speedo-unit {
+  font-size: 11px; text-anchor: middle;
+  fill: var(--text-dim);
+}
+.speedo-title {
+  font-size: 14px; font-weight: 800;
+  text-align: center; color: var(--text);
+  min-height: 20px;
+}
+.speedo-sub {
+  font-size: 12px; text-align: center;
+  color: var(--text-dim); min-height: 16px;
+}
+
+/* ── [기능 A] FFD / VAD CHIPS ────────────────── */
+.ffd-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.ffd-chip {
+  font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px;
+  background: var(--surface2); color: var(--text-dim);
+  border: 1px solid var(--border);
+  transition: all .4s;
+}
+.ffd-chip.fast { background: rgba(16,185,129,.15); color: var(--success); border-color: rgba(16,185,129,.4); }
+.ffd-chip.warn { background: rgba(245,158,11,.15); color: var(--accent);  border-color: rgba(245,158,11,.4); }
+.ffd-chip.slow { background: rgba(239,68,68,.15);  color: var(--danger);  border-color: rgba(239,68,68,.4); }
+
+/* ── [기능 B] ERROR LOCK LAYER ───────────────── */
+.lock-layer {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(239,68,68,.12);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+  animation: lockFlash .25s ease;
+}
+@keyframes lockFlash {
+  0%   { background: rgba(239,68,68,.35); }
+  100% { background: rgba(239,68,68,.12); }
+}
+.lock-layer.show { display: flex; }
+.lock-banner {
+  background: var(--danger);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-size: 15px; font-weight: 800;
+  text-align: center; line-height: 1.5;
+  box-shadow: 0 8px 32px rgba(239,68,68,.4);
+  animation: lockBounce .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes lockBounce {
+  from { transform: scale(.7); opacity: 0; }
+  to   { transform: scale(1);  opacity: 1; }
+}
 
 /* ── NAV ─────────────────────────────────────── */
-.nav-row {
-  display: flex; gap: 10px;
-}
+.nav-row { display: flex; gap: 10px; }
 .btn-nav {
-  flex: 1;
-  padding: 13px;
+  flex: 1; padding: 13px;
   border-radius: 14px;
   border: 1.5px solid var(--border);
   background: var(--surface);
   color: var(--text);
-  font-size: 14px;
-  font-family: var(--font-kr);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .2s;
+  font-size: 14px; font-family: var(--font-kr); font-weight: 600;
+  cursor: pointer; transition: all .2s;
 }
 .btn-nav:hover:not(:disabled) { border-color: var(--primary-light); color: var(--primary-light); }
 .btn-nav:disabled { opacity: .3; cursor: not-allowed; }
@@ -322,10 +395,8 @@ body {
 
 /* ── DAY DRAWER ──────────────────────────────── */
 .drawer-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 200;
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); z-index: 200;
   backdrop-filter: blur(2px);
 }
 .drawer-overlay.open { display: block; }
@@ -342,51 +413,34 @@ body {
 }
 .day-drawer.open { transform: translateX(-50%) translateY(0); }
 .drawer-handle {
-  width: 40px; height: 4px;
-  background: var(--surface2);
-  border-radius: 2px;
-  margin: 0 auto 18px;
+  width: 40px; height: 4px; background: var(--surface2);
+  border-radius: 2px; margin: 0 auto 18px;
 }
 .drawer-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
-.day-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 7px;
-}
+.day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; }
 .day-btn {
-  aspect-ratio: 1;
-  border-radius: 10px;
+  aspect-ratio: 1; border-radius: 10px;
   border: 1.5px solid var(--border);
-  background: var(--surface2);
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .18s;
+  background: var(--surface2); color: var(--text);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .18s;
   display: flex; align-items: center; justify-content: center;
 }
 .day-btn:hover { border-color: var(--primary-light); }
 .day-btn.current { background: var(--primary); border-color: var(--primary); }
-.day-btn.done { border-color: var(--success); color: var(--success); }
+.day-btn.done    { border-color: var(--success); color: var(--success); }
 .week-labels {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 7px;
-  margin-bottom: 4px;
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 7px; margin-bottom: 4px;
 }
 .week-label { font-size: 9px; color: var(--text-dim); text-align: center; }
 
-/* ── LISTEN & REPEAT MODAL ───────────────────── */
+/* ── L&R MODAL ───────────────────────────────── */
 .lr-modal {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(10,15,25,.96);
-  z-index: 300;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 28px;
-  text-align: center;
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,15,25,.96); z-index: 300;
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 28px; text-align: center;
 }
 .lr-modal.open { display: flex; }
 .lr-close {
@@ -396,66 +450,47 @@ body {
   border-radius: 50%; font-size: 15px;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
-.lr-dots {
-  display: flex; gap: 10px; margin-bottom: 30px;
-}
+.lr-dots { display: flex; gap: 10px; margin-bottom: 30px; }
 .lr-dot {
   width: 10px; height: 10px; border-radius: 50%;
-  background: var(--surface2);
-  transition: all .3s;
+  background: var(--surface2); transition: all .3s;
 }
 .lr-dot.current { background: var(--primary-light); transform: scale(1.3); }
-.lr-dot.done { background: var(--success); }
-
+.lr-dot.done    { background: var(--success); }
 .lr-icon {
-  font-size: 72px;
-  margin-bottom: 18px;
-  display: block;
+  font-size: 72px; margin-bottom: 18px; display: block;
   animation: float 2s ease-in-out infinite;
 }
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
-}
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 .lr-icon.mic-anim { animation: micFloat .6s ease-in-out infinite alternate; }
-@keyframes micFloat {
-  from { transform: scale(1); }
-  to   { transform: scale(1.18); }
-}
-.lr-status {
-  font-size: 20px; font-weight: 700;
-  color: var(--text); margin-bottom: 8px;
-}
-.lr-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
-.lr-phrase {
-  font-size: 26px; font-weight: 800;
-  font-family: var(--font-jp);
-  color: var(--text); margin-bottom: 6px;
-  word-break: break-all;
-}
+@keyframes micFloat { from { transform: scale(1); } to { transform: scale(1.18); } }
+.lr-status { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.lr-sub    { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+.lr-phrase { font-size: 26px; font-weight: 800; font-family: var(--font-jp); color: var(--text); margin-bottom: 6px; word-break: break-all; }
 .lr-reading { font-size: 13px; color: var(--primary-light); margin-bottom: 28px; }
-
 .lr-score-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .lr-chip {
-  padding: 6px 16px;
-  border-radius: 20px;
+  padding: 6px 16px; border-radius: 20px;
   font-size: 13px; font-weight: 700;
-  background: var(--surface);
-  color: var(--text-dim);
-  border: 1.5px solid var(--border);
-  transition: all .3s;
+  background: var(--surface); color: var(--text-dim);
+  border: 1.5px solid var(--border); transition: all .3s;
 }
 .lr-chip.scored { background: rgba(16,185,129,.15); color: var(--success); border-color: var(--success); }
 .lr-chip.fail   { background: rgba(239,68,68,.15);  color: var(--danger);  border-color: var(--danger); }
 
+/* LR 내부 speedometer */
+.lr-speedo { margin: 10px 0 0; }
+.lr-speedo .speedo-svg { width: 100px; height: 100px; }
+
 /* ── TOAST ───────────────────────────────────── */
 .toast {
-  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
+  position: fixed; bottom: 40px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
   background: var(--surface); border: 1px solid var(--border);
   color: var(--text); padding: 11px 20px; border-radius: 30px;
   font-size: 13px; font-weight: 600;
   opacity: 0; pointer-events: none;
-  transition: all .3s; z-index: 400; white-space: nowrap;
+  transition: all .3s; z-index: 600; white-space: nowrap;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
@@ -465,7 +500,10 @@ body {
 <!-- HEADER -->
 <header class="header">
   <div class="header-logo">말트임 <span>일본어</span> 🇯🇵</div>
-  <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
+  <div class="header-right">
+    <span class="v-badge">v1.2</span>
+    <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
+  </div>
 </header>
 
 <!-- PROGRESS -->
@@ -485,7 +523,7 @@ body {
   <!-- card -->
   <div class="card">
     <div class="jp-reading hidden" id="jpReading"></div>
-    <div class="jp-text blurred"  id="jpText">いきます</div>
+    <div class="jp-text blurred"   id="jpText">いきます</div>
     <div class="kr-meaning hidden" id="krMeaning"></div>
     <button class="btn-show" id="btnShow" onclick="toggleReveal()">👁️ 보기 / 정답 확인</button>
   </div>
@@ -493,14 +531,14 @@ body {
   <!-- audio -->
   <div class="audio-row">
     <button class="btn-audio btn-play" id="btnPlay" onclick="playTTS()">🔊 듣기</button>
-    <button class="btn-audio btn-lr" id="btnLR" onclick="startLR()">
+    <button class="btn-audio btn-lr"   id="btnLR"   onclick="startLR()">
       🔁 듣고 따라하기 <span class="lr-badge">3회</span>
     </button>
   </div>
 
   <!-- mic -->
   <div class="mic-section">
-    <div class="mic-hint">🎙 누르고 있는 동안 녹음</div>
+    <div class="mic-hint">🎙 누르고 있는 동안 녹음 · STT 구동</div>
     <div class="waveform" id="waveform">
       <div class="wave-bar"></div><div class="wave-bar"></div>
       <div class="wave-bar"></div><div class="wave-bar"></div>
@@ -513,17 +551,40 @@ body {
       onmouseleave="stopRec()">🎤</button>
   </div>
 
-  <!-- feedback -->
+  <!-- feedback panel ── v1.2 재설계 -->
   <div class="feedback-panel" id="feedbackPanel">
+
+    <!-- 정답 diff -->
     <div>
-      <div class="fb-label">✅ 정답</div>
+      <div class="fb-label">✅ 정답 <span style="font-size:10px;opacity:.6">(hover → 힌트)</span></div>
       <div class="fb-text" id="fbOriginal"></div>
     </div>
+
+    <!-- 내 발음 diff -->
     <div>
       <div class="fb-label">🗣 내가 말한 것</div>
       <div class="fb-text" id="fbSpoken"></div>
     </div>
-    <div class="score-chip" id="fbScore"></div>
+
+    <!-- [기능 D] Speedometer -->
+    <div class="speedo-wrap" id="speedoWrap">
+      <svg class="speedo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle class="speedo-track" cx="60" cy="60" r="50"/>
+        <circle class="speedo-fill"  cx="60" cy="60" r="50"
+                id="speedoFill" transform="rotate(-90 60 60)"/>
+        <text class="speedo-score-num" id="speedoNum" x="60" y="63">0</text>
+        <text class="speedo-unit"      x="60" y="78">점</text>
+      </svg>
+      <div class="speedo-title" id="speedoTitle"></div>
+      <div class="speedo-sub"   id="speedoSub"></div>
+    </div>
+
+    <!-- [기능 A] FFD / VAD 칩 -->
+    <div class="ffd-row">
+      <div class="ffd-chip" id="ffdChip">⚡ 반응속도: —</div>
+      <div class="ffd-chip" id="vadChip">🔇 머뭇거림: —</div>
+    </div>
+
   </div>
 
   <!-- nav -->
@@ -557,15 +618,30 @@ body {
     <div class="lr-dot" id="lrd2"></div>
   </div>
   <span class="lr-icon" id="lrIcon">🔊</span>
-  <div class="lr-status" id="lrStatus">잘 들으세요</div>
-  <div class="lr-sub" id="lrSub">1회차 시작</div>
-  <div class="lr-phrase" id="lrPhrase"></div>
+  <div class="lr-status"  id="lrStatus">잘 들으세요</div>
+  <div class="lr-sub"     id="lrSub">1회차 시작</div>
+  <div class="lr-phrase"  id="lrPhrase"></div>
   <div class="lr-reading" id="lrReading"></div>
   <div class="lr-score-row" id="lrScoreRow">
     <div class="lr-chip" id="lrChip0">1회</div>
     <div class="lr-chip" id="lrChip1">2회</div>
     <div class="lr-chip" id="lrChip2">3회</div>
   </div>
+  <!-- LR 내부 speedometer (요약용) -->
+  <div class="lr-speedo" id="lrSpeedoWrap" style="display:none">
+    <svg class="speedo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle class="speedo-track" cx="60" cy="60" r="50"/>
+      <circle class="speedo-fill"  cx="60" cy="60" r="50"
+              id="lrSpeedoFill" transform="rotate(-90 60 60)"/>
+      <text class="speedo-score-num" id="lrSpeedoNum" x="60" y="63">0</text>
+      <text class="speedo-unit" x="60" y="78">평균</text>
+    </svg>
+  </div>
+</div>
+
+<!-- [기능 B] ERROR LOCK LAYER -->
+<div class="lock-layer" id="lockLayer">
+  <div class="lock-banner" id="lockBanner">🔒 다시 도전!</div>
 </div>
 
 <!-- TOAST -->
@@ -575,7 +651,7 @@ body {
 'use strict';
 
 // ════════════════════════════════════════════════════
-// 30일 커리큘럼 데이터
+// 30일 커리큘럼 (CURRICULUM — 무결성 유지)
 // ════════════════════════════════════════════════════
 const CURRICULUM = {
   1: { title: "핵심 뼈대 · 이동 동사", phrases: [
@@ -739,21 +815,33 @@ const CURRICULUM = {
 };
 
 // ════════════════════════════════════════════════════
-// STATE
+// STATE  (v1.2 확장 — S.isPremium / S.isNativePlatform 분기 준비)
 // ════════════════════════════════════════════════════
 const S = {
-  day: 1,
-  phrase: 0,
+  // ── 기존 상태 ──────────────────────────────────
+  day: 1, phrase: 0,
   revealed: false,
-  recActive: false,
-  recObj: null,
-  lrActive: false,
-  lrScores: [],
+  recActive: false, recObj: null,
+  lrActive: false,  lrScores: [],
   synth: window.speechSynthesis,
   jpVoice: null,
   doneDays: new Set(),
-  donePhrases: {},   // { "1-0": true, ... }
-  interacted: false,
+  donePhrases: {},
+
+  // ── v1.2 플랫폼 분기 준비 ──────────────────────
+  isPremium: false,          // 프리미엄 뉴럴 TTS 활성화 여부
+  isNativePlatform: false,   // Flutter/RN 하이브리드 네이티브 환경 여부
+
+  // ── [기능 A] FFD / VAD ──────────────────────────
+  t0: null,          // TTS onend 시각 (FFD 기준점)
+  ffd: null,         // First Formant Delay (ms)
+  vadCount: 0,       // 500ms 이상 무음 구간 횟수
+  vadLastSpeech: null, // 마지막 발화 감지 시각
+  vadTimer: null,    // VAD 타이머 핸들
+
+  // ── [기능 B] 오답 락 루프 ───────────────────────
+  lastScore: null,   // 가장 최근 채점 결과
+  lockActive: false, // 오답 락 활성 여부
 };
 
 // ════════════════════════════════════════════════════
@@ -764,15 +852,15 @@ function init() {
   resolveVoice();
   buildDayGrid();
   render();
-  document.addEventListener('click', () => { S.interacted = true; }, { once: true });
+  document.addEventListener('click', () => {}, { once: true });
 }
 
 function loadState() {
   try {
     const d = JSON.parse(localStorage.getItem('maltrim_v2') || '{}');
-    S.day        = d.day        || 1;
-    S.phrase     = d.phrase     || 0;
-    S.doneDays   = new Set(d.doneDays   || []);
+    S.day         = d.day         || 1;
+    S.phrase      = d.phrase      || 0;
+    S.doneDays    = new Set(d.doneDays || []);
     S.donePhrases = d.donePhrases || {};
   } catch(e) {}
 }
@@ -806,11 +894,9 @@ function render() {
   const day = CURRICULUM[S.day];
   const p   = day.phrases[S.phrase];
 
-  // header
   $('dayBadge').textContent = `Day ${S.day} / 30`;
   $('dayTitle').textContent = `Day ${S.day}  ·  ${day.title}`;
 
-  // progress
   const pct = ((S.day - 1) + S.phrase / day.phrases.length) / 30 * 100;
   $('progressFill').style.width = pct.toFixed(1) + '%';
 
@@ -824,7 +910,6 @@ function render() {
     dotsCont.appendChild(el);
   });
 
-  // card
   $('jpText').textContent    = p.jp;
   $('jpReading').textContent = p.rd;
   $('krMeaning').textContent = p.kr;
@@ -832,13 +917,10 @@ function render() {
   S.revealed = false;
   applyReveal();
 
-  // hide feedback
   $('feedbackPanel').classList.remove('show');
+  S.lastScore = null;
 
-  // nav
-  const first = S.day === 1 && S.phrase === 0;
-  const last  = S.day === 30 && S.phrase === CURRICULUM[30].phrases.length - 1;
-  $('btnPrev').disabled = first;
+  $('btnPrev').disabled = S.day === 1 && S.phrase === 0;
   $('btnNext').textContent = isLastPhrase() ? 'Day 완료 ✓' : '다음 ▶';
   $('btnNext').classList.toggle('highlight', isLastPhrase());
 }
@@ -851,15 +933,20 @@ function applyReveal() {
 }
 
 function toggleReveal() { S.revealed = !S.revealed; applyReveal(); }
-
-function isLastPhrase() {
-  return S.phrase >= CURRICULUM[S.day].phrases.length - 1;
-}
+function isLastPhrase() { return S.phrase >= CURRICULUM[S.day].phrases.length - 1; }
 
 // ════════════════════════════════════════════════════
-// NAVIGATION
+// NAVIGATION  ── [기능 B] 오답 락 루프 적용
 // ════════════════════════════════════════════════════
 function nextPhrase() {
+  if (S.lockActive) return;
+
+  // 85점 미만이면 진도 고정 → 자동 재녹음 루프
+  if (S.lastScore !== null && S.lastScore < 85) {
+    triggerErrorLock(S.lastScore);
+    return;
+  }
+
   const key = `${S.day}-${S.phrase}`;
   S.donePhrases[key] = true;
 
@@ -875,6 +962,7 @@ function nextPhrase() {
 }
 
 function prevPhrase() {
+  if (S.lockActive) return;
   if (S.phrase > 0) {
     S.phrase--;
   } else if (S.day > 1) {
@@ -887,8 +975,514 @@ function prevPhrase() {
 }
 
 function goToDay(d) {
+  S.lockActive = false;
+  $('lockLayer').classList.remove('show');
   S.day = d; S.phrase = 0;
   saveState(); render(); closeDrawer(); buildDayGrid();
+}
+
+// [기능 B] 오답 락 루프
+function triggerErrorLock(sc) {
+  S.lockActive = true;
+  const layer  = $('lockLayer');
+  const banner = $('lockBanner');
+  banner.innerHTML = `🔒 ${sc}점 — 85점 이상이어야 넘어갈 수 있어요!<br><span style="font-size:13px;opacity:.85">1.5초 후 자동 재시도...</span>`;
+  layer.classList.add('show');
+
+  setTimeout(() => {
+    layer.classList.remove('show');
+    S.lockActive = false;
+    // 자동 재녹음 파이프라인 재기동
+    startRec();
+  }, 1500);
+}
+
+// ════════════════════════════════════════════════════
+// TTS  ── [기능 A] T0 스탬핑
+// ════════════════════════════════════════════════════
+function speak(text, rate = 0.8) {
+  return new Promise(resolve => {
+    S.synth.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/　/g, ''));
+    u.lang  = 'ja-JP';
+    u.rate  = rate;
+    u.pitch = 1.0;
+    if (S.jpVoice) u.voice = S.jpVoice;
+
+    u.onend = () => {
+      S.t0 = Date.now(); // ── FFD 기준점 스탬핑
+      resolve();
+    };
+    u.onerror = () => { S.t0 = Date.now(); resolve(); };
+    S.synth.speak(u);
+  });
+}
+
+function playTTS() {
+  const p   = CURRICULUM[S.day].phrases[S.phrase];
+  const btn = $('btnPlay');
+  btn.classList.add('playing');
+  S.t0 = null; // FFD 리셋 (수동 듣기 후 수동 녹음하는 경우)
+  speak(p.jp).then(() => btn.classList.remove('playing'));
+}
+
+// ════════════════════════════════════════════════════
+// [기능 B] 음절 가중치 기반 스코어링 (W_end = 1.5)
+// ════════════════════════════════════════════════════
+function lev(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length: m+1}, (_, i) =>
+    Array.from({length: n+1}, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+  for (let i=1; i<=m; i++)
+    for (let j=1; j<=n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+function norm(s) {
+  // 공백·구두점 제거 후 히라가나→가타카나 변환(루즈 매칭)
+  return s.replace(/[\s　・、。！？→「」]/g, '')
+          .split('').map(c => {
+            const code = c.charCodeAt(0);
+            return (code >= 0x3041 && code <= 0x3096)
+              ? String.fromCharCode(code + 0x60) : c;
+          }).join('');
+}
+
+function score(orig, spoken) {
+  const a = norm(orig), b = norm(spoken);
+  if (!b) return 0;
+
+  const totalLen = Math.max(a.length, b.length, 1);
+
+  // 종결 어미 구간: 마지막 3~4음절 (W_end = 1.5)
+  const endLen  = Math.min(4, Math.max(2, Math.floor(a.length * 0.3)));
+  const bodyLen = Math.max(1, totalLen - endLen);
+
+  const aBody = a.slice(0, a.length - endLen);
+  const bBody = b.slice(0, Math.max(0, b.length - endLen));
+  const aEnd  = a.slice(-endLen);
+  const bEnd  = b.slice(-Math.min(endLen, b.length));
+
+  const bodyDist  = lev(aBody, bBody);
+  const endDist   = lev(aEnd,  bEnd);
+
+  const bodyRatio = Math.max(0, 1 - bodyDist / Math.max(aBody.length, bBody.length, 1));
+  const endRatio  = Math.max(0, 1 - endDist  / Math.max(aEnd.length,  bEnd.length,  1));
+
+  const W_END = 1.5;
+  const totalWeight   = bodyLen + endLen * W_END;
+  const weightedScore = (bodyRatio * bodyLen + endRatio * endLen * W_END) / totalWeight;
+
+  return Math.round(weightedScore * 100);
+}
+
+// ════════════════════════════════════════════════════
+// [기능 C] 시각적 diff + 말풍선 힌트
+// ════════════════════════════════════════════════════
+// 조사·어미 힌트 맵
+const HINT_MAP = [
+  ['ません', '부정 어미 ません (안 합니다)'],
+  ['ました', '과거 어미 ました (했습니다)'],
+  ['ましょう', '권유 어미 ましょう (합시다)'],
+  ['たいです', '희망 たいです (하고 싶습니다)'],
+  ['ください', '요청 ください (주세요)'],
+  ['います', '존재 います (있습니다)'],
+  ['あります', '존재 あります (있습니다)'],
+  ['できます', '가능 できます (할 수 있습니다)'],
+  ['います', '정중체 います'],
+  ['ます', '정중체 어미 ます'],
+  ['に', '조사 に (에/에게)'],
+  ['を', '조사 を (을/를)'],
+  ['が', '조사 が (이/가)'],
+  ['で', '조사 で (에서)'],
+  ['と', '조사 と (과/와)'],
+  ['は', '조사 は (은/는)'],
+  ['も', '조사 も (도)'],
+  ['の', '조사 の (의)'],
+  ['へ', '조사 へ (으로)'],
+];
+
+function getHint(char) {
+  for (const [pat, hint] of HINT_MAP) {
+    if (pat.includes(char)) return hint;
+  }
+  return `정답 글자: ${char}`;
+}
+
+function buildDiff(orig, spoken) {
+  const a = [...orig.replace(/　/g, ' ')];
+  const b = [...spoken];
+  const m = a.length, n = b.length;
+
+  // LCS dp
+  const dp = Array.from({length: m+1}, () => new Int16Array(n+1));
+  for (let i=1; i<=m; i++)
+    for (let j=1; j<=n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] + 1
+        : Math.max(dp[i-1][j], dp[i][j-1]);
+
+  // Backtrack
+  const ops = []; let i=m, j=n;
+  while (i>0 || j>0) {
+    if (i>0 && j>0 && a[i-1] === b[j-1]) {
+      ops.unshift({t:'eq', c: a[i-1]}); i--; j--;
+    } else if (j>0 && (i===0 || dp[i][j-1] >= dp[i-1][j])) {
+      ops.unshift({t:'ins', c: b[j-1]}); j--;
+    } else {
+      ops.unshift({t:'del', c: a[i-1]}); i--;
+    }
+  }
+
+  let origHtml = '', spokenHtml = '';
+  ops.forEach(op => {
+    const esc = c => c.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    if (op.t === 'eq') {
+      origHtml   += `<span class="diff-ok">${esc(op.c)}</span>`;
+      spokenHtml += `<span class="diff-ok">${esc(op.c)}</span>`;
+    } else if (op.t === 'del') {
+      // 원문에만 있고 유저가 빠뜨린 글자 → 주황 힌트
+      const hint = esc(getHint(op.c));
+      origHtml += `<span class="diff-miss" data-hint="${hint}">${esc(op.c)}</span>`;
+    } else {
+      // 유저가 잘못 말한 글자 → 빨간 취소선
+      const hint = esc(`잘못 발음됨 (정답 없음)`);
+      spokenHtml += `<span class="diff-ng" data-hint="${hint}">${esc(op.c)}</span>`;
+    }
+  });
+
+  return { origHtml, spokenHtml };
+}
+
+// ════════════════════════════════════════════════════
+// [기능 D] 속도계 렌더링
+// ════════════════════════════════════════════════════
+const CIRC = 314; // 2π × 50
+
+function renderSpeedo(fillId, numId, sc, ffd, vadCnt, titleId, subId) {
+  const fill = CIRC * sc / 100;
+  const el   = $(fillId);
+  if (!el) return;
+
+  el.setAttribute('stroke-dasharray', `${fill} ${CIRC}`);
+
+  const color = sc >= 85 ? '#10b981' : sc >= 60 ? '#f59e0b' : '#ef4444';
+  el.style.stroke = color;
+
+  if (numId) $(numId).textContent = sc;
+
+  if (!titleId) return;
+
+  // 피드백 타이틀 생성
+  let title, sub;
+  const ffdSec = ffd ? (ffd / 1000).toFixed(1) : null;
+
+  if (sc >= 95 && ffd !== null && ffd <= 1000) {
+    title = '⚡ 조건반사 마스터!';
+    sub   = `뇌 회로 ${ffdSec}초 · 완벽 유창성`;
+  } else if (sc >= 85 && ffd !== null && ffd <= 1500) {
+    title = '🎯 유창성 우수!';
+    sub   = `반응 ${ffdSec}초 · 계속 이 속도로`;
+  } else if (sc >= 85) {
+    title = '✅ 통과!';
+    sub   = ffdSec ? `반응 ${ffdSec}초` : '잘했어요!';
+  } else if (sc >= 60) {
+    title = '👍 조금 더!';
+    sub   = '85점 이상이면 다음으로 넘어갑니다';
+  } else {
+    title = '💪 다시 도전!';
+    sub   = '발음을 더 명확하게 해보세요';
+  }
+
+  if (vadCnt > 0) sub += ` · 머뭇거림 ${vadCnt}회 발생`;
+
+  $(titleId).textContent = title;
+  $(subId).textContent   = sub;
+}
+
+// ════════════════════════════════════════════════════
+// SHOW FEEDBACK  (속도계 + FFD/VAD 칩 통합)
+// ════════════════════════════════════════════════════
+function showFeedback(orig, spoken) {
+  const sc = score(orig, spoken);
+  S.lastScore = sc;
+
+  const { origHtml, spokenHtml } = buildDiff(orig, spoken);
+  $('fbOriginal').innerHTML = origHtml  || orig;
+  $('fbSpoken').innerHTML   = spokenHtml || '<span style="color:var(--text-dim)">인식 못함</span>';
+
+  // 속도계
+  renderSpeedo('speedoFill', 'speedoNum', sc, S.ffd, S.vadCount, 'speedoTitle', 'speedoSub');
+
+  // FFD 칩
+  const ffdEl = $('ffdChip');
+  if (S.ffd !== null) {
+    const sec = (S.ffd / 1000).toFixed(1);
+    if (S.ffd <= 1000) {
+      ffdEl.textContent = `⚡ 반응속도: ${sec}초 ✅`;
+      ffdEl.className   = 'ffd-chip fast';
+    } else if (S.ffd <= 2000) {
+      ffdEl.textContent = `⏱ 반응속도: ${sec}초`;
+      ffdEl.className   = 'ffd-chip warn';
+    } else {
+      ffdEl.textContent = `🐢 반응속도: ${sec}초`;
+      ffdEl.className   = 'ffd-chip slow';
+    }
+  } else {
+    ffdEl.textContent = '⚡ 반응속도: —';
+    ffdEl.className   = 'ffd-chip';
+  }
+
+  // VAD 칩
+  const vadEl = $('vadChip');
+  if (S.vadCount === 0) {
+    vadEl.textContent = '🔊 막힘없음 ✅';
+    vadEl.className   = 'ffd-chip fast';
+  } else if (S.vadCount === 1) {
+    vadEl.textContent = `🔇 머뭇거림: ${S.vadCount}회`;
+    vadEl.className   = 'ffd-chip warn';
+  } else {
+    vadEl.textContent = `🔇 머뭇거림: ${S.vadCount}회`;
+    vadEl.className   = 'ffd-chip slow';
+  }
+
+  $('feedbackPanel').classList.add('show');
+  $('feedbackPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ════════════════════════════════════════════════════
+// STT — 수동 마이크  [기능 A] FFD + VAD 통합
+// ════════════════════════════════════════════════════
+function startRec(e) {
+  if (e) e.preventDefault();
+  if (S.recActive || S.lockActive) return;
+  S.recActive = true;
+
+  // FFD / VAD 초기화
+  S.ffd          = null;
+  S.vadCount     = 0;
+  S.vadLastSpeech = null;
+  if (S.vadTimer) { clearInterval(S.vadTimer); S.vadTimer = null; }
+
+  $('btnMic').classList.add('recording');
+  $('waveform').classList.add('active');
+
+  const p  = CURRICULUM[S.day].phrases[S.phrase];
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SR) {
+    // 브라우저 미지원 → 시뮬레이션 (하이브리드 앱 환경 플래그 설정 필요)
+    if (S.isNativePlatform) {
+      showToast('🎙 네이티브 STT 플러그인 연결 필요 (Flutter/RN)');
+    }
+    setTimeout(() => {
+      const fake = p.jp.replace(/　/g,'').slice(0, Math.max(2, p.jp.replace(/　/g,'').length - 1));
+      showFeedback(p.jp, fake);
+      stopRecUI();
+    }, 1800);
+    return;
+  }
+
+  S.recObj = new SR();
+  S.recObj.lang             = 'ja-JP';
+  S.recObj.interimResults   = true;   // VAD 감지를 위해 중간 결과 필요
+  S.recObj.maxAlternatives  = 3;
+  S.recObj.continuous       = false;
+
+  // ── [기능 A] FFD: 최초 발화 감지 시각 스탬핑
+  S.recObj.onspeechstart = () => {
+    if (S.t0 !== null && S.ffd === null) {
+      S.ffd = Date.now() - S.t0;
+    }
+    S.vadLastSpeech = Date.now();
+  };
+
+  // ── [기능 A] VAD: 중간 결과로 무음 구간 추적
+  S.recObj.onresult = e => {
+    const now = Date.now();
+    // 이전 발화로부터 500ms 이상 경과 → 머뭇거림 카운트
+    if (S.vadLastSpeech !== null && now - S.vadLastSpeech > 500) {
+      S.vadCount++;
+    }
+    S.vadLastSpeech = now;
+
+    // 최종 결과가 나오면 처리
+    const last = e.results[e.results.length - 1];
+    if (last.isFinal) {
+      const transcript = last[0].transcript;
+      showFeedback(p.jp, transcript);
+      stopRecUI();
+    }
+  };
+
+  // ── STT 오류 처리 — 하이브리드 앱 권장 가이드 토스트 연동
+  S.recObj.onerror = ev => {
+    const errMap = {
+      'no-speech':       '🎙 소음이 없는 곳에서 다시 말씀해 주세요',
+      'audio-capture':   '🎤 마이크를 확인해 주세요',
+      'not-allowed':     '🔒 마이크 권한을 허용해 주세요',
+      'network':         '🌐 네트워크 연결을 확인해 주세요',
+      'aborted':         null,
+    };
+    const msg = errMap[ev.error] ?? '🎙 소음이 없는 곳에서 다시 말씀해 주세요';
+    if (msg) showToast(msg);
+    stopRecUI();
+  };
+
+  S.recObj.onspeechend = () => {
+    // 발화 종료 → 결과 대기 (onresult가 처리)
+  };
+  S.recObj.onend = () => stopRecUI();
+
+  S.recObj.start();
+}
+
+function stopRec() {
+  if (!S.recActive) return;
+  if (S.recObj) { try { S.recObj.stop(); } catch(e) {} S.recObj = null; }
+  stopRecUI();
+}
+
+function stopRecUI() {
+  S.recActive = false;
+  if (S.vadTimer) { clearInterval(S.vadTimer); S.vadTimer = null; }
+  $('btnMic').classList.remove('recording');
+  $('waveform').classList.remove('active');
+}
+
+// ════════════════════════════════════════════════════
+// LISTEN & REPEAT (3회)  ── FFD/VAD 통합
+// ════════════════════════════════════════════════════
+async function startLR() {
+  if (S.lrActive) return;
+  S.lrActive = true;
+  S.lrScores = [];
+
+  const p = CURRICULUM[S.day].phrases[S.phrase];
+  $('lrPhrase').textContent  = p.jp;
+  $('lrReading').textContent = p.rd;
+  $('lrSpeedoWrap').style.display = 'none';
+  $('lrModal').classList.add('open');
+
+  for (let i=0; i<3; i++) {
+    $(`lrChip${i}`).className = 'lr-chip';
+    $(`lrChip${i}`).textContent = `${i+1}회`;
+  }
+
+  for (let round = 0; round < 3; round++) {
+    if (!S.lrActive) break;
+    await runLRRound(round, p.jp);
+    await sleep(350);
+  }
+
+  if (!S.lrActive) return;
+
+  // 요약 속도계
+  const avg = S.lrScores.length
+    ? Math.round(S.lrScores.reduce((a,b)=>a+b,0) / S.lrScores.length) : 0;
+
+  setLRDots(3);
+  $('lrIcon').textContent  = avg >= 85 ? '🎉' : avg >= 60 ? '👍' : '💪';
+  $('lrIcon').className    = 'lr-icon';
+  $('lrStatus').textContent = avg >= 85 ? '클리어!' : avg >= 60 ? '잘했어요!' : '더 연습해요!';
+  $('lrSub').textContent   = `평균 ${avg}점`;
+
+  $('lrSpeedoWrap').style.display = 'block';
+  renderSpeedo('lrSpeedoFill', 'lrSpeedoNum', avg, null, 0, null, null);
+
+  setTimeout(() => { if (S.lrActive) closeLR(); }, 3000);
+}
+
+async function runLRRound(round, jpText) {
+  setLRDots(round);
+
+  // ① Listen
+  $('lrIcon').textContent = '🔊';
+  $('lrIcon').className   = 'lr-icon';
+  $('lrStatus').textContent = `${round+1}회 · 잘 들으세요`;
+  $('lrSub').textContent  = '재생 중...';
+
+  await speak(jpText, 0.78);
+  // T0는 speak() 내부에서 스탬핑됨
+  if (!S.lrActive) return;
+  await sleep(250);
+
+  // ② Repeat
+  $('lrIcon').textContent = '🎤';
+  $('lrIcon').className   = 'lr-icon mic-anim';
+  $('lrStatus').textContent = `${round+1}회 · 따라해 보세요!`;
+  $('lrSub').textContent  = '4초 안에 말하기';
+
+  const sc = await lrRecord(jpText);
+  if (!S.lrActive) return;
+  S.lrScores.push(sc);
+
+  const chip = $(`lrChip${round}`);
+  chip.className   = 'lr-chip ' + (sc >= 85 ? 'scored' : 'fail');
+  chip.textContent = `${round+1}회 ${sc}점`;
+
+  // 즉각 피드백 서브텍스트
+  const ffdSec = S.ffd !== null ? (S.ffd/1000).toFixed(1) : null;
+  $('lrSub').textContent = ffdSec
+    ? `반응 ${ffdSec}초 · ${sc}점`
+    : `${sc}점`;
+}
+
+function lrRecord(targetJp) {
+  return new Promise(resolve => {
+    // FFD/VAD 초기화 (각 회차별)
+    S.ffd = null; S.vadCount = 0; S.vadLastSpeech = null;
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      setTimeout(() => resolve(Math.floor(Math.random()*35) + 50), 2500);
+      return;
+    }
+
+    const r = new SR();
+    r.lang             = 'ja-JP';
+    r.interimResults   = true;
+    r.maxAlternatives  = 3;
+
+    let done = false;
+    const finish = sc => { if (!done) { done = true; resolve(sc); } };
+
+    r.onspeechstart = () => {
+      if (S.t0 !== null && S.ffd === null) S.ffd = Date.now() - S.t0;
+      S.vadLastSpeech = Date.now();
+    };
+
+    r.onresult = e => {
+      const now = Date.now();
+      if (S.vadLastSpeech && now - S.vadLastSpeech > 500) S.vadCount++;
+      S.vadLastSpeech = now;
+      const last = e.results[e.results.length - 1];
+      if (last.isFinal) finish(score(targetJp, last[0].transcript));
+    };
+
+    r.onerror = ev => {
+      if (ev.error === 'no-speech') showToast('🎙 소음이 없는 곳에서 다시 말씀해 주세요');
+      finish(0);
+    };
+    r.onend = () => finish(0);
+
+    r.start();
+    setTimeout(() => { try { r.stop(); } catch(e) {} }, 4200);
+  });
+}
+
+function setLRDots(cur) {
+  for (let i=0; i<3; i++) {
+    $(`lrd${i}`).className = 'lr-dot'
+      + (i < cur ? ' done' : i === cur ? ' current' : '');
+  }
+}
+
+function closeLR() {
+  S.lrActive = false;
+  $('lrModal').classList.remove('open');
+  S.synth.cancel();
 }
 
 // ════════════════════════════════════════════════════
@@ -907,295 +1501,26 @@ function buildDayGrid() {
     g.appendChild(b);
   }
 }
-
-function openDrawer() {
-  $('dayDrawer').classList.add('open');
-  $('drawerOverlay').classList.add('open');
-}
-function closeDrawer() {
-  $('dayDrawer').classList.remove('open');
-  $('drawerOverlay').classList.remove('open');
-}
-
-// ════════════════════════════════════════════════════
-// TTS
-// ════════════════════════════════════════════════════
-function speak(text, rate = 0.8) {
-  return new Promise(resolve => {
-    S.synth.cancel();
-    const u = new SpeechSynthesisUtterance(text.replace(/　/g, ''));
-    u.lang  = 'ja-JP';
-    u.rate  = rate;
-    u.pitch = 1.0;
-    if (S.jpVoice) u.voice = S.jpVoice;
-    u.onend   = resolve;
-    u.onerror = resolve;
-    S.synth.speak(u);
-  });
-}
-
-function playTTS() {
-  const p = CURRICULUM[S.day].phrases[S.phrase];
-  const btn = $('btnPlay');
-  btn.classList.add('playing');
-  speak(p.jp).then(() => btn.classList.remove('playing'));
-}
-
-// ════════════════════════════════════════════════════
-// LEVENSHTEIN + DIFF
-// ════════════════════════════════════════════════════
-function lev(a, b) {
-  const m = a.length, n = b.length;
-  const dp = Array.from({length:m+1}, (_,i) =>
-    Array.from({length:n+1}, (_,j) => i === 0 ? j : j === 0 ? i : 0));
-  for (let i=1;i<=m;i++)
-    for (let j=1;j<=n;j++)
-      dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] :
-        1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
-  return dp[m][n];
-}
-
-function score(orig, spoken) {
-  const a = norm(orig), b = norm(spoken);
-  if (!b) return 0;
-  const d = lev(a, b);
-  return Math.max(0, Math.round((1 - d / Math.max(a.length, b.length, 1)) * 100));
-}
-
-function norm(s) {
-  return s.replace(/[\s　・、。！？→]/g, '').replace(/[ぁ-ん]/g, c =>
-    String.fromCharCode(c.charCodeAt(0) + 0x60)); // convert hiragana → katakana for loose match
-}
-
-// Build colored diff HTML — original vs spoken
-function buildDiff(orig, spoken) {
-  const a = orig.replace(/　/g, ' ');
-  const b = spoken;
-  const aChars = [...a];
-  const bChars = [...b];
-
-  // LCS-based character diff
-  const m = aChars.length, n = bChars.length;
-  const dp = Array.from({length:m+1}, () => new Array(n+1).fill(0));
-  for (let i=1;i<=m;i++)
-    for (let j=1;j<=n;j++)
-      dp[i][j] = aChars[i-1]===bChars[j-1] ? dp[i-1][j-1]+1 :
-        Math.max(dp[i-1][j], dp[i][j-1]);
-
-  // Backtrack
-  const ops = []; let i=m, j=n;
-  while (i>0 || j>0) {
-    if (i>0 && j>0 && aChars[i-1]===bChars[j-1]) {
-      ops.unshift({t:'eq', c:aChars[i-1]}); i--; j--;
-    } else if (j>0 && (i===0 || dp[i][j-1]>=dp[i-1][j])) {
-      ops.unshift({t:'ins', c:bChars[j-1]}); j--;
-    } else {
-      ops.unshift({t:'del', c:aChars[i-1]}); i--;
-    }
-  }
-
-  let origHtml = '', spokenHtml = '';
-  ops.forEach(op => {
-    if (op.t === 'eq') {
-      origHtml   += `<span class="diff-ok">${op.c}</span>`;
-      spokenHtml += `<span class="diff-ok">${op.c}</span>`;
-    } else if (op.t === 'del') {
-      origHtml += `<span class="diff-miss">${op.c}</span>`;
-    } else {
-      spokenHtml += `<span class="diff-ng">${op.c}</span>`;
-    }
-  });
-  return { origHtml, spokenHtml };
-}
-
-function showFeedback(orig, spoken) {
-  const sc = score(orig, spoken);
-  const { origHtml, spokenHtml } = buildDiff(orig, spoken);
-
-  $('fbOriginal').innerHTML = origHtml || orig;
-  $('fbSpoken').innerHTML   = spokenHtml || '<span style="color:var(--text-dim)">인식 못함</span>';
-
-  const chip = $('fbScore');
-  chip.textContent = sc + '점';
-  chip.className = 'score-chip ' + (sc>=80 ? 'score-high' : sc>=55 ? 'score-mid' : 'score-low');
-
-  $('feedbackPanel').classList.add('show');
-  $('feedbackPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-// ════════════════════════════════════════════════════
-// STT — manual mic
-// ════════════════════════════════════════════════════
-function startRec(e) {
-  if (e) e.preventDefault();
-  if (S.recActive) return;
-  S.recActive = true;
-  $('btnMic').classList.add('recording');
-  $('waveform').classList.add('active');
-
-  const p = CURRICULUM[S.day].phrases[S.phrase];
-
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    // Demo fallback — simulate partial recognition
-    setTimeout(() => {
-      const fake = p.jp.replace(/　/g,'').slice(0, Math.max(2, p.jp.replace(/　/g,'').length - 1));
-      showFeedback(p.jp, fake);
-      stopRecUI();
-    }, 1800);
-    return;
-  }
-
-  S.recObj = new SR();
-  S.recObj.lang  = 'ja-JP';
-  S.recObj.interimResults = false;
-  S.recObj.maxAlternatives = 3;
-
-  S.recObj.onresult = e => {
-    const t = e.results[0][0].transcript;
-    showFeedback(p.jp, t);
-    stopRecUI();
-  };
-  S.recObj.onerror = () => stopRecUI();
-  S.recObj.onend   = () => stopRecUI();
-  S.recObj.start();
-}
-
-function stopRec() {
-  if (!S.recActive) return;
-  if (S.recObj) { try { S.recObj.stop(); } catch(e) {} S.recObj = null; }
-  stopRecUI();
-}
-
-function stopRecUI() {
-  S.recActive = false;
-  $('btnMic').classList.remove('recording');
-  $('waveform').classList.remove('active');
-}
-
-// ════════════════════════════════════════════════════
-// LISTEN & REPEAT (3회)
-// ════════════════════════════════════════════════════
-async function startLR() {
-  if (S.lrActive) return;
-  S.lrActive = true;
-  S.lrScores = [];
-
-  const p = CURRICULUM[S.day].phrases[S.phrase];
-  $('lrPhrase').textContent  = p.jp;
-  $('lrReading').textContent = p.rd;
-  $('lrModal').classList.add('open');
-
-  // Reset chips
-  for (let i=0;i<3;i++) {
-    $(`lrChip${i}`).className = 'lr-chip';
-    $(`lrChip${i}`).textContent = `${i+1}회`;
-  }
-
-  for (let round = 0; round < 3; round++) {
-    if (!S.lrActive) break;
-    await runLRRound(round, p.jp);
-    await sleep(400);
-  }
-
-  if (!S.lrActive) return;
-
-  // Summary
-  const avg = S.lrScores.length
-    ? S.lrScores.reduce((a,b)=>a+b,0) / S.lrScores.length : 0;
-
-  setLRDots(3);
-  $('lrIcon').textContent  = avg >= 80 ? '🎉' : avg >= 55 ? '👍' : '💪';
-  $('lrIcon').className    = 'lr-icon';
-  $('lrStatus').textContent = avg >= 80 ? '완벽해요!' : avg >= 55 ? '잘했어요!' : '계속 연습해요!';
-  $('lrSub').textContent   = `평균 ${Math.round(avg)}점 · ${S.lrScores.join('점 / ')}점`;
-
-  setTimeout(() => { if (S.lrActive) closeLR(); }, 3000);
-}
-
-async function runLRRound(round, jpText) {
-  setLRDots(round);
-
-  // ① Listen
-  $('lrIcon').textContent = '🔊';
-  $('lrIcon').className   = 'lr-icon';
-  $('lrStatus').textContent = `${round+1}회 · 잘 들으세요`;
-  $('lrSub').textContent  = '재생 중...';
-
-  await speak(jpText, 0.75);
-  if (!S.lrActive) return;
-  await sleep(300);
-
-  // ② Repeat
-  $('lrIcon').textContent = '🎤';
-  $('lrIcon').className   = 'lr-icon mic-anim';
-  $('lrStatus').textContent = `${round+1}회 · 따라해 보세요!`;
-  $('lrSub').textContent  = '4초 안에 말하기';
-
-  const sc = await lrRecord(jpText);
-  if (!S.lrActive) return;
-  S.lrScores.push(sc);
-
-  const chip = $(`lrChip${round}`);
-  chip.className = 'lr-chip ' + (sc >= 55 ? 'scored' : 'fail');
-  chip.textContent = `${round+1}회 ${sc}점`;
-}
-
-function lrRecord(targetJp) {
-  return new Promise(resolve => {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) {
-      // Simulate a score
-      setTimeout(() => resolve(Math.floor(Math.random()*35) + 50), 2500);
-      return;
-    }
-
-    const r = new SR();
-    r.lang = 'ja-JP';
-    r.interimResults = false;
-    r.maxAlternatives = 3;
-
-    let done = false;
-    const finish = (sc) => { if (!done) { done=true; resolve(sc); } };
-
-    r.onresult = e => finish(score(targetJp, e.results[0][0].transcript));
-    r.onerror  = () => finish(0);
-    r.onend    = () => finish(0);
-
-    r.start();
-    // 4-second auto-stop
-    setTimeout(() => { try { r.stop(); } catch(e) {} }, 4000);
-  });
-}
-
-function setLRDots(cur) {
-  for (let i=0;i<3;i++) {
-    const d = $(`lrd${i}`);
-    d.className = 'lr-dot' + (i < cur ? ' done' : i === cur ? ' current' : '');
-  }
-}
-
-function closeLR() {
-  S.lrActive = false;
-  $('lrModal').classList.remove('open');
-  S.synth.cancel();
-}
+function openDrawer()  { $('dayDrawer').classList.add('open');  $('drawerOverlay').classList.add('open');  }
+function closeDrawer() { $('dayDrawer').classList.remove('open'); $('drawerOverlay').classList.remove('open'); }
 
 // ════════════════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════════════════
-const $ = id => document.getElementById(id);
+const $     = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+let _toastTimer = null;
 function showToast(msg) {
   const t = $('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 // ════════════════════════════════════════════════════
-// KEYBOARD SHORTCUTS
+// KEYBOARD SHORTCUTS  (기존 바인딩 누수 없이 유지)
 // ════════════════════════════════════════════════════
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') nextPhrase();
