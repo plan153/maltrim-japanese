@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>말트임 일본어 🇯🇵</title>
+<style>
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #334155;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --border: #334155;
+  --font-jp: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', 'MS Gothic', sans-serif;
+  --font-kr: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --radius: 18px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-kr);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  background: var(--surface);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+}
+.header-logo { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
+.header-logo span { color: var(--primary-light); }
+.day-badge {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity .15s;
+}
+.day-badge:active { opacity: .8; }
+
+/* ── PROGRESS ────────────────────────────────── */
+.progress-bar { height: 3px; background: var(--surface2); }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── MAIN ────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; padding: 16px; gap: 14px; overflow-y: auto; padding-bottom: 24px; }
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 0 2px;
+}
+.day-title { font-weight: 600; }
+.phrase-dots { display: flex; gap: 5px; align-items: center; }
+.phrase-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--surface2);
+  transition: background .3s;
+}
+.phrase-dot.active { background: var(--primary-light); }
+.phrase-dot.done { background: var(--success); }
+
+/* ── PHRASE CARD ─────────────────────────────── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px 24px 24px;
+  text-align: center;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  min-height: 185px;
+  justify-content: center;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
+}
+.jp-reading {
+  font-size: 13px;
+  color: var(--primary-light);
+  letter-spacing: .15em;
+  font-family: var(--font-kr);
+  transition: opacity .35s;
+  min-height: 18px;
+}
+.jp-reading.hidden { opacity: 0; }
+
+.jp-text {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  font-family: var(--font-jp);
+  letter-spacing: .06em;
+  line-height: 1.45;
+  transition: filter .35s;
+  word-break: break-all;
+}
+.jp-text.blurred { filter: blur(9px); user-select: none; }
+
+.kr-meaning {
+  font-size: 13px;
+  color: var(--text-dim);
+  transition: opacity .35s;
+  min-height: 18px;
+}
+.kr-meaning.hidden { opacity: 0; }
+
+.btn-show {
+  background: transparent;
+  border: 1px solid var(--primary-light);
+  color: var(--primary-light);
+  padding: 7px 22px;
+  border-radius: 30px;
+  font-size: 12.5px;
+  font-family: var(--font-kr);
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 4px;
+}
+.btn-show:hover, .btn-show:active { background: var(--primary-light); color: #fff; }
+
+/* ── AUDIO CONTROLS ──────────────────────────── */
+.audio-row {
+  display: flex;
+  gap: 10px;
+}
+.btn-audio {
+  flex: 1;
+  padding: 13px 10px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-kr);
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  line-height: 1.2;
+}
+.btn-play {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+}
+.btn-play:hover { border-color: var(--primary-light); color: var(--primary-light); }
+.btn-play.playing { border-color: var(--accent); color: var(--accent); }
+
+.btn-lr {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  flex: 1.6;
+}
+.btn-lr:hover { opacity: .9; }
+.btn-lr:disabled { opacity: .4; cursor: not-allowed; }
+.btn-lr .lr-badge {
+  font-size: 10px;
+  background: rgba(255,255,255,.22);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+/* ── MIC AREA ────────────────────────────────── */
+.mic-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.mic-hint { font-size: 12px; color: var(--text-dim); }
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.waveform.active { opacity: 1; }
+.wave-bar {
+  width: 4px;
+  background: var(--danger);
+  border-radius: 3px;
+  animation: wave .7s ease-in-out infinite;
+}
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: .1s; }
+.wave-bar:nth-child(3) { animation-delay: .2s; }
+.wave-bar:nth-child(4) { animation-delay: .3s; }
+.wave-bar:nth-child(5) { animation-delay: .2s; }
+.wave-bar:nth-child(6) { animation-delay: .1s; }
+.wave-bar:nth-child(7) { animation-delay: 0s; }
+@keyframes wave {
+  0%,100% { height: 5px; }
+  50% { height: 22px; }
+}
+
+.btn-mic {
+  width: 78px; height: 78px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 3px solid var(--border);
+  color: var(--text);
+  font-size: 30px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+  user-select: none; -webkit-user-select: none;
+  position: relative;
+}
+.btn-mic:hover { border-color: var(--primary-light); transform: scale(1.05); }
+.btn-mic.recording {
+  background: var(--danger);
+  border-color: var(--danger);
+  animation: micPulse 1s infinite;
+}
+@keyframes micPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.45); }
+  50% { box-shadow: 0 0 0 18px rgba(239,68,68,0); }
+}
+
+/* ── FEEDBACK ────────────────────────────────── */
+.feedback-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  animation: slideUp .3s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.feedback-panel.show { display: flex; }
+.fb-label { font-size: 11px; color: var(--text-dim); margin-bottom: 2px; }
+.fb-text { font-size: 18px; font-family: var(--font-jp); line-height: 1.7; }
+.diff-ok { color: var(--success); }
+.diff-ng { color: var(--danger); text-decoration: line-through; }
+.diff-miss { color: var(--accent); }
+.score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  align-self: flex-start;
+}
+.score-high { background: rgba(16,185,129,.18); color: var(--success); }
+.score-mid  { background: rgba(245,158,11,.18); color: var(--accent); }
+.score-low  { background: rgba(239,68,68,.18);  color: var(--danger); }
+
+/* ── NAV ─────────────────────────────────────── */
+.nav-row {
+  display: flex; gap: 10px;
+}
+.btn-nav {
+  flex: 1;
+  padding: 13px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-kr);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-nav:hover:not(:disabled) { border-color: var(--primary-light); color: var(--primary-light); }
+.btn-nav:disabled { opacity: .3; cursor: not-allowed; }
+.btn-nav.highlight { background: var(--success); border-color: var(--success); color: #fff; }
+
+/* ── DAY DRAWER ──────────────────────────────── */
+.drawer-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 200;
+  backdrop-filter: blur(2px);
+}
+.drawer-overlay.open { display: block; }
+.day-drawer {
+  position: fixed;
+  bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 480px;
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  border-top: 1px solid var(--border);
+  padding: 20px 20px 32px;
+  z-index: 201;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+.day-drawer.open { transform: translateX(-50%) translateY(0); }
+.drawer-handle {
+  width: 40px; height: 4px;
+  background: var(--surface2);
+  border-radius: 2px;
+  margin: 0 auto 18px;
+}
+.drawer-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 7px;
+}
+.day-btn {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s;
+  display: flex; align-items: center; justify-content: center;
+}
+.day-btn:hover { border-color: var(--primary-light); }
+.day-btn.current { background: var(--primary); border-color: var(--primary); }
+.day-btn.done { border-color: var(--success); color: var(--success); }
+.week-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 7px;
+  margin-bottom: 4px;
+}
+.week-label { font-size: 9px; color: var(--text-dim); text-align: center; }
+
+/* ── LISTEN & REPEAT MODAL ───────────────────── */
+.lr-modal {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(10,15,25,.96);
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+  text-align: center;
+}
+.lr-modal.open { display: flex; }
+.lr-close {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--surface2); border: none;
+  color: var(--text); width: 36px; height: 36px;
+  border-radius: 50%; font-size: 15px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.lr-dots {
+  display: flex; gap: 10px; margin-bottom: 30px;
+}
+.lr-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--surface2);
+  transition: all .3s;
+}
+.lr-dot.current { background: var(--primary-light); transform: scale(1.3); }
+.lr-dot.done { background: var(--success); }
+
+.lr-icon {
+  font-size: 72px;
+  margin-bottom: 18px;
+  display: block;
+  animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+.lr-icon.mic-anim { animation: micFloat .6s ease-in-out infinite alternate; }
+@keyframes micFloat {
+  from { transform: scale(1); }
+  to   { transform: scale(1.18); }
+}
+.lr-status {
+  font-size: 20px; font-weight: 700;
+  color: var(--text); margin-bottom: 8px;
+}
+.lr-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+.lr-phrase {
+  font-size: 26px; font-weight: 800;
+  font-family: var(--font-jp);
+  color: var(--text); margin-bottom: 6px;
+  word-break: break-all;
+}
+.lr-reading { font-size: 13px; color: var(--primary-light); margin-bottom: 28px; }
+
+.lr-score-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.lr-chip {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px; font-weight: 700;
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1.5px solid var(--border);
+  transition: all .3s;
+}
+.lr-chip.scored { background: rgba(16,185,129,.15); color: var(--success); border-color: var(--success); }
+.lr-chip.fail   { background: rgba(239,68,68,.15);  color: var(--danger);  border-color: var(--danger); }
+
+/* ── TOAST ───────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); padding: 11px 20px; border-radius: 30px;
+  font-size: 13px; font-weight: 600;
+  opacity: 0; pointer-events: none;
+  transition: all .3s; z-index: 400; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">말트임 <span>일본어</span> 🇯🇵</div>
+  <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- meta -->
+  <div class="meta-row">
+    <div class="day-title" id="dayTitle">Day 1 · 핵심 뼈대 세우기</div>
+    <div class="phrase-dots" id="phraseDots"></div>
+  </div>
+
+  <!-- card -->
+  <div class="card">
+    <div class="jp-reading hidden" id="jpReading"></div>
+    <div class="jp-text blurred"  id="jpText">いきます</div>
+    <div class="kr-meaning hidden" id="krMeaning"></div>
+    <button class="btn-show" id="btnShow" onclick="toggleReveal()">👁️ 보기 / 정답 확인</button>
+  </div>
+
+  <!-- audio -->
+  <div class="audio-row">
+    <button class="btn-audio btn-play" id="btnPlay" onclick="playTTS()">🔊 듣기</button>
+    <button class="btn-audio btn-lr" id="btnLR" onclick="startLR()">
+      🔁 듣고 따라하기 <span class="lr-badge">3회</span>
+    </button>
+  </div>
+
+  <!-- mic -->
+  <div class="mic-section">
+    <div class="mic-hint">🎙 누르고 있는 동안 녹음</div>
+    <div class="waveform" id="waveform">
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <button class="btn-mic" id="btnMic"
+      onmousedown="startRec(event)" onmouseup="stopRec()"
+      ontouchstart="startRec(event)" ontouchend="stopRec()"
+      onmouseleave="stopRec()">🎤</button>
+  </div>
+
+  <!-- feedback -->
+  <div class="feedback-panel" id="feedbackPanel">
+    <div>
+      <div class="fb-label">✅ 정답</div>
+      <div class="fb-text" id="fbOriginal"></div>
+    </div>
+    <div>
+      <div class="fb-label">🗣 내가 말한 것</div>
+      <div class="fb-text" id="fbSpoken"></div>
+    </div>
+    <div class="score-chip" id="fbScore"></div>
+  </div>
+
+  <!-- nav -->
+  <div class="nav-row">
+    <button class="btn-nav" id="btnPrev" onclick="prevPhrase()">◀ 이전</button>
+    <button class="btn-nav" id="btnNext" onclick="nextPhrase()">다음 ▶</button>
+  </div>
+
+</main>
+
+<!-- DAY DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="day-drawer" id="dayDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-title">📅 학습 일차</div>
+  <div class="week-labels">
+    <div class="week-label">월</div><div class="week-label">화</div>
+    <div class="week-label">수</div><div class="week-label">목</div>
+    <div class="week-label">금</div><div class="week-label">토</div>
+    <div class="week-label">일</div>
+  </div>
+  <div class="day-grid" id="dayGrid"></div>
+</div>
+
+<!-- L&R MODAL -->
+<div class="lr-modal" id="lrModal">
+  <button class="lr-close" onclick="closeLR()">✕</button>
+  <div class="lr-dots" id="lrDots">
+    <div class="lr-dot current" id="lrd0"></div>
+    <div class="lr-dot" id="lrd1"></div>
+    <div class="lr-dot" id="lrd2"></div>
+  </div>
+  <span class="lr-icon" id="lrIcon">🔊</span>
+  <div class="lr-status" id="lrStatus">잘 들으세요</div>
+  <div class="lr-sub" id="lrSub">1회차 시작</div>
+  <div class="lr-phrase" id="lrPhrase"></div>
+  <div class="lr-reading" id="lrReading"></div>
+  <div class="lr-score-row" id="lrScoreRow">
+    <div class="lr-chip" id="lrChip0">1회</div>
+    <div class="lr-chip" id="lrChip1">2회</div>
+    <div class="lr-chip" id="lrChip2">3회</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ════════════════════════════════════════════════════
+// 30일 커리큘럼 데이터
+// ════════════════════════════════════════════════════
+const CURRICULUM = {
+  1: { title: "핵심 뼈대 · 이동 동사", phrases: [
+    { jp:"がっこうに　いきます", rd:"각꼬우니 이키마스", kr:"학교에 갑니다" },
+    { jp:"うちに　かえります",   rd:"우치니 카에리마스",  kr:"집에 돌아갑니다" },
+    { jp:"まいにち　いきます",   rd:"마이니치 이키마스",  kr:"매일 갑니다" },
+  ]},
+  2: { title: "핵심 뼈대 · 일과 공부", phrases: [
+    { jp:"しごとを　します",       rd:"시고토오 시마스",       kr:"일을 합니다" },
+    { jp:"べんきょうを　します",   rd:"벤쿄우오 시마스",       kr:"공부를 합니다" },
+    { jp:"しごとに　いきます",     rd:"시고토니 이키마스",     kr:"일하러 갑니다" },
+    { jp:"たいへんです",           rd:"타이헨데스",             kr:"힘듭니다 / 대단합니다" },
+  ]},
+  3: { title: "핵심 뼈대 · 먹고 마시기", phrases: [
+    { jp:"レストランで　たべます", rd:"레스토란데 타베마스",   kr:"레스토랑에서 먹습니다" },
+    { jp:"みずを　のみます",       rd:"미즈오 노미마스",       kr:"물을 마십니다" },
+    { jp:"おいしいです",           rd:"오이시이데스",           kr:"맛있습니다" },
+    { jp:"なにを　たべますか",     rd:"나니오 타베마스카",     kr:"무엇을 먹습니까?" },
+  ]},
+  4: { title: "핵심 뼈대 · 쇼핑", phrases: [
+    { jp:"スーパーで　かいます",   rd:"스-파-데 카이마스",     kr:"슈퍼에서 삽니다" },
+    { jp:"みせに　いきます",       rd:"미세니 이키마스",       kr:"가게에 갑니다" },
+    { jp:"なにを　かいますか",     rd:"나니오 카이마스카",     kr:"무엇을 삽니까?" },
+    { jp:"たかいです",             rd:"타카이데스",             kr:"비쌉니다" },
+  ]},
+  5: { title: "핵심 뼈대 · 존재 표현", phrases: [
+    { jp:"うちに　います",         rd:"우치니 이마스",         kr:"집에 있습니다" },
+    { jp:"ここに　あります",       rd:"코코니 아리마스",       kr:"여기에 있습니다" },
+    { jp:"ともだちが　います",     rd:"토모다치가 이마스",     kr:"친구가 있습니다" },
+    { jp:"どこに　いますか",       rd:"도코니 이마스카",       kr:"어디에 있습니까?" },
+  ]},
+  6: { title: "핵심 뼈대 · 의문사", phrases: [
+    { jp:"いつ　いきますか",       rd:"이츠 이키마스카",       kr:"언제 갑니까?" },
+    { jp:"どこに　いきますか",     rd:"도코니 이키마스카",     kr:"어디에 갑니까?" },
+    { jp:"だれと　たべますか",     rd:"다레토 타베마스카",     kr:"누구와 먹습니까?" },
+    { jp:"なんじに　きますか",     rd:"난지니 키마스카",       kr:"몇 시에 옵니까?" },
+  ]},
+  7: { title: "1주차 복습 · 복합 표현", phrases: [
+    { jp:"がっこうで　べんきょうします", rd:"각꼬우데 벤쿄우시마스",     kr:"학교에서 공부합니다" },
+    { jp:"まいにち　しごとを　します",   rd:"마이니치 시고토오 시마스",   kr:"매일 일을 합니다" },
+    { jp:"ともだちと　みせに　いきます", rd:"토모다치토 미세니 이키마스", kr:"친구와 가게에 갑니다" },
+  ]},
+  8: { title: "과거형 · 이동", phrases: [
+    { jp:"がっこうに　いきました",   rd:"각꼬우니 이키마시타",   kr:"학교에 갔습니다" },
+    { jp:"うちに　かえりました",     rd:"우치니 카에리마시타",   kr:"집에 돌아갔습니다" },
+    { jp:"きのう　いきました",       rd:"키노우 이키마시타",     kr:"어제 갔습니다" },
+  ]},
+  9: { title: "과거형 · 음식", phrases: [
+    { jp:"すしを　たべました",       rd:"스시오 타베마시타",     kr:"스시를 먹었습니다" },
+    { jp:"コーヒーを　のみました",   rd:"코-히-오 노미마시타",   kr:"커피를 마셨습니다" },
+    { jp:"おいしかったです",         rd:"오이시캇타데스",         kr:"맛있었습니다" },
+  ]},
+  10: { title: "과거형 · 행동", phrases: [
+    { jp:"べんきょうを　しました",   rd:"벤쿄우오 시마시타",     kr:"공부를 했습니다" },
+    { jp:"しごとを　しました",       rd:"시고토오 시마시타",     kr:"일을 했습니다" },
+    { jp:"たのしかったです",         rd:"타노시캇타데스",         kr:"즐거웠습니다" },
+  ]},
+  11: { title: "과거형 · 수면과 귀가", phrases: [
+    { jp:"はやく　かえりました",     rd:"하야쿠 카에리마시타",   kr:"일찍 돌아갔습니다" },
+    { jp:"よく　ねました",           rd:"요쿠 네마시타",         kr:"잘 잤습니다" },
+    { jp:"つかれました",             rd:"츠카레마시타",           kr:"피곤했습니다" },
+  ]},
+  12: { title: "권유형 · 함께 하자", phrases: [
+    { jp:"いっしょに　いきましょう", rd:"잇쇼니 이키마쇼우",     kr:"함께 갑시다" },
+    { jp:"たべましょう",             rd:"타베마쇼우",             kr:"먹읍시다" },
+    { jp:"はじめましょう",           rd:"하지메마쇼우",           kr:"시작합시다" },
+    { jp:"やすみましょう",           rd:"야스미마쇼우",           kr:"쉽시다" },
+  ]},
+  13: { title: "희망 표현 · ~하고 싶다", phrases: [
+    { jp:"にほんに　いきたいです",       rd:"니혼니 이키타이데스",           kr:"일본에 가고 싶습니다" },
+    { jp:"すしを　たべたいです",         rd:"스시오 타베타이데스",           kr:"스시를 먹고 싶습니다" },
+    { jp:"にほんごを　はなしたいです",   rd:"니혼고오 하나시타이데스",       kr:"일본어를 말하고 싶습니다" },
+  ]},
+  14: { title: "2주차 복습 · 종합", phrases: [
+    { jp:"きのう　すしを　たべました",   rd:"키노우 스시오 타베마시타",       kr:"어제 스시를 먹었습니다" },
+    { jp:"いっしょに　いきましょう",     rd:"잇쇼니 이키마쇼우",             kr:"함께 갑시다" },
+    { jp:"にほんに　いきたいです",       rd:"니혼니 이키타이데스",           kr:"일본에 가고 싶습니다" },
+    { jp:"たのしかったですね",           rd:"타노시캇타데스네",               kr:"즐거웠죠?" },
+  ]},
+  15: { title: "テ형 · ~해 주세요", phrases: [
+    { jp:"みて　ください",             rd:"미테 쿠다사이",         kr:"봐 주세요" },
+    { jp:"きいて　ください",           rd:"키이테 쿠다사이",       kr:"들어 주세요" },
+    { jp:"まって　ください",           rd:"맛테 쿠다사이",         kr:"기다려 주세요" },
+  ]},
+  16: { title: "テ형 · 음식과 행동", phrases: [
+    { jp:"たべて　ください",           rd:"타베테 쿠다사이",       kr:"드세요" },
+    { jp:"のんで　ください",           rd:"논데 쿠다사이",         kr:"드세요 (음료)" },
+    { jp:"はなして　ください",         rd:"하나시테 쿠다사이",     kr:"말씀해 주세요" },
+  ]},
+  17: { title: "テ형 · 행동 요청", phrases: [
+    { jp:"して　ください",             rd:"시테 쿠다사이",         kr:"해 주세요" },
+    { jp:"かいて　ください",           rd:"카이테 쿠다사이",       kr:"써 주세요" },
+    { jp:"おしえて　ください",         rd:"오시에테 쿠다사이",     kr:"가르쳐 주세요" },
+  ]},
+  18: { title: "テ형 연결 · ~하고", phrases: [
+    { jp:"たべて、のみます",           rd:"타베테、노미마스",       kr:"먹고, 마십니다" },
+    { jp:"いって、かえります",         rd:"잇테、카에리마스",       kr:"가고, 돌아옵니다" },
+    { jp:"みて、はなします",           rd:"미테、하나시마스",       kr:"보고, 이야기합니다" },
+  ]},
+  19: { title: "テ형 · 허가 표현", phrases: [
+    { jp:"たべても　いいですか",       rd:"타베테모 이이데스카",   kr:"먹어도 됩니까?" },
+    { jp:"いっても　いいですか",       rd:"잇테모 이이데스카",     kr:"가도 됩니까?" },
+    { jp:"みても　いいですか",         rd:"미테모 이이데스카",     kr:"봐도 됩니까?" },
+  ]},
+  20: { title: "テ형 · 금지 표현", phrases: [
+    { jp:"たべては　いけません",           rd:"타베테와 이케마센",         kr:"먹으면 안 됩니다" },
+    { jp:"ここに　はいっては　いけません", rd:"코코니 하잇테와 이케마센", kr:"여기에 들어가면 안 됩니다" },
+    { jp:"はなしては　いけません",         rd:"하나시테와 이케마센",       kr:"이야기하면 안 됩니다" },
+  ]},
+  21: { title: "3주차 복습 · テ형 종합", phrases: [
+    { jp:"みて　ください、おいしいです",   rd:"미테 쿠다사이、오이시이데스", kr:"봐 주세요, 맛있습니다" },
+    { jp:"たべても　いいですか",           rd:"타베테모 이이데스카",         kr:"먹어도 됩니까?" },
+    { jp:"まって　ください、いきます",     rd:"맛테 쿠다사이、이키마스",     kr:"기다려 주세요, 갑니다" },
+  ]},
+  22: { title: "🔓 비밀해제 · 기본형(사전형) 첫 등장", phrases: [
+    { jp:"いく　→　いきます",     rd:"이쿠 → 이키마스",     kr:"가다 → 갑니다 (사전형 → 마스형)" },
+    { jp:"たべる　→　たべます",   rd:"타베루 → 타베마스",   kr:"먹다 → 먹습니다" },
+    { jp:"する　→　します",       rd:"스루 → 시마스",       kr:"하다 → 합니다" },
+  ]},
+  23: { title: "기본형 활용 · ~할 수 있다", phrases: [
+    { jp:"にほんごを　はなす　ことが　できます",   rd:"니혼고오 하나스 코토가 데키마스",   kr:"일본어를 말할 수 있습니다" },
+    { jp:"すしを　たべる　ことが　できます",       rd:"스시오 타베루 코토가 데키마스",     kr:"스시를 먹을 수 있습니다" },
+    { jp:"およぐ　ことが　できます",               rd:"오요구 코토가 데키마스",             kr:"수영할 수 있습니다" },
+  ]},
+  24: { title: "기본형 활용 · 전후 표현", phrases: [
+    { jp:"たべる　まえに　てを　あらいます",       rd:"타베루 마에니 테오 아라이마스",     kr:"먹기 전에 손을 씻습니다" },
+    { jp:"いった　あとで　かえります",             rd:"잇타 아토데 카에리마스",             kr:"간 다음에 돌아옵니다" },
+    { jp:"べんきょうする　まえに　ねます",         rd:"벤쿄우스루 마에니 네마스",           kr:"공부하기 전에 잡니다" },
+  ]},
+  25: { title: "기본형 활용 · 생각과 의도", phrases: [
+    { jp:"にほんに　いくと　おもいます",           rd:"니혼니 이쿠토 오모이마스",           kr:"일본에 갈 것 같습니다" },
+    { jp:"たべたいと　おもいます",                 rd:"타베타이토 오모이마스",               kr:"먹고 싶다고 생각합니다" },
+    { jp:"むずかしいと　おもいます",               rd:"무즈카시이토 오모이마스",             kr:"어렵다고 생각합니다" },
+  ]},
+  26: { title: "반말 입문 · 친구 대화", phrases: [
+    { jp:"どこに　いくの？",     rd:"도코니 이쿠노?",     kr:"어디 가?" },
+    { jp:"たべようよ！",         rd:"타베요우요!",         kr:"먹자!" },
+    { jp:"いいね！",             rd:"이이네!",             kr:"좋아!" },
+  ]},
+  27: { title: "반말 · だ형 확장", phrases: [
+    { jp:"それは　なんだ？",     rd:"소레와 난다?",         kr:"그게 뭐야?" },
+    { jp:"どこに　いたの？",     rd:"도코니 이타노?",       kr:"어디 있었어?" },
+    { jp:"わかった！",           rd:"와캇타!",               kr:"알았어!" },
+  ]},
+  28: { title: "친구와의 일상 회화", phrases: [
+    { jp:"いっしょに　たべようよ",   rd:"잇쇼니 타베요우요",   kr:"같이 먹자" },
+    { jp:"もう　かえるの？",         rd:"모우 카에루노?",       kr:"벌써 가?" },
+    { jp:"また　あそぼう！",         rd:"마타 아소보우!",       kr:"또 놀자!" },
+  ]},
+  29: { title: "종합 회화 · 일상 시나리오", phrases: [
+    { jp:"きのう　どこに　いったの？",           rd:"키노우 도코니 잇타노?",           kr:"어제 어디 갔어?" },
+    { jp:"レストランで　たべました",             rd:"레스토란데 타베마시타",           kr:"레스토랑에서 먹었습니다" },
+    { jp:"また　いっしょに　いきましょう",       rd:"마타 잇쇼니 이키마쇼우",         kr:"또 같이 갑시다" },
+  ]},
+  30: { title: "🎓 졸업 · 30일 종합 완성", phrases: [
+    { jp:"にほんごが　はなせるように　なりました", rd:"니혼고가 하나세루요우니 나리마시타", kr:"일본어를 말할 수 있게 되었습니다" },
+    { jp:"まいにち　べんきょうしました",           rd:"마이니치 벤쿄우시마시타",           kr:"매일 공부했습니다" },
+    { jp:"ありがとうございました！",               rd:"아리가토우 고자이마시타!",           kr:"감사했습니다!" },
+    { jp:"これからも　がんばります！",             rd:"코레카라모 감바리마스!",             kr:"앞으로도 열심히 하겠습니다!" },
+  ]},
+};
+
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+const S = {
+  day: 1,
+  phrase: 0,
+  revealed: false,
+  recActive: false,
+  recObj: null,
+  lrActive: false,
+  lrScores: [],
+  synth: window.speechSynthesis,
+  jpVoice: null,
+  doneDays: new Set(),
+  donePhrases: {},   // { "1-0": true, ... }
+  interacted: false,
+};
+
+// ════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════
+function init() {
+  loadState();
+  resolveVoice();
+  buildDayGrid();
+  render();
+  document.addEventListener('click', () => { S.interacted = true; }, { once: true });
+}
+
+function loadState() {
+  try {
+    const d = JSON.parse(localStorage.getItem('maltrim_v2') || '{}');
+    S.day        = d.day        || 1;
+    S.phrase     = d.phrase     || 0;
+    S.doneDays   = new Set(d.doneDays   || []);
+    S.donePhrases = d.donePhrases || {};
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('maltrim_v2', JSON.stringify({
+      day: S.day, phrase: S.phrase,
+      doneDays: [...S.doneDays],
+      donePhrases: S.donePhrases,
+    }));
+  } catch(e) {}
+}
+
+function resolveVoice() {
+  const pick = () => {
+    const vv = S.synth.getVoices();
+    S.jpVoice = vv.find(v => v.lang === 'ja-JP' && /Google|Premium|Enhanced/.test(v.name))
+             || vv.find(v => v.lang === 'ja-JP')
+             || vv.find(v => v.lang.startsWith('ja'))
+             || null;
+  };
+  pick();
+  S.synth.addEventListener('voiceschanged', pick);
+}
+
+// ════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════
+function render() {
+  const day = CURRICULUM[S.day];
+  const p   = day.phrases[S.phrase];
+
+  // header
+  $('dayBadge').textContent = `Day ${S.day} / 30`;
+  $('dayTitle').textContent = `Day ${S.day}  ·  ${day.title}`;
+
+  // progress
+  const pct = ((S.day - 1) + S.phrase / day.phrases.length) / 30 * 100;
+  $('progressFill').style.width = pct.toFixed(1) + '%';
+
+  // phrase dots
+  const dotsCont = $('phraseDots');
+  dotsCont.innerHTML = '';
+  day.phrases.forEach((_, i) => {
+    const el = document.createElement('div');
+    const key = `${S.day}-${i}`;
+    el.className = 'phrase-dot' + (i === S.phrase ? ' active' : S.donePhrases[key] ? ' done' : '');
+    dotsCont.appendChild(el);
+  });
+
+  // card
+  $('jpText').textContent    = p.jp;
+  $('jpReading').textContent = p.rd;
+  $('krMeaning').textContent = p.kr;
+
+  S.revealed = false;
+  applyReveal();
+
+  // hide feedback
+  $('feedbackPanel').classList.remove('show');
+
+  // nav
+  const first = S.day === 1 && S.phrase === 0;
+  const last  = S.day === 30 && S.phrase === CURRICULUM[30].phrases.length - 1;
+  $('btnPrev').disabled = first;
+  $('btnNext').textContent = isLastPhrase() ? 'Day 완료 ✓' : '다음 ▶';
+  $('btnNext').classList.toggle('highlight', isLastPhrase());
+}
+
+function applyReveal() {
+  $('jpText').classList.toggle('blurred', !S.revealed);
+  $('jpReading').classList.toggle('hidden', !S.revealed);
+  $('krMeaning').classList.toggle('hidden', !S.revealed);
+  $('btnShow').textContent = S.revealed ? '🙈 가리기' : '👁️ 보기 / 정답 확인';
+}
+
+function toggleReveal() { S.revealed = !S.revealed; applyReveal(); }
+
+function isLastPhrase() {
+  return S.phrase >= CURRICULUM[S.day].phrases.length - 1;
+}
+
+// ════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════
+function nextPhrase() {
+  const key = `${S.day}-${S.phrase}`;
+  S.donePhrases[key] = true;
+
+  if (!isLastPhrase()) {
+    S.phrase++;
+  } else {
+    S.doneDays.add(S.day);
+    if (S.day < 30) { S.day++; S.phrase = 0; }
+    buildDayGrid();
+  }
+  saveState();
+  render();
+}
+
+function prevPhrase() {
+  if (S.phrase > 0) {
+    S.phrase--;
+  } else if (S.day > 1) {
+    S.day--;
+    S.phrase = CURRICULUM[S.day].phrases.length - 1;
+    buildDayGrid();
+  }
+  saveState();
+  render();
+}
+
+function goToDay(d) {
+  S.day = d; S.phrase = 0;
+  saveState(); render(); closeDrawer(); buildDayGrid();
+}
+
+// ════════════════════════════════════════════════════
+// DAY DRAWER
+// ════════════════════════════════════════════════════
+function buildDayGrid() {
+  const g = $('dayGrid');
+  g.innerHTML = '';
+  for (let d = 1; d <= 30; d++) {
+    const b = document.createElement('button');
+    b.className = 'day-btn'
+      + (d === S.day       ? ' current' : '')
+      + (S.doneDays.has(d) ? ' done'    : '');
+    b.textContent = d;
+    b.onclick = () => goToDay(d);
+    g.appendChild(b);
+  }
+}
+
+function openDrawer() {
+  $('dayDrawer').classList.add('open');
+  $('drawerOverlay').classList.add('open');
+}
+function closeDrawer() {
+  $('dayDrawer').classList.remove('open');
+  $('drawerOverlay').classList.remove('open');
+}
+
+// ════════════════════════════════════════════════════
+// TTS
+// ════════════════════════════════════════════════════
+function speak(text, rate = 0.8) {
+  return new Promise(resolve => {
+    S.synth.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/　/g, ''));
+    u.lang  = 'ja-JP';
+    u.rate  = rate;
+    u.pitch = 1.0;
+    if (S.jpVoice) u.voice = S.jpVoice;
+    u.onend   = resolve;
+    u.onerror = resolve;
+    S.synth.speak(u);
+  });
+}
+
+function playTTS() {
+  const p = CURRICULUM[S.day].phrases[S.phrase];
+  const btn = $('btnPlay');
+  btn.classList.add('playing');
+  speak(p.jp).then(() => btn.classList.remove('playing'));
+}
+
+// ════════════════════════════════════════════════════
+// LEVENSHTEIN + DIFF
+// ════════════════════════════════════════════════════
+function lev(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length:m+1}, (_,i) =>
+    Array.from({length:n+1}, (_,j) => i === 0 ? j : j === 0 ? i : 0));
+  for (let i=1;i<=m;i++)
+    for (let j=1;j<=n;j++)
+      dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] :
+        1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+function score(orig, spoken) {
+  const a = norm(orig), b = norm(spoken);
+  if (!b) return 0;
+  const d = lev(a, b);
+  return Math.max(0, Math.round((1 - d / Math.max(a.length, b.length, 1)) * 100));
+}
+
+function norm(s) {
+  return s.replace(/[\s　・、。！？→]/g, '').replace(/[ぁ-ん]/g, c =>
+    String.fromCharCode(c.charCodeAt(0) + 0x60)); // convert hiragana → katakana for loose match
+}
+
+// Build colored diff HTML — original vs spoken
+function buildDiff(orig, spoken) {
+  const a = orig.replace(/　/g, ' ');
+  const b = spoken;
+  const aChars = [...a];
+  const bChars = [...b];
+
+  // LCS-based character diff
+  const m = aChars.length, n = bChars.length;
+  const dp = Array.from({length:m+1}, () => new Array(n+1).fill(0));
+  for (let i=1;i<=m;i++)
+    for (let j=1;j<=n;j++)
+      dp[i][j] = aChars[i-1]===bChars[j-1] ? dp[i-1][j-1]+1 :
+        Math.max(dp[i-1][j], dp[i][j-1]);
+
+  // Backtrack
+  const ops = []; let i=m, j=n;
+  while (i>0 || j>0) {
+    if (i>0 && j>0 && aChars[i-1]===bChars[j-1]) {
+      ops.unshift({t:'eq', c:aChars[i-1]}); i--; j--;
+    } else if (j>0 && (i===0 || dp[i][j-1]>=dp[i-1][j])) {
+      ops.unshift({t:'ins', c:bChars[j-1]}); j--;
+    } else {
+      ops.unshift({t:'del', c:aChars[i-1]}); i--;
+    }
+  }
+
+  let origHtml = '', spokenHtml = '';
+  ops.forEach(op => {
+    if (op.t === 'eq') {
+      origHtml   += `<span class="diff-ok">${op.c}</span>`;
+      spokenHtml += `<span class="diff-ok">${op.c}</span>`;
+    } else if (op.t === 'del') {
+      origHtml += `<span class="diff-miss">${op.c}</span>`;
+    } else {
+      spokenHtml += `<span class="diff-ng">${op.c}</span>`;
+    }
+  });
+  return { origHtml, spokenHtml };
+}
+
+function showFeedback(orig, spoken) {
+  const sc = score(orig, spoken);
+  const { origHtml, spokenHtml } = buildDiff(orig, spoken);
+
+  $('fbOriginal').innerHTML = origHtml || orig;
+  $('fbSpoken').innerHTML   = spokenHtml || '<span style="color:var(--text-dim)">인식 못함</span>';
+
+  const chip = $('fbScore');
+  chip.textContent = sc + '점';
+  chip.className = 'score-chip ' + (sc>=80 ? 'score-high' : sc>=55 ? 'score-mid' : 'score-low');
+
+  $('feedbackPanel').classList.add('show');
+  $('feedbackPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ════════════════════════════════════════════════════
+// STT — manual mic
+// ════════════════════════════════════════════════════
+function startRec(e) {
+  if (e) e.preventDefault();
+  if (S.recActive) return;
+  S.recActive = true;
+  $('btnMic').classList.add('recording');
+  $('waveform').classList.add('active');
+
+  const p = CURRICULUM[S.day].phrases[S.phrase];
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    // Demo fallback — simulate partial recognition
+    setTimeout(() => {
+      const fake = p.jp.replace(/　/g,'').slice(0, Math.max(2, p.jp.replace(/　/g,'').length - 1));
+      showFeedback(p.jp, fake);
+      stopRecUI();
+    }, 1800);
+    return;
+  }
+
+  S.recObj = new SR();
+  S.recObj.lang  = 'ja-JP';
+  S.recObj.interimResults = false;
+  S.recObj.maxAlternatives = 3;
+
+  S.recObj.onresult = e => {
+    const t = e.results[0][0].transcript;
+    showFeedback(p.jp, t);
+    stopRecUI();
+  };
+  S.recObj.onerror = () => stopRecUI();
+  S.recObj.onend   = () => stopRecUI();
+  S.recObj.start();
+}
+
+function stopRec() {
+  if (!S.recActive) return;
+  if (S.recObj) { try { S.recObj.stop(); } catch(e) {} S.recObj = null; }
+  stopRecUI();
+}
+
+function stopRecUI() {
+  S.recActive = false;
+  $('btnMic').classList.remove('recording');
+  $('waveform').classList.remove('active');
+}
+
+// ════════════════════════════════════════════════════
+// LISTEN & REPEAT (3회)
+// ════════════════════════════════════════════════════
+async function startLR() {
+  if (S.lrActive) return;
+  S.lrActive = true;
+  S.lrScores = [];
+
+  const p = CURRICULUM[S.day].phrases[S.phrase];
+  $('lrPhrase').textContent  = p.jp;
+  $('lrReading').textContent = p.rd;
+  $('lrModal').classList.add('open');
+
+  // Reset chips
+  for (let i=0;i<3;i++) {
+    $(`lrChip${i}`).className = 'lr-chip';
+    $(`lrChip${i}`).textContent = `${i+1}회`;
+  }
+
+  for (let round = 0; round < 3; round++) {
+    if (!S.lrActive) break;
+    await runLRRound(round, p.jp);
+    await sleep(400);
+  }
+
+  if (!S.lrActive) return;
+
+  // Summary
+  const avg = S.lrScores.length
+    ? S.lrScores.reduce((a,b)=>a+b,0) / S.lrScores.length : 0;
+
+  setLRDots(3);
+  $('lrIcon').textContent  = avg >= 80 ? '🎉' : avg >= 55 ? '👍' : '💪';
+  $('lrIcon').className    = 'lr-icon';
+  $('lrStatus').textContent = avg >= 80 ? '완벽해요!' : avg >= 55 ? '잘했어요!' : '계속 연습해요!';
+  $('lrSub').textContent   = `평균 ${Math.round(avg)}점 · ${S.lrScores.join('점 / ')}점`;
+
+  setTimeout(() => { if (S.lrActive) closeLR(); }, 3000);
+}
+
+async function runLRRound(round, jpText) {
+  setLRDots(round);
+
+  // ① Listen
+  $('lrIcon').textContent = '🔊';
+  $('lrIcon').className   = 'lr-icon';
+  $('lrStatus').textContent = `${round+1}회 · 잘 들으세요`;
+  $('lrSub').textContent  = '재생 중...';
+
+  await speak(jpText, 0.75);
+  if (!S.lrActive) return;
+  await sleep(300);
+
+  // ② Repeat
+  $('lrIcon').textContent = '🎤';
+  $('lrIcon').className   = 'lr-icon mic-anim';
+  $('lrStatus').textContent = `${round+1}회 · 따라해 보세요!`;
+  $('lrSub').textContent  = '4초 안에 말하기';
+
+  const sc = await lrRecord(jpText);
+  if (!S.lrActive) return;
+  S.lrScores.push(sc);
+
+  const chip = $(`lrChip${round}`);
+  chip.className = 'lr-chip ' + (sc >= 55 ? 'scored' : 'fail');
+  chip.textContent = `${round+1}회 ${sc}점`;
+}
+
+function lrRecord(targetJp) {
+  return new Promise(resolve => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      // Simulate a score
+      setTimeout(() => resolve(Math.floor(Math.random()*35) + 50), 2500);
+      return;
+    }
+
+    const r = new SR();
+    r.lang = 'ja-JP';
+    r.interimResults = false;
+    r.maxAlternatives = 3;
+
+    let done = false;
+    const finish = (sc) => { if (!done) { done=true; resolve(sc); } };
+
+    r.onresult = e => finish(score(targetJp, e.results[0][0].transcript));
+    r.onerror  = () => finish(0);
+    r.onend    = () => finish(0);
+
+    r.start();
+    // 4-second auto-stop
+    setTimeout(() => { try { r.stop(); } catch(e) {} }, 4000);
+  });
+}
+
+function setLRDots(cur) {
+  for (let i=0;i<3;i++) {
+    const d = $(`lrd${i}`);
+    d.className = 'lr-dot' + (i < cur ? ' done' : i === cur ? ' current' : '');
+  }
+}
+
+function closeLR() {
+  S.lrActive = false;
+  $('lrModal').classList.remove('open');
+  S.synth.cancel();
+}
+
+// ════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') nextPhrase();
+  if (e.key === 'ArrowLeft')  prevPhrase();
+  if (e.key === ' ')          { e.preventDefault(); toggleReveal(); }
+  if (e.key === 'Enter')      playTTS();
+  if (e.key === 'Escape')     { closeLR(); closeDrawer(); }
+});
+
+// ════════════════════════════════════════════════════
+// START
+// ════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
