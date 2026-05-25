@@ -595,9 +595,7 @@ body {
       <div class="wave-bar"></div>
     </div>
     <button class="btn-mic" id="btnMic"
-      onmousedown="startRec(event)" onmouseup="stopRec()"
-      ontouchstart="startRec(event)" ontouchend="stopRec()"
-      onmouseleave="stopRec()">🎤</button>
+      onclick="S.recActive ? stopRec() : startRec(event)">🎤</button>
   </div>
 
   <!-- feedback panel ── v1.2 재설계 -->
@@ -920,6 +918,7 @@ const S = {
   vadCount: 0,       // 500ms 이상 무음 구간 횟수
   vadLastSpeech: null, // 마지막 발화 감지 시각
   vadTimer: null,    // VAD 타이머 핸들
+  silenceTimer: null, // STT 침묵 자동 완료 타이머
 
   // ── [기능 B] 오답 락 루프 ───────────────────────
   lastScore: null,   // 가장 최근 채점 결과
@@ -1504,7 +1503,7 @@ function startRec(e) {
   S.recObj.lang             = 'ja-JP';
   S.recObj.interimResults   = true;   // VAD 감지를 위해 중간 결과 필요
   S.recObj.maxAlternatives  = 3;
-  S.recObj.continuous       = false;
+  S.recObj.continuous       = true;
 
   // ── [기능 A] FFD: 최초 발화 감지 시각 스탬핑
   S.recObj.onspeechstart = () => {
@@ -1514,22 +1513,24 @@ function startRec(e) {
     S.vadLastSpeech = Date.now();
   };
 
-  // ── [기능 A] VAD: 중간 결과로 무음 구간 추적
+  // ── [기능 A] VAD + 결과 누적 (continuous 방식)
+  let accumulated = '';
   S.recObj.onresult = e => {
     const now = Date.now();
-    // 이전 발화로부터 500ms 이상 경과 → 머뭇거림 카운트
-    if (S.vadLastSpeech !== null && now - S.vadLastSpeech > 500) {
-      S.vadCount++;
-    }
+    if (S.vadLastSpeech !== null && now - S.vadLastSpeech > 500) S.vadCount++;
     S.vadLastSpeech = now;
 
-    // 최종 결과가 나오면 처리
-    const last = e.results[e.results.length - 1];
-    if (last.isFinal) {
-      const transcript = last[0].transcript;
-      showFeedback(p.jp, transcript);
-      stopRecUI();
+    // final 결과만 누적
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) accumulated += e.results[i][0].transcript;
     }
+
+    // 침묵 1.2초 후 자동 완료
+    clearTimeout(S.silenceTimer);
+    S.silenceTimer = setTimeout(() => {
+      if (accumulated) showFeedback(p.jp, accumulated);
+      stopRec();
+    }, 1200);
   };
 
   // ── STT 오류 처리 — 하이브리드 앱 권장 가이드 토스트 연동
@@ -1562,7 +1563,8 @@ function stopRec() {
 
 function stopRecUI() {
   S.recActive = false;
-  if (S.vadTimer) { clearInterval(S.vadTimer); S.vadTimer = null; }
+  if (S.vadTimer)    { clearInterval(S.vadTimer); S.vadTimer = null; }
+  if (S.silenceTimer){ clearTimeout(S.silenceTimer); S.silenceTimer = null; }
   $('btnMic').classList.remove('recording');
   $('waveform').classList.remove('active');
 }
