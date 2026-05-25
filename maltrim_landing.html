@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말트임 일본어 — 30일, 입이 트입니다</title>
+<style>
+:root {
+  --bg:      #080e1d;
+  --bg2:     #0f172a;
+  --surface: #1a2540;
+  --surface2:#243354;
+  --primary: #3b82f6;
+  --accent:  #f59e0b;
+  --red:     #ef4444;
+  --green:   #10b981;
+  --text:    #f1f5f9;
+  --dim:     #94a3b8;
+  --border:  #2d3f5e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+
+/* ─ TYPOGRAPHY ─ */
+h1 { font-size: clamp(2.4rem,7vw,4.4rem); font-weight: 900; line-height: 1.12; letter-spacing:-1.5px; }
+h2 { font-size: clamp(1.8rem,4.5vw,2.8rem); font-weight: 800; line-height: 1.2; letter-spacing:-0.5px; }
+h3 { font-size: clamp(1.05rem,2.5vw,1.4rem); font-weight: 700; }
+p  { color: var(--dim); line-height: 1.85; }
+strong { color: var(--text); font-weight: 700; }
+
+/* ─ LAYOUT ─ */
+.wrap       { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+.wrap-wide  { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.sec        { padding: 96px 0; }
+.sec-dark   { background: var(--bg2); }
+
+/* ─ TAG CHIPS ─ */
+.tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+}
+.tag-b { background:rgba(59,130,246,.12);  color:var(--primary); border:1px solid rgba(59,130,246,.3); }
+.tag-g { background:rgba(245,158,11,.12);  color:var(--accent);  border:1px solid rgba(245,158,11,.3); }
+.tag-r { background:rgba(239,68,68,.12);   color:var(--red);     border:1px solid rgba(239,68,68,.3); }
+.tag-gr{ background:rgba(16,185,129,.12);  color:var(--green);   border:1px solid rgba(16,185,129,.3); }
+
+/* ─ BUTTONS ─ */
+.btn {
+  display: inline-block; text-decoration: none;
+  font-weight: 700; border-radius: 50px;
+  transition: transform .18s, box-shadow .18s, opacity .18s;
+}
+.btn-solid {
+  background: var(--primary); color: #fff;
+  padding: 16px 36px; font-size: 16px;
+  box-shadow: 0 8px 32px rgba(59,130,246,.4);
+}
+.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(59,130,246,.5); }
+.btn-outline {
+  border: 1.5px solid var(--border); color: var(--dim);
+  padding: 15px 28px; font-size: 15px;
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+hr.div { border: none; border-top: 1px solid var(--border); }
+
+/* ─ NAV ─ */
+nav {
+  position: sticky; top: 0; z-index: 300;
+  background: rgba(8,14,29,.88); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-brand { font-size: 18px; font-weight: 900; text-decoration: none; }
+.nav-brand span { color: var(--primary); }
+
+/* ════════════════════════════════════════ */
+/* HERO                                    */
+/* ════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 140px 24px 100px;
+  max-width: 880px; margin: 0 auto;
+  position: relative;
+}
+.hero-bg-char {
+  position: fixed; top:50%; left:50%;
+  transform: translate(-50%,-50%) rotate(-12deg);
+  font-size: 70vw; font-weight: 900;
+  color: rgba(59,130,246,.025);
+  pointer-events: none; user-select: none; z-index: 0;
+  line-height: 1;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-size: 13px; font-weight: 700; letter-spacing: 2.5px;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 22px;
+}
+.hero-title-red   { color: var(--red); }
+.hero-title-blue  { color: var(--primary); }
+.hero-sub {
+  margin-top: 28px; font-size: clamp(1rem,2.2vw,1.2rem);
+  max-width: 600px; line-height: 1.9;
+}
+.hero-sub em { color: var(--text); font-style: normal; font-weight: 700; }
+.hero-cta-row { display: flex; gap: 14px; margin-top: 48px; flex-wrap: wrap; }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 68px;
+  padding-top: 40px; border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.hs-num  { font-size: 2rem; font-weight: 900; color: var(--primary); line-height: 1; }
+.hs-lbl  { font-size: 12px; color: var(--dim); margin-top: 4px; }
+.hero-free-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.25);
+  color: var(--green); padding: 8px 18px; border-radius: 30px;
+  font-size: 13px; font-weight: 700; margin-bottom: 32px;
+}
+
+/* ════════════════════════════════════════ */
+/* PERSONAS (실패 유형)                    */
+/* ════════════════════════════════════════ */
+.personas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px; margin-top: 52px;
+}
+.persona-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px;
+  position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.persona-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: var(--red);
+}
+.persona-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
+.pc-emoji  { font-size: 2rem; margin-bottom: 14px; display: block; }
+.pc-type   { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--red); text-transform: uppercase; margin-bottom: 10px; }
+.pc-quote  { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 14px; line-height: 1.45; }
+.pc-story  { font-size: 13px; color: var(--dim); line-height: 1.75; }
+
+/* ════════════════════════════════════════ */
+/* SCIENCE — 왜 실패하는가                 */
+/* ════════════════════════════════════════ */
+.science-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-top: 52px;
+}
+.sci-card {
+  background: var(--surface); border-radius: 16px; padding: 24px 20px;
+  border-left: 3px solid var(--red);
+}
+.sci-icon  { font-size: 1.8rem; margin-bottom: 12px; }
+.sci-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+.sci-desc  { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+.compare-box {
+  background: var(--surface); border-radius: 20px; padding: 32px;
+  margin-top: 48px; border: 1px solid var(--border);
+}
+.compare-box h3 { margin-bottom: 24px; }
+.compare-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cc { background: var(--bg2); border-radius: 14px; padding: 20px; }
+.cc-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+.cc.bad .cc-label { color: var(--red); }
+.cc.good .cc-label { color: var(--green); }
+.cc-item {
+  font-size: 13px; color: var(--dim); padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.cc-item:last-child { border-bottom: none; }
+.cc-icon { flex-shrink: 0; }
+
+/* Bridge quote */
+.bridge {
+  background: linear-gradient(135deg, rgba(59,130,246,.08), rgba(59,130,246,.03));
+  border: 1px solid rgba(59,130,246,.2);
+  border-radius: 20px; padding: 36px 32px; margin-top: 48px;
+}
+.bridge-quote {
+  font-size: clamp(1rem,2vw,1.25rem); font-weight: 700;
+  color: var(--text); line-height: 1.65; margin-bottom: 12px;
+}
+.bridge-author { font-size: 12px; color: var(--dim); }
+
+/* ════════════════════════════════════════ */
+/* APP INTRO                               */
+/* ════════════════════════════════════════ */
+.app-intro-grid {
+  display: grid; grid-template-columns: 1fr 1.6fr;
+  gap: 40px; align-items: center; margin-top: 52px;
+}
+.phone-mock {
+  background: var(--bg2); border: 2px solid var(--border);
+  border-radius: 28px; padding: 24px 20px;
+}
+.pm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.pm-logo   { font-size: 13px; font-weight: 800; }
+.pm-badge  { background: rgba(245,158,11,.15); color: var(--accent); font-size: 9px; padding: 2px 7px; border-radius: 8px; font-weight: 700; }
+.pm-jp     { font-size: 24px; font-weight: 700; text-align: center; margin: 16px 0 6px; font-family: 'Hiragino Sans','Yu Gothic UI',sans-serif; }
+.pm-rd     { text-align: center; font-size: 12px; color: var(--dim); }
+.pm-kr     { text-align: center; font-size: 11px; color: #4b6080; margin-top: 3px; }
+.pm-bar    { height: 3px; background: var(--surface2); border-radius: 2px; margin: 18px 0 14px; }
+.pm-bar-fill { height: 100%; width: 65%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px; }
+.pm-chips  { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.pm-chip   { font-size: 10px; padding: 3px 10px; border-radius: 10px; font-weight: 700; }
+.pm-chip.g { background: rgba(16,185,129,.15); color: var(--green); }
+.pm-chip.b { background: rgba(59,130,246,.15);  color: var(--primary); }
+.pm-chip.y { background: rgba(245,158,11,.15);  color: var(--accent); }
+.pm-lock   { background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2); border-radius: 10px; padding: 10px 14px; margin-top: 14px; font-size: 12px; color: var(--red); text-align: center; }
+
+.philosophy-list { display: flex; flex-direction: column; gap: 22px; }
+.ph-item { display: flex; gap: 18px; align-items: flex-start; }
+.ph-num  { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: rgba(59,130,246,.12); border: 1.5px solid rgba(59,130,246,.25); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: var(--primary); }
+.ph-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 5px; }
+.ph-desc  { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+/* ════════════════════════════════════════ */
+/* 30일 여정                               */
+/* ════════════════════════════════════════ */
+.weeks { display: flex; flex-direction: column; gap: 22px; margin-top: 52px; }
+.week  {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; overflow: hidden;
+  display: grid; grid-template-columns: 120px 1fr;
+  transition: border-color .2s;
+}
+.week:hover { border-color: rgba(59,130,246,.4); }
+.week.gold-week { border-color: rgba(245,158,11,.25); }
+.week.gold-week:hover { border-color: rgba(245,158,11,.5); }
+.week-num-col {
+  background: rgba(59,130,246,.06);
+  padding: 28px 16px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  border-right: 1px solid var(--border);
+}
+.week.gold-week .week-num-col { background: rgba(245,158,11,.06); border-right-color: rgba(245,158,11,.2); }
+.wk-num  { font-size: 3.5rem; font-weight: 900; color: var(--primary); opacity: .35; line-height: 1; }
+.week.gold-week .wk-num { color: var(--accent); }
+.wk-label{ font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: var(--primary); text-transform: uppercase; margin-top: 4px; }
+.week.gold-week .wk-label { color: var(--accent); }
+.wk-days { font-size: 11px; color: var(--dim); margin-top: 4px; }
+.week-body { padding: 28px 26px; }
+.week-body h3 { margin-bottom: 10px; font-size: 1.05rem; }
+.week-body p  { font-size: 13px; margin-bottom: 14px; }
+.sentence-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.stag {
+  background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2);
+  color: var(--primary); font-size: 12px; padding: 3px 11px; border-radius: 20px;
+  font-family: 'Hiragino Sans','Yu Gothic UI',sans-serif;
+}
+.outcome {
+  background: rgba(16,185,129,.07); border: 1px solid rgba(16,185,129,.18);
+  border-radius: 12px; padding: 14px 18px;
+}
+.week.gold-week .outcome { background: rgba(245,158,11,.06); border-color: rgba(245,158,11,.2); }
+.outcome-lbl { font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+.week.gold-week .outcome-lbl { color: var(--accent); }
+.outcome-text { font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.65; }
+
+/* ════════════════════════════════════════ */
+/* 기능 딥다이브                           */
+/* ════════════════════════════════════════ */
+.features { display: grid; grid-template-columns: repeat(auto-fit,minmax(270px,1fr)); gap: 18px; margin-top: 52px; }
+.fc {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px;
+  transition: transform .18s, border-color .18s;
+}
+.fc:hover { transform: translateY(-4px); border-color: rgba(59,130,246,.35); }
+.fc-icon  { font-size: 2.2rem; margin-bottom: 16px; }
+.fc-tech  { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--primary); text-transform: uppercase; margin-bottom: 6px; }
+.fc-name  { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.fc-desc  { font-size: 13px; color: var(--dim); line-height: 1.75; }
+.ffd-vis  { background: var(--bg2); border-radius: 10px; padding: 14px; margin-top: 16px; }
+.ffd-r    { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 11px; }
+.ffd-r:last-child { margin-bottom: 0; }
+.ffd-bar-wrap { flex: 1; background: var(--surface2); border-radius: 4px; height: 7px; }
+.ffd-bar-fill { height: 100%; border-radius: 4px; }
+.ffd-sec  { font-size: 11px; color: var(--dim); width: 36px; text-align: right; }
+
+/* ════════════════════════════════════════ */
+/* 성취감 설계                             */
+/* ════════════════════════════════════════ */
+.flow-steps {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  gap: 0; margin-top: 52px; position: relative;
+}
+.flow-steps::before {
+  content: '';
+  position: absolute; top: 28px; left: 60px; right: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  z-index: 0;
+}
+.flow-step { text-align: center; padding: 0 8px; position: relative; z-index: 1; }
+.fs-circle {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--surface); border: 2px solid var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin: 0 auto 12px;
+}
+.fs-title { font-size: 12px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.fs-desc  { font-size: 11px; color: var(--dim); line-height: 1.5; }
+
+.score-bands { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 36px; }
+.sb { background: var(--surface); border-radius: 16px; padding: 20px 14px; text-align: center; }
+.sb-emoji { font-size: 1.6rem; margin-bottom: 8px; }
+.sb-range { font-size: 1.5rem; font-weight: 900; }
+.sb-name  { font-size: 12px; font-weight: 700; color: var(--text); margin: 6px 0 4px; }
+.sb-desc  { font-size: 11px; color: var(--dim); line-height: 1.5; }
+
+/* ════════════════════════════════════════ */
+/* ROADMAP                                 */
+/* ════════════════════════════════════════ */
+.roadmap { display: flex; flex-direction: column; gap: 0; margin-top: 52px; }
+.rm-item { display: flex; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--border); }
+.rm-item:last-child { border-bottom: none; }
+.rm-ver { flex-shrink: 0; width: 80px; padding-top: 2px; }
+.rm-badge {
+  display: inline-block; padding: 3px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 700;
+}
+.rm-done   { background: rgba(16,185,129,.12); color: var(--green); }
+.rm-next   { background: rgba(59,130,246,.12);  color: var(--primary); }
+.rm-future { background: rgba(148,163,184,.08); color: var(--dim); }
+.rm-body h3 { margin-bottom: 6px; font-size: 1rem; }
+.rm-body p  { font-size: 13px; }
+
+/* ════════════════════════════════════════ */
+/* FAQ                                     */
+/* ════════════════════════════════════════ */
+.faq { display: flex; flex-direction: column; gap: 16px; margin-top: 52px; }
+.faq-item {
+  background: var(--surface); border-radius: 16px; padding: 22px 24px;
+  border: 1px solid var(--border);
+}
+.faq-q { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.faq-a { font-size: 13px; color: var(--dim); line-height: 1.75; }
+
+/* ════════════════════════════════════════ */
+/* FINAL CTA                               */
+/* ════════════════════════════════════════ */
+.cta-box {
+  background: linear-gradient(135deg, #0d1f45, #122a5a);
+  border: 1px solid rgba(59,130,246,.25);
+  border-radius: 28px; padding: 72px 40px; text-align: center;
+  margin: 0 0 80px;
+}
+.cta-box h2 { margin-bottom: 20px; }
+.cta-box p  { font-size: 1.05rem; max-width: 520px; margin: 0 auto 44px; }
+.cta-proof {
+  display: flex; gap: 36px; justify-content: center;
+  flex-wrap: wrap; margin-top: 36px;
+  padding-top: 28px; border-top: 1px solid rgba(255,255,255,.08);
+}
+.cp { text-align: center; }
+.cp-val { font-size: 1.4rem; font-weight: 900; }
+.cp-lbl { font-size: 11px; color: var(--dim); margin-top: 3px; }
+
+/* ─ FOOTER ─ */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 40px 24px; text-align: center;
+}
+footer p { font-size: 13px; }
+footer a { color: var(--primary); text-decoration: none; }
+
+/* ─ SCROLL FADE ─ */
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+.fu { animation: fadeUp .65s ease both; }
+.d1 { animation-delay: .1s; }
+.d2 { animation-delay: .22s; }
+.d3 { animation-delay: .36s; }
+.d4 { animation-delay: .52s; }
+.d5 { animation-delay: .68s; }
+
+/* ─ RESPONSIVE ─ */
+@media (max-width: 640px) {
+  .app-intro-grid { grid-template-columns: 1fr; }
+  .week { grid-template-columns: 1fr; }
+  .week-num-col { flex-direction: row; gap: 12px; padding: 16px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+  .wk-num { font-size: 2.4rem; opacity: .25; }
+  .compare-cols { grid-template-columns: 1fr; }
+  .score-bands { grid-template-columns: 1fr; }
+  .flow-steps { gap: 20px; }
+  .flow-steps::before { display: none; }
+  .cta-box { padding: 48px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero-bg-char">日</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a class="nav-brand" href="index.html">말트임 <span>일본어</span></a>
+  <a href="index.html" class="btn btn-solid" style="padding:10px 22px;font-size:14px">앱 시작하기 →</a>
+</nav>
+
+<!-- ════════════════════════════════════════ -->
+<!-- HERO                                    -->
+<!-- ════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-free-badge fu">
+    ✅ 설치 없음 · 완전 무료 · 지금 바로 시작
+  </div>
+  <p class="hero-eyebrow fu d1">AI 발음 교정 × 뇌 반응속도 측정 × 30일 커리큘럼</p>
+  <h1 class="fu d2">
+    일본어 공부<br>
+    <span class="hero-title-red">열심히 했는데</span><br>
+    왜 말이 안 나올까요?
+  </h1>
+  <p class="hero-sub fu d3">
+    문제는 의지력이 아닙니다.<br>
+    <em>읽기·문법부터 시작하는 방식이 틀렸습니다.</em><br>
+    말트임은 첫날부터 소리로 배웁니다. 30일 후, 입이 트입니다.
+  </p>
+  <div class="hero-cta-row fu d4">
+    <a href="index.html" class="btn btn-solid">지금 무료로 시작하기</a>
+    <a href="#why-fail" class="btn btn-outline">왜 실패했는지 알아보기</a>
+  </div>
+  <div class="hero-stats fu d5">
+    <div><div class="hs-num">30일</div><div class="hs-lbl">완성 커리큘럼</div></div>
+    <div><div class="hs-num">98문장</div><div class="hs-lbl">실생활 핵심 표현</div></div>
+    <div><div class="hs-num">AI 채점</div><div class="hs-lbl">발음 즉각 교정</div></div>
+    <div><div class="hs-num">무료</div><div class="hs-lbl">브라우저만 있으면 OK</div></div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 실패 유형 페르소나                      -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec" id="why-fail">
+  <div class="wrap">
+    <div class="tag tag-r">당신의 이야기인가요?</div>
+    <h2>일본어 공부를<br>포기한 4가지 유형</h2>
+    <p style="margin-top:16px">수백만 명이 일본어를 시작합니다. 그리고 거의 대부분이 <strong>같은 이유</strong>로 그만둡니다.</p>
+
+    <div class="personas-grid">
+      <div class="persona-card">
+        <span class="pc-emoji">📚</span>
+        <div class="pc-type">유형 1 — 2년 독학러</div>
+        <div class="pc-quote">"교재 3권, 강의 수백 개를 봤는데 일본인 앞에서 한마디도 못 해요"</div>
+        <div class="pc-story">히라가나는 줄줄 읽히고 단어도 꽤 압니다. 그런데 막상 입을 열어야 하는 순간, 뇌가 멈춥니다. <strong style="color:var(--text)">지식이 발화로 이어지지 않습니다.</strong> 공부를 잘못한 게 아니라, 공부 방법이 잘못된 겁니다.</div>
+      </div>
+      <div class="persona-card">
+        <span class="pc-emoji">✈️</span>
+        <div class="pc-type">유형 2 — 여행 한달 전</div>
+        <div class="pc-quote">"다음 달 도쿄 여행인데 편의점 계산도 무섭습니다"</div>
+        <div class="pc-story">숙소·항공권은 예약했는데 현지에서 한마디도 못 할까봐 불안합니다. 앱을 깔았더니 첫 화면부터 문법 설명입니다. <strong style="color:var(--text)">한 달 안에 여행 회화는 불가능한 게 아닙니다.</strong> 방법이 맞으면 됩니다.</div>
+      </div>
+      <div class="persona-card">
+        <span class="pc-emoji">🔄</span>
+        <div class="pc-type">유형 3 — 매년 1월 시작 2월 포기</div>
+        <div class="pc-quote">"3년째 반복입니다. 뭘 해도 늘고 있다는 느낌이 없어요"</div>
+        <div class="pc-story">문제는 의지력이 아닙니다. <strong style="color:var(--text)">성취감 없는 공부는 누구도 오래 못 합니다.</strong> 내가 얼마나 좋아졌는지를 숫자와 그래프로 매일 확인할 수 있다면 달라집니다.</div>
+      </div>
+      <div class="persona-card">
+        <span class="pc-emoji">🫤</span>
+        <div class="pc-type">유형 4 — 영원한 초급자</div>
+        <div class="pc-quote">"5년째 일본어를 공부하는데 아직도 입이 안 트여요"</div>
+        <div class="pc-story">문법은 알고, 단어도 어느정도 압니다. 그런데 <strong style="color:var(--text)">'아는 것'과 '말할 수 있는 것' 사이의 벽</strong>이 깨지지 않습니다. 그 벽은 아는 양의 문제가 아니라 학습 방식의 문제입니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 언어교육공학 — 실패의 과학               -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec sec-dark">
+  <div class="wrap">
+    <div class="tag tag-b">언어교육공학의 시각</div>
+    <h2>의지력 문제가 아닙니다.<br>학습법이 틀렸습니다.</h2>
+    <p style="margin-top:16px">수십 년간의 언어습득 연구가 밝혀낸 진실이 있습니다.<br><strong>기존 일본어 교육 방식은 이 진실을 정면으로 위반합니다.</strong></p>
+
+    <div class="science-grid">
+      <div class="sci-card">
+        <div class="sci-icon">🏋️</div>
+        <div class="sci-title">말하기는 지식이 아닌 근육기억</div>
+        <div class="sci-desc">자전거 타는 법을 책으로 배울 수 없듯, 언어 발화는 <strong>절차기억(procedural memory)</strong>입니다. 아무리 문법을 알아도 입이 훈련되어 있지 않으면 발화가 안 됩니다.</div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">📥</div>
+        <div class="sci-title">인풋만으로는 발화 자동화 불가</div>
+        <div class="sci-desc">언어학자 스웨인(Swain, 1985)은 증명했습니다. 아무리 많이 읽고 들어도, <strong>직접 말하며 즉각 피드백을 받지 않으면</strong> 유창성은 만들어지지 않는다고요.</div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">🧠</div>
+        <div class="sci-title">문법 계산이 대화를 막는다</div>
+        <div class="sci-desc">동사 원형 → 변형 규칙을 머릿속으로 계산하는 동안, 대화 상대는 이미 다음 말을 하고 있습니다. <strong>뇌의 작업기억(working memory)은 규칙 계산과 발화를 동시에 처리하지 못합니다.</strong></div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">🔁</div>
+        <div class="sci-title">잘못된 피드백 루프가 실력을 굳힌다</div>
+        <div class="sci-desc">내 발음이 맞는지 모르고 계속 연습하면, 뇌는 그 잘못된 패턴을 강화합니다. <strong>잘못된 연습의 반복은 실력 향상이 아니라 실력 경직을 만듭니다.</strong></div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">📦</div>
+        <div class="sci-title">너무 많은 내용이 모든 것을 얕게 만든다</div>
+        <div class="sci-desc">첫날부터 히라가나 50음·형용사 활용·조사 체계를 동시에 배우면, 모든 것이 단기기억에서 사라집니다. <strong>좁고 깊은 반복이 장기기억을 만듭니다.</strong></div>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">📉</div>
+        <div class="sci-title">보이지 않는 진보가 동기를 죽인다</div>
+        <div class="sci-desc">오늘과 어제의 차이를 느낄 수 없으면 아무도 계속하지 않습니다. <strong>측정되지 않는 진보는 없는 것과 같습니다.</strong></div>
+      </div>
+    </div>
+
+    <div class="compare-box">
+      <h3>기존 방식 vs 말트임 — 한눈에 비교</h3>
+      <div class="compare-cols">
+        <div class="cc bad">
+          <div class="cc-label">❌ 기존 학습법</div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>히라가나 50음 암기부터 시작</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>동사 원형 + 변형 규칙 암기</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>단어장 수백 개 반복 암기</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>발음 훈련 없이 읽기·문법만</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>피드백 없음 → 잘못된 패턴 강화</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span><strong style="color:var(--red)">결과: 지식은 있으나 발화 불가</strong></span></div>
+        </div>
+        <div class="cc good">
+          <div class="cc-label">✅ 말트임</div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>첫날부터 실제 문장으로 발화 훈련</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>마스형 소리 덩어리를 통째로 내면화</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>명사 25개 고정 + 동사 엔진만 교체 반복</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>AI가 밀리초 단위로 발음 즉각 채점·교정</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span>85점 미만 자동 재도전 → 올바른 패턴 강화</span></div>
+          <div class="cc-item"><span class="cc-icon">→</span><span><strong style="color:var(--green)">결과: 뇌에 발화 회로 완성</strong></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bridge">
+      <div class="bridge-quote">
+        "언어 습득은 지식의 축적이 아닌, 자동화된 절차기억의 구축입니다.<br>
+        말하기 능력은 읽기·듣기(인풋)만으로는 절대로 자동화되지 않습니다.<br>
+        반드시 <em style="color:var(--primary);font-style:normal">직접적 발화 산출(output)</em>과 <em style="color:var(--primary);font-style:normal">즉각적 피드백</em>이 함께 있어야 합니다."
+      </div>
+      <div class="bridge-author">— 메릴 스웨인(Merrill Swain), 출력 가설(Output Hypothesis), 1985 / 언어습득이론 핵심 요약</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 앱 소개 + 설계 철학                     -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tag tag-g">말트임 일본어란?</div>
+    <h2>입이 트이도록<br>설계된 발음 회로 구축 앱</h2>
+    <p style="margin-top:16px">"말이 트인다"에서 이름을 가져왔습니다. 목표는 단 하나,<br><strong>30일 안에 소리 덩어리(Chunk)를 뇌에 직접 심어 발화를 자동화하는 것</strong>입니다.</p>
+
+    <div class="app-intro-grid">
+      <div>
+        <div class="phone-mock">
+          <div class="pm-header">
+            <span class="pm-logo">말트임 일본어 🇯🇵</span>
+            <span class="pm-badge">v1.3</span>
+          </div>
+          <div style="font-size:10px;color:var(--dim);text-align:center">Day 3 · 음식 주문하기</div>
+          <div class="pm-bar"><div class="pm-bar-fill"></div></div>
+          <div class="pm-jp">すしを　ください</div>
+          <div class="pm-rd">스시오 쿠다사이</div>
+          <div class="pm-kr">스시 주세요</div>
+          <div style="margin-top:16px">
+            <div class="pm-chips">
+              <span class="pm-chip g">✅ 94점</span>
+              <span class="pm-chip b">⚡ 0.7초</span>
+              <span class="pm-chip y">🔊 막힘없음</span>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:10px;color:var(--dim);text-align:center">정답 <span style="color:var(--green)">すし</span><span style="color:var(--green)">を</span><span style="color:var(--green)">　</span><span style="color:var(--green)">くだ</span><span style="color:var(--green)">さい</span></div>
+        </div>
+        <div style="margin-top:14px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:12px 16px;font-size:12px;color:var(--accent)">
+          🎯 <strong>조건반사 마스터!</strong> — 뇌 회로 0.7초, 유창성 우수
+        </div>
+      </div>
+
+      <div class="philosophy-list">
+        <div class="ph-item">
+          <div class="ph-num">01</div>
+          <div>
+            <div class="ph-title">마스형(ます형) 선행 학습</div>
+            <div class="ph-desc">일본어에서 가장 안전하고 자연스러운 정중체 마스형을 먼저 소리로 익힙니다. 동사 변형 규칙은 Day 22에 "비밀 해제"로 자연스럽게 노출됩니다. 이미 소리로 알고 있으니 문법이 "이해"가 아닌 "확인"으로 느껴집니다.</div>
+          </div>
+        </div>
+        <div class="ph-item">
+          <div class="ph-num">02</div>
+          <div>
+            <div class="ph-title">명사 25개 극단적 제한</div>
+            <div class="ph-desc">30일 내내 명사는 25개 미만으로 통제합니다. 이미 아는 명사 틀에서 동사 엔진(술어)만 계속 바꾸면, 단기기억이 장기기억으로 자연스럽게 전이됩니다. 적게 알되, 자동화될 때까지 반복합니다.</div>
+          </div>
+        </div>
+        <div class="ph-item">
+          <div class="ph-num">03</div>
+          <div>
+            <div class="ph-title">소리 먼저, 텍스트는 나중에</div>
+            <div class="ph-desc">카드는 처음에 흐릿하게 가려집니다. 원어민 TTS를 먼저 듣고, 발화한 다음에 확인합니다. 텍스트에 의존하는 습관을 구조적으로 차단합니다.</div>
+          </div>
+        </div>
+        <div class="ph-item">
+          <div class="ph-num">04</div>
+          <div>
+            <div class="ph-title">85점 통과제 — 잘못된 패턴의 차단</div>
+            <div class="ph-desc">85점 미만이면 다음 문장으로 넘어갈 수 없습니다. 틀린 채로 진도를 나가면 오히려 잘못된 발음 회로가 굳습니다. 맞을 때까지, 완성될 때까지 반복합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 30일 여정                               -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec sec-dark">
+  <div class="wrap">
+    <div class="tag tag-gr">30일 커리큘럼</div>
+    <h2>한 달이 지나면<br>구체적으로 무엇이 달라지나요?</h2>
+    <p style="margin-top:16px">"열심히 하면 늡니다"가 아닙니다. 주차별로 얻게 될 능력을 정밀하게 설계했습니다.</p>
+  </div>
+
+  <div class="wrap-wide">
+    <div class="weeks">
+
+      <div class="week">
+        <div class="week-num-col">
+          <div class="wk-num">1</div>
+          <div class="wk-label">Week</div>
+          <div class="wk-days">Day 1–7</div>
+        </div>
+        <div class="week-body">
+          <h3>뇌에 발화 회로의 씨앗을 심는 주</h3>
+          <p>이동·존재·일과·음식·쇼핑의 핵심 마스형 문장을 소리로 먼저 학습합니다. 문법 설명 없이도 패턴이 자연스럽게 쌓입니다. 하루 5~10분, 3~4문장씩 소화합니다.</p>
+          <div class="sentence-tags">
+            <span class="stag">いきます</span>
+            <span class="stag">たべます</span>
+            <span class="stag">あります</span>
+            <span class="stag">います</span>
+            <span class="stag">ください</span>
+            <span class="stag">どこですか</span>
+          </div>
+          <div class="outcome">
+            <div class="outcome-lbl">✅ 1주차 완료 시 달라지는 것</div>
+            <div class="outcome-text">일본 식당·편의점·거리에서 기본 주문·요청이 자동으로 나옵니다.<br>"すしを ください" "どこですか" 같은 문장이 생각 없이 입에서 나옵니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-num-col">
+          <div class="wk-num">2</div>
+          <div class="wk-label">Week</div>
+          <div class="wk-days">Day 8–14</div>
+        </div>
+        <div class="week-body">
+          <h3>시제를 갖추고 감정을 표현하는 주</h3>
+          <p>과거형(~ました), 권유형(~ましょう), 희망 표현(~たいです)을 익힙니다. 현재뿐 아니라 과거·의지·희망을 표현하면서 대화의 폭이 급격히 넓어집니다.</p>
+          <div class="sentence-tags">
+            <span class="stag">たべました</span>
+            <span class="stag">いきましょう</span>
+            <span class="stag">たべたいです</span>
+            <span class="stag">たのしかったです</span>
+          </div>
+          <div class="outcome">
+            <div class="outcome-lbl">✅ 2주차 완료 시 달라지는 것</div>
+            <div class="outcome-text">어제 뭘 했는지 말하고, 함께 뭘 하자고 제안하고, 하고 싶은 것을 표현할 수 있습니다. 짧은 실제 대화가 시작됩니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week">
+        <div class="week-num-col">
+          <div class="wk-num">3</div>
+          <div class="wk-label">Week</div>
+          <div class="wk-days">Day 15–21</div>
+        </div>
+        <div class="week-body">
+          <h3>사회적 상황을 커버하는 맥락 표현의 주</h3>
+          <p>テ형을 익히며 동작을 연결하고("먹고, 마십니다"), 요청·허가·금지를 표현합니다. 여행·출장·일상에서 만나는 거의 모든 사회적 상황을 다룰 수 있게 됩니다.</p>
+          <div class="sentence-tags">
+            <span class="stag">みてください</span>
+            <span class="stag">まってください</span>
+            <span class="stag">たべてもいいですか</span>
+            <span class="stag">いけません</span>
+          </div>
+          <div class="outcome">
+            <div class="outcome-lbl">✅ 3주차 완료 시 달라지는 것</div>
+            <div class="outcome-text">가게·숙소·관광지에서 필요한 요청, 허가, 금지 표현을 자연스럽게 구사합니다. 일본 여행 회화의 90%를 커버합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week gold-week">
+        <div class="week-num-col">
+          <div class="wk-num">4</div>
+          <div class="wk-label">Week</div>
+          <div class="wk-days">Day 22–30</div>
+        </div>
+        <div class="week-body">
+          <h3>🔓 비밀 해제 — 문법이 "납득"되는 주</h3>
+          <p>Day 22, 처음으로 사전형(기본형)이 공개됩니다. 이미 소리로 3주를 훈련한 패턴이 이제 문법 구조로 납득됩니다. 이때의 문법 학습은 "이해"가 아닌 "아, 그래서 그랬구나!"입니다. 마지막에는 자연스러운 반말 보통체로 전환하며 친구와의 대화를 연습합니다.</p>
+          <div class="sentence-tags">
+            <span class="stag">いく → いきます</span>
+            <span class="stag">たべる → たべます</span>
+            <span class="stag">いいね！</span>
+            <span class="stag">また あそぼう！</span>
+          </div>
+          <div class="outcome">
+            <div class="outcome-lbl">🎓 30일 완주 시 달라지는 것</div>
+            <div class="outcome-text">
+              일본인과 기본 일상 대화가 가능합니다. 여행·출장·J-POP 팬미팅·온라인 게임에서 일본어로 소통할 수 있습니다.<br>
+              그리고 무엇보다, <strong style="color:var(--accent)">더 이상 일본어가 두렵지 않습니다.</strong><br>
+              뇌에 회로가 생겼기 때문입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 기능 딥다이브                           -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tag tag-b">기술이 뒷받침하는 학습</div>
+    <h2>어떻게 실력 향상을<br>만드는가</h2>
+    <p style="margin-top:16px">말트임의 기능 하나하나는 언어습득 이론과 신경과학에 근거합니다.</p>
+
+    <div class="features">
+      <div class="fc">
+        <div class="fc-icon">⚡</div>
+        <div class="fc-tech">FFD — First Formant Delay</div>
+        <div class="fc-name">뇌 반응속도 측정</div>
+        <div class="fc-desc">원어민 음성 재생이 끝난 순간부터 내 첫 발화까지의 시간을 밀리초 단위로 측정합니다. 이 숫자가 줄어들수록 언어가 "생각 없이 나오는" 조건반사 수준으로 자동화됩니다. 0.7초 이하면 최상위 유창성 등급입니다.</div>
+        <div class="ffd-vis">
+          <div class="ffd-r">
+            <span style="font-size:10px;width:80px">⚡ 조건반사</span>
+            <div class="ffd-bar-wrap"><div class="ffd-bar-fill" style="width:90%;background:var(--green)"></div></div>
+            <span class="ffd-sec">0.7초</span>
+          </div>
+          <div class="ffd-r">
+            <span style="font-size:10px;width:80px">⏱ 연습 필요</span>
+            <div class="ffd-bar-wrap"><div class="ffd-bar-fill" style="width:55%;background:var(--accent)"></div></div>
+            <span class="ffd-sec">2.1초</span>
+          </div>
+          <div class="ffd-r">
+            <span style="font-size:10px;width:80px">🐢 아직 생각 중</span>
+            <div class="ffd-bar-wrap"><div class="ffd-bar-fill" style="width:25%;background:var(--red)"></div></div>
+            <span class="ffd-sec">3.8초</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-icon">🎯</div>
+        <div class="fc-tech">LCS + 종결 어미 가중치</div>
+        <div class="fc-name">정밀 발음 채점</div>
+        <div class="fc-desc">단순 글자 수 비교가 아닙니다. 일본어에서 의미를 결정하는 종결 어미(~ます, ~ました, ~ください 등)에 <strong>1.5배 가중치</strong>를 부여합니다. "어미가 틀렸는데 점수는 높은" 채점 오류를 원천 차단합니다.</div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-icon">🔒</div>
+        <div class="fc-tech">Dynamic Error Lock Loop</div>
+        <div class="fc-name">85점 통과제</div>
+        <div class="fc-desc">85점 미만이면 다음 문장으로 넘어갈 수 없습니다. 1.5초 후 자동으로 재녹음이 시작됩니다. 잘못된 발음 패턴을 허용한 채 진도를 나가는 일이 구조적으로 불가능합니다.</div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-icon">🔇</div>
+        <div class="fc-tech">VAD — Voice Activity Detection</div>
+        <div class="fc-name">머뭇거림 감지</div>
+        <div class="fc-desc">발화 중 500ms 이상의 무음 구간을 "머뭇거림"으로 카운트합니다. 말이 막히지 않고 흐르는 유창성은 이 숫자가 0에 가까워질 때 완성됩니다. 매 연습마다 유창성을 숫자로 확인합니다.</div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-icon">💬</div>
+        <div class="fc-tech">Hover 말풍선 힌트</div>
+        <div class="fc-name">조사·어미 오류 교정</div>
+        <div class="fc-desc">틀린 글자에 마우스를 올리면 "조사 を (을/를) 빠뜨렸습니다" 같은 즉각 힌트가 뜹니다. 31개 핵심 조사·어미 패턴 커버. 왜 틀렸는지 그 자리에서 배웁니다.</div>
+      </div>
+
+      <div class="fc">
+        <div class="fc-icon">📊</div>
+        <div class="fc-tech">학습 통계 대시보드</div>
+        <div class="fc-name">진보를 숫자로 본다</div>
+        <div class="fc-desc">최근 7일의 일별 평균 정확도와 반응속도를 차트로 시각화합니다. 0.7초가 되어가는 반응속도, 90점대를 향해가는 정확도. 어제보다 오늘이 얼마나 달라졌는지 데이터가 보여줍니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 성취감 설계                             -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec sec-dark">
+  <div class="wrap">
+    <div class="tag tag-g">게이미피케이션 설계</div>
+    <h2>성취감은 우연히 오지 않습니다.<br>설계됩니다.</h2>
+    <p style="margin-top:16px">의지박약이라서 그만두는 게 아닙니다. <strong>보람을 느끼지 못하는 앱이 문제입니다.</strong><br>말트임은 매 연습마다 성취감이 나오도록 구조를 만들었습니다.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="fs-circle">🔊</div>
+        <div class="fs-title">원어민 듣기</div>
+        <div class="fs-desc">TTS 재생 완료 시점을 기준으로 스탬핑</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-circle">🎤</div>
+        <div class="fs-title">따라 말하기</div>
+        <div class="fs-desc">마이크를 누르고 발화</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-circle">⚡</div>
+        <div class="fs-title">뇌 반응 측정</div>
+        <div class="fs-desc">FFD + VAD 실시간 계측</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-circle">🎯</div>
+        <div class="fs-title">AI 채점</div>
+        <div class="fs-desc">LCS 정밀 스코어링 + 오답 하이라이팅</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-circle">🏆</div>
+        <div class="fs-title">속도계 피드백</div>
+        <div class="fs-desc">SVG 링 게이지 + 타이틀 피드백</div>
+      </div>
+    </div>
+
+    <div class="score-bands">
+      <div class="sb">
+        <div class="sb-emoji">⚡</div>
+        <div class="sb-range" style="color:var(--green)">95점+</div>
+        <div class="sb-name">조건반사 마스터</div>
+        <div class="sb-desc">반응 1초 이내 + 완벽 발음<br>뇌 회로 완성 단계</div>
+      </div>
+      <div class="sb">
+        <div class="sb-emoji">🎯</div>
+        <div class="sb-range" style="color:var(--accent)">85–94점</div>
+        <div class="sb-name">유창성 우수 · 통과</div>
+        <div class="sb-desc">다음 문장 진행 가능<br>꾸준한 반복으로 더 빠르게</div>
+      </div>
+      <div class="sb">
+        <div class="sb-emoji">💪</div>
+        <div class="sb-range" style="color:var(--red)">~84점</div>
+        <div class="sb-name">재도전 자동 시작</div>
+        <div class="sb-desc">1.5초 후 자동 재녹음<br>올바른 패턴을 반복 강화</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- 로드맵                                  -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="tag tag-b">개발 로드맵</div>
+    <h2>말트임이 만들어갈<br>다음 기능들</h2>
+    <p style="margin-top:16px">현재 v1.3입니다. 이후에 추가될 기능들을 미리 공개합니다.</p>
+
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-done">v1.3 ✅</span></div>
+        <div class="rm-body">
+          <h3>학습 통계 대시보드</h3>
+          <p>일별 정확도 바 차트, FFD 반응속도 추이 라인 차트. 내 성장을 데이터로 확인. 현재 출시 완료.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-next">v1.4</span></div>
+        <div class="rm-body">
+          <h3>복습 모드 — 약점 집중 훈련</h3>
+          <p>85점 미만으로 통과한 문장들만 모아 재훈련합니다. 취약한 조사·어미·반응속도를 집중 공략해 발화 회로의 빈틈을 메웁니다.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-next">v1.5</span></div>
+        <div class="rm-body">
+          <h3>프리미엄 뉴럴 TTS</h3>
+          <p>Google Cloud Neural TTS 기반 원어민급 자연 음성. OS 내장 로봇 음성 대신 진짜 원어민 억양으로 학습합니다.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-future">v2.0</span></div>
+        <div class="rm-body">
+          <h3>📱 iOS / Android 네이티브 앱</h3>
+          <p>Flutter 기반 앱스토어·플레이스토어 출시. 오프라인 학습, 푸시 알림 연속 학습 스트릭, 더 정밀한 온디바이스 STT.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-future">v2.x</span></div>
+        <div class="rm-body">
+          <h3>🤖 AI 대화 파트너</h3>
+          <p>식당 주문·길 묻기·쇼핑 등 시나리오 기반 롤플레이. 30일 커리큘럼 완주 후 실전 대화 연습 공간.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-ver"><span class="rm-badge rm-future">v3.0</span></div>
+        <div class="rm-body">
+          <h3>🎌 JLPT N5·N4 준비 모드</h3>
+          <p>말트임에서 시작해 JLPT 자격증까지. 청해 집중 훈련, 어휘 확장, 문형 드릴.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- FAQ                                     -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec sec-dark">
+  <div class="wrap">
+    <div class="tag tag-b">자주 묻는 질문</div>
+    <h2>궁금한 것들</h2>
+
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">Q. 히라가나도 모르는 왕초보도 할 수 있나요?</div>
+        <div class="faq-a">네, 오히려 왕초보에게 가장 적합합니다. 말트임은 히라가나 암기를 전제로 하지 않습니다. 모든 문장에 <strong style="color:var(--text)">한글 독음</strong>이 함께 표시됩니다. 소리를 먼저 배우고, 텍스트는 나중에 익히는 순서이기 때문에 오히려 문자를 모르는 초보자가 더 빠르게 발화 회로를 구축합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 하루에 얼마나 시간을 써야 하나요?</div>
+        <div class="faq-a">하루 <strong style="color:var(--text)">5~15분</strong>이면 충분합니다. 한 Day는 3~4문장으로 구성됩니다. 짧고 깊은 반복이 길고 얕은 공부보다 훨씬 효과적입니다. 출퇴근 버스, 점심 시간 5분, 자기 전 10분이면 됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 정말 30일 만에 말할 수 있게 되나요?</div>
+        <div class="faq-a">30일 후에 JLPT를 볼 수는 없습니다. 하지만 <strong style="color:var(--text)">여행·일상·기본 대화에서 자동으로 입이 열리는 경험</strong>은 할 수 있습니다. "すみません" "これをください" "どこですか" 같은 문장이 생각 없이 나오는 것, 그게 말트임이 30일 안에 만드는 변화입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q. 마이크 없이도 사용할 수 있나요?</div>
+        <div class="faq-a">마이크 없이도 TTS 듣기·카드 학습·발음 카드 확인은 모두 가능합니다. 다만 AI 발음 채점과 FFD/VAD 계측 기능은 마이크가 필요합니다. 가장 효과를 보려면 마이크 사용을 권장합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ════════════════════════════════════════ -->
+<!-- FINAL CTA                               -->
+<!-- ════════════════════════════════════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="cta-box">
+      <div class="tag tag-g" style="margin-bottom:24px">지금 시작할 이유</div>
+      <h2>오늘 시작하는 것과<br>내일 시작하는 것의 차이는<br>30일 후 극명해집니다.</h2>
+      <p>설치 없이 브라우저에서 지금 바로 시작합니다.<br>단 하루 5분이면 됩니다. 완전 무료입니다.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" class="btn btn-solid" style="font-size:17px;padding:18px 44px">지금 무료로 시작하기 →</a>
+      </div>
+      <div class="cta-proof">
+        <div class="cp"><div class="cp-val" style="color:var(--green)">무료</div><div class="cp-lbl">설치·비용 없음</div></div>
+        <div class="cp"><div class="cp-val" style="color:var(--primary)">30일</div><div class="cp-lbl">완성 커리큘럼</div></div>
+        <div class="cp"><div class="cp-val" style="color:var(--accent)">98문장</div><div class="cp-lbl">핵심 실생활 표현</div></div>
+        <div class="cp"><div class="cp-val" style="color:var(--green)">즉각 피드백</div><div class="cp-lbl">AI 발음 채점</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>말트임 일본어 · 소리 중심 발음 회로 구축 앱 · v1.3</p>
+  <p style="margin-top:8px">
+    GitHub: <a href="https://github.com/plan153/maltrim-japanese">plan153/maltrim-japanese</a>
+  </p>
+</footer>
+
+</body>
+</html>
