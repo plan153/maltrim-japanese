@@ -1528,13 +1528,9 @@ function startRec(e) {
     }
   };
 
-  // ① onspeechend에서 400ms 후 처리 (지연 단축)
+  // ① 발화 종료 즉시 stop() → 브라우저가 남은 음성 flush → onend에서 처리
   S.recObj.onspeechend = () => {
-    clearTimeout(S.silenceTimer);
-    S.silenceTimer = setTimeout(() => {
-      if (accumulated) showFeedback(p.jp, accumulated);
-      stopRec();
-    }, 400);
+    try { S.recObj.stop(); } catch(e) {}
   };
 
   S.recObj.onerror = ev => {
@@ -1550,7 +1546,10 @@ function startRec(e) {
     stopRecUI();
   };
 
-  S.recObj.onend = () => stopRecUI();
+  S.recObj.onend = () => {
+    if (accumulated) showFeedback(p.jp, accumulated);
+    stopRecUI();
+  };
 
   S.recObj.start();
 }
