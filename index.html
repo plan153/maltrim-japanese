@@ -826,11 +826,21 @@ body.cfg-hide-reading #jpReading { display: none !important; }
     <div class="cfg-section">
       <div class="cfg-section-title">점수 가중치 (파형 분석)</div>
       <div class="cfg-row">
+        <div>
+          <div class="cfg-label">파형 분석 사용</div>
+          <div class="cfg-desc">음 길이·음높이 비교 점수 포함 여부</div>
+        </div>
+        <div class="cfg-toggle">
+          <button id="cfgWaveOff" onclick="setCfg('waveEnabled',false)">끄기</button>
+          <button id="cfgWaveOn"  onclick="setCfg('waveEnabled',true)">켜기</button>
+        </div>
+      </div>
+      <div class="cfg-row">
         <div><div class="cfg-label">텍스트 일치도</div></div>
         <div class="cfg-slider-wrap">
           <input type="range" class="cfg-slider" id="slText" min="0" max="100" step="5"
             oninput="setCfgNum('wText',+this.value)">
-          <span class="cfg-slider-val" id="valText">40</span>%
+          <span class="cfg-slider-val" id="valText">50</span>%
         </div>
       </div>
       <div class="cfg-row">
@@ -838,7 +848,7 @@ body.cfg-hide-reading #jpReading { display: none !important; }
         <div class="cfg-slider-wrap">
           <input type="range" class="cfg-slider" id="slDur" min="0" max="100" step="5"
             oninput="setCfgNum('wDur',+this.value)">
-          <span class="cfg-slider-val" id="valDur">30</span>%
+          <span class="cfg-slider-val" id="valDur">25</span>%
         </div>
       </div>
       <div class="cfg-row">
@@ -846,7 +856,7 @@ body.cfg-hide-reading #jpReading { display: none !important; }
         <div class="cfg-slider-wrap">
           <input type="range" class="cfg-slider" id="slPitch" min="0" max="100" step="5"
             oninput="setCfgNum('wPitch',+this.value)">
-          <span class="cfg-slider-val" id="valPitch">30</span>%
+          <span class="cfg-slider-val" id="valPitch">25</span>%
         </div>
       </div>
     </div>
@@ -1087,7 +1097,7 @@ const S = {
   lockActive: false, // 오답 락 활성 여부
 
   // ── [v1.5] 환경설정 ─────────────────────────────
-  cfg: { micMode:'auto', peek:0, hideReading:false, wText:40, wDur:30, wPitch:30 },
+  cfg: { micMode:'auto', peek:2, hideReading:false, waveEnabled:false, wText:50, wDur:25, wPitch:25 },
   peekTimer: null,
 
   // ── [v1.5] 파형 분석용 오디오 캡처 ──────────────
@@ -1137,11 +1147,12 @@ function loadCfg() {
     const c = JSON.parse(localStorage.getItem('maltrim_cfg') || '{}');
     S.cfg = {
       micMode:     c.micMode     ?? 'auto',
-      peek:        c.peek        ?? 0,
+      peek:        c.peek        ?? 2,
       hideReading: c.hideReading ?? false,
-      wText:       c.wText       ?? 40,
-      wDur:        c.wDur        ?? 30,
-      wPitch:      c.wPitch      ?? 30,
+      waveEnabled: c.waveEnabled ?? false,
+      wText:       c.wText       ?? 50,
+      wDur:        c.wDur        ?? 25,
+      wPitch:      c.wPitch      ?? 25,
     };
   } catch(e) {}
 }
@@ -1168,6 +1179,9 @@ function syncCfgUI() {
   // hide reading
   $('cfgHideRdOff').classList.toggle('active', !S.cfg.hideReading);
   $('cfgHideRdOn' ).classList.toggle('active',  S.cfg.hideReading);
+  // wave
+  $('cfgWaveOff').classList.toggle('active', !S.cfg.waveEnabled);
+  $('cfgWaveOn' ).classList.toggle('active',  S.cfg.waveEnabled);
   // sliders
   $('slText').value  = S.cfg.wText;  $('valText').textContent  = S.cfg.wText;
   $('slDur' ).value  = S.cfg.wDur;   $('valDur' ).textContent  = S.cfg.wDur;
@@ -1932,7 +1946,7 @@ function startRec(e) {
     }
     if (accumulated) {
       const tSc = score(p.jp, accumulated);
-      const audioData = (S.cfg.wDur > 0 || S.cfg.wPitch > 0)
+      const audioData = S.cfg.waveEnabled
         ? await analyzeAudio(p.jp, S.mediaChunks)
         : null;
       showFeedback(p.jp, accumulated, tSc, audioData);
