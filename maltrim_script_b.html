@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말트임 일본어 — 30초 광고 촬영 대본 Ver.B</title>
+<style>
+:root {
+  --bg:     #080e1d;
+  --bg2:    #0f172a;
+  --surf:   #1a2540;
+  --s2:     #243354;
+  --blue:   #3b82f6;
+  --gold:   #f59e0b;
+  --green:  #10b981;
+  --red:    #ef4444;
+  --text:   #f1f5f9;
+  --dim:    #94a3b8;
+  --bdr:    #2d3f5e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; color: #111; font-size: 11px; }
+  .no-print { display: none !important; }
+  .scene-card { break-inside: avoid; border: 1px solid #ccc !important; }
+  :root { --bg:#fff;--bg2:#f8f8f8;--surf:#fff;--blue:#1d4ed8;--gold:#b45309;--green:#15803d;--red:#b91c1c;--text:#111;--dim:#555;--bdr:#ccc; }
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: rgba(8,14,29,.97);
+  border-bottom: 1px solid var(--bdr);
+  padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.tb-left { display: flex; flex-direction: column; gap: 3px; }
+.tb-title { font-size: 15px; font-weight: 900; }
+.tb-title span { color: var(--blue); }
+.tb-sub { font-size: 11px; color: var(--dim); }
+.tb-right { display: flex; gap: 10px; }
+.btn {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  cursor: pointer; border: none; transition: opacity .2s;
+}
+.btn:hover { opacity: .85; }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-ghost { background: transparent; color: var(--dim); border: 1px solid var(--bdr); }
+
+/* ── HERO BAND ── */
+.hero {
+  background: linear-gradient(135deg, #0a1a2a, #0f2545);
+  border-bottom: 1px solid rgba(59,130,246,.3);
+  padding: 40px 48px;
+}
+.hero-badge {
+  display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
+  background: rgba(59,130,246,.15); color: var(--blue);
+  border: 1px solid rgba(59,130,246,.4); margin-bottom: 16px;
+}
+.hero-title {
+  font-size: clamp(1.4rem,3vw,2rem); font-weight: 900; line-height: 1.25;
+  margin-bottom: 12px;
+}
+.hero-title span { color: var(--blue); }
+.hero-desc { color: var(--dim); font-size: 13px; max-width: 620px; margin-bottom: 24px; }
+.hero-meta {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.hm-item { display: flex; flex-direction: column; gap: 3px; }
+.hm-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--dim); }
+.hm-val { font-size: 13px; font-weight: 700; }
+
+/* ── TIMELINE ── */
+.tl-wrap {
+  padding: 32px 48px 0;
+  background: var(--bg2);
+}
+.tl-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--dim); margin-bottom: 16px;
+}
+.tl-bar {
+  display: flex; gap: 0; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--bdr); margin-bottom: 8px;
+}
+.tl-seg {
+  padding: 10px 14px; font-size: 11px; text-align: center;
+  border-right: 1px solid var(--bdr);
+}
+.tl-seg:last-child { border-right: none; }
+.tl-seg-name { font-weight: 700; margin-bottom: 2px; }
+.tl-seg-time { color: var(--dim); font-size: 10px; }
+.tl-tick {
+  display: flex; position: relative; padding: 4px 0 24px;
+}
+.tl-tick-mark {
+  position: absolute; font-size: 9px; color: var(--dim);
+  transform: translateX(-50%);
+}
+
+/* ── SCENES ── */
+.scenes-wrap {
+  padding: 0 48px 64px;
+  background: var(--bg2);
+  display: flex; flex-direction: column; gap: 0;
+}
+
+.scene-card {
+  border: 1px solid var(--bdr);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  background: var(--surf);
+  transition: box-shadow .2s;
+}
+.scene-card:hover { box-shadow: 0 0 0 1px rgba(59,130,246,.3); }
+
+/* Scene header */
+.sc-head {
+  display: flex; align-items: center; gap: 0;
+  border-bottom: 1px solid var(--bdr);
+  background: var(--s2);
+}
+.sc-num-badge {
+  background: var(--blue); color: #fff;
+  font-size: 11px; font-weight: 900; letter-spacing: .5px;
+  padding: 12px 20px; flex-shrink: 0;
+}
+.sc-head-info {
+  padding: 12px 20px; flex: 1;
+}
+.sc-head-title { font-size: 14px; font-weight: 800; line-height: 1.3; }
+.sc-head-time {
+  font-size: 11px; color: var(--blue); font-weight: 700; margin-top: 2px;
+}
+.sc-tag {
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+  margin-right: 20px; flex-shrink: 0; align-self: center;
+}
+.tag-hook   { background: rgba(239,68,68,.15);   color: var(--red);   border: 1px solid rgba(239,68,68,.3); }
+.tag-ux     { background: rgba(59,130,246,.15);  color: var(--blue);  border: 1px solid rgba(59,130,246,.3); }
+.tag-learn  { background: rgba(245,158,11,.15);  color: var(--gold);  border: 1px solid rgba(245,158,11,.3); }
+.tag-cta    { background: rgba(16,185,129,.15);  color: var(--green); border: 1px solid rgba(16,185,129,.3); }
+
+/* Scene body grid */
+.sc-body {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 760px) {
+  .sc-body { grid-template-columns: 1fr; }
+}
+
+.sc-col {
+  padding: 20px 22px;
+  border-right: 1px solid var(--bdr);
+}
+.sc-col:last-child { border-right: none; }
+
+.sc-col-label {
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--dim); margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px dashed var(--bdr);
+}
+
+/* Mock phone */
+.mock-phone {
+  width: 120px; margin: 0 auto;
+  background: #000; border-radius: 16px;
+  border: 2px solid #333; padding: 8px 6px;
+  position: relative; overflow: hidden;
+}
+.mock-status {
+  font-size: 7px; color: #666; text-align: right; padding: 0 4px 4px;
+}
+.mock-screen {
+  background: var(--bg); border-radius: 10px; overflow: hidden;
+  padding: 6px;
+}
+.mock-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; border-bottom: 1px solid var(--bdr); margin-bottom: 6px;
+}
+.mock-logo { font-size: 8px; font-weight: 800; }
+.mock-ver  { font-size: 7px; color: var(--dim); }
+.mock-day  { font-size: 8px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.mock-jp   {
+  font-family: 'Hiragino Sans','Noto Sans JP',serif;
+  font-size: 14px; font-weight: 900; text-align: center;
+  padding: 8px 0; letter-spacing: 1px;
+}
+.mock-jp.blur { filter: blur(4px); }
+.mock-rd { font-size: 9px; color: var(--dim); text-align: center; margin-bottom: 4px; }
+.mock-mic-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: radial-gradient(circle, #1d4ed8, #1e40af);
+  box-shadow: 0 0 0 4px rgba(59,130,246,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; margin: 6px auto;
+}
+.mock-mic-btn.active {
+  box-shadow: 0 0 0 8px rgba(59,130,246,.3), 0 0 0 16px rgba(59,130,246,.1);
+}
+.mock-lock-bar {
+  background: rgba(239,68,68,.15); border: 1px solid rgba(239,68,68,.4);
+  border-radius: 8px; padding: 5px; text-align: center;
+  font-size: 8px; color: var(--red); font-weight: 700;
+}
+.mock-score {
+  font-size: 20px; font-weight: 900; text-align: center;
+  color: var(--green); margin: 4px 0;
+}
+.mock-btn {
+  background: rgba(59,130,246,.15); border: 1px solid rgba(59,130,246,.4);
+  border-radius: 8px; padding: 5px; text-align: center;
+  font-size: 8px; color: var(--blue); font-weight: 700;
+}
+.mock-perm {
+  background: rgba(255,255,255,.07); border-radius: 8px;
+  padding: 8px 6px; text-align: center; font-size: 7px;
+  border: 1px solid var(--bdr);
+}
+.mock-perm p { margin-bottom: 6px; line-height: 1.4; }
+.mock-perm-btns { display: flex; gap: 4px; }
+.mock-perm-btn {
+  flex: 1; padding: 3px; border-radius: 4px; font-size: 7px; font-weight: 700;
+  text-align: center; background: rgba(59,130,246,.3); color: var(--blue);
+}
+.mock-perm-btn.deny { background: rgba(100,100,100,.2); color: var(--dim); }
+.mock-arrow {
+  font-size: 9px; color: var(--gold); font-weight: 700;
+  text-align: center; margin-top: 3px;
+}
+
+/* Shot details */
+.shot-row { margin-bottom: 14px; }
+.shot-label {
+  font-size: 10px; font-weight: 700; color: var(--dim);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+}
+.shot-val { font-size: 13px; line-height: 1.6; }
+
+.shot-val.vo {
+  background: rgba(59,130,246,.07); border-left: 3px solid var(--blue);
+  padding: 8px 12px; border-radius: 0 8px 8px 0; font-style: italic;
+}
+.shot-val.vo em { color: var(--blue); font-style: normal; font-weight: 800; }
+
+.shot-val.caption {
+  background: rgba(245,158,11,.07); border-left: 3px solid var(--gold);
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+}
+
+.shot-val.cam {
+  background: rgba(16,185,129,.07); border-left: 3px solid var(--green);
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+}
+
+.shot-val.sfx {
+  background: rgba(168,85,247,.07); border-left: 3px solid #a855f7;
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+}
+
+.shot-val.tx {
+  background: rgba(239,68,68,.07); border-left: 3px solid var(--red);
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+}
+
+/* Timing bar */
+.timing-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-top: 1px solid var(--bdr);
+  background: var(--bg); font-size: 12px;
+}
+.timing-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--s2); padding: 5px 12px; border-radius: 20px; font-size: 11px;
+}
+.timing-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+}
+.timing-note { color: var(--dim); font-size: 11px; }
+
+/* Transition badge */
+.tx-badge {
+  margin-left: auto; font-size: 10px; font-weight: 700;
+  padding: 3px 10px; border-radius: 12px;
+  background: rgba(100,100,100,.15); color: var(--dim);
+  border: 1px solid var(--bdr);
+}
+
+/* ── NOTES SECTION ── */
+.notes-wrap {
+  padding: 40px 48px 64px;
+  background: var(--bg);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+@media (max-width: 760px) { .notes-wrap { grid-template-columns: 1fr; } }
+
+.note-card {
+  background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px;
+  padding: 24px;
+}
+.note-card-title {
+  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--dim); margin-bottom: 16px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--bdr);
+}
+.note-item { margin-bottom: 10px; }
+.note-key { font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 2px; }
+.note-val { font-size: 13px; color: var(--dim); line-height: 1.5; }
+
+/* ── CHECKLIST ── */
+.check-list { list-style: none; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--bdr); font-size: 13px;
+}
+.check-list li:last-child { border-bottom: none; }
+.chk { width: 18px; height: 18px; border-radius: 4px;
+  border: 2px solid var(--bdr); flex-shrink: 0; margin-top: 2px; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--bg); border-top: 1px solid var(--bdr);
+  padding: 32px 48px; display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.footer-logo { font-size: 14px; font-weight: 900; }
+.footer-logo span { color: var(--blue); }
+.footer-meta { font-size: 11px; color: var(--dim); }
+
+/* ── SEC DIVIDER ── */
+.sec-divider {
+  padding: 20px 48px 12px;
+  background: var(--bg2);
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--blue);
+  display: flex; align-items: center; gap: 12px;
+}
+.sec-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--bdr);
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar no-print">
+  <div class="tb-left">
+    <div class="tb-title">말트임 <span>일본어</span></div>
+    <div class="tb-sub">30초 광고 촬영 대본 · Version B · 가이드형</div>
+  </div>
+  <div class="tb-right">
+    <button class="btn btn-ghost" onclick="window.print()">🖨 인쇄</button>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">Version B · 가이드형 · 촬영 대본 v1.0</div>
+  <div class="hero-title">처음 앱을 여는 당신,<br><span>당황하지 않아도 됩니다</span></div>
+  <div class="hero-desc">
+    앱을 처음 열었을 때 마주치는 5가지 당황스러운 순간을 미리 보여주고 해결책을 안내합니다.
+    UX 배리어를 광고 콘텐츠로 전환하는 공감형 구성. 내레이션은 차분하고 따뜻하게.
+  </div>
+  <div class="hero-meta">
+    <div class="hm-item">
+      <div class="hm-label">총 길이</div>
+      <div class="hm-val">30초 (±1초)</div>
+    </div>
+    <div class="hm-item">
+      <div class="hm-label">포맷</div>
+      <div class="hm-val">9:16 세로 / 릴스·쇼츠</div>
+    </div>
+    <div class="hm-item">
+      <div class="hm-label">주 타깃</div>
+      <div class="hm-val">왕초보 · 40-60대 · 앱 경험 부족 사용자</div>
+    </div>
+    <div class="hm-item">
+      <div class="hm-label">핵심 훅</div>
+      <div class="hm-val">UX 배리어를 먼저 보여주고 → 해결</div>
+    </div>
+    <div class="hm-item">
+      <div class="hm-label">내레이션 톤</div>
+      <div class="hm-val">따뜻하고 선생님 같은 안심감</div>
+    </div>
+    <div class="hm-item">
+      <div class="hm-label">배경음</div>
+      <div class="hm-val">피아노 BGM · 80-90 BPM</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TIMELINE ── -->
+<div class="tl-wrap">
+  <div class="tl-title">타임라인 개요</div>
+  <div class="tl-bar">
+    <div class="tl-seg" style="background:rgba(239,68,68,.1);flex:1">
+      <div class="tl-seg-name" style="color:var(--red)">공감 훅</div>
+      <div class="tl-seg-time">0–3초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.08);flex:1">
+      <div class="tl-seg-name">UX배리어 ①</div>
+      <div class="tl-seg-time">3–7초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.06);flex:1">
+      <div class="tl-seg-name">UX배리어 ②</div>
+      <div class="tl-seg-time">7–11초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.08);flex:1">
+      <div class="tl-seg-name">UX배리어 ③</div>
+      <div class="tl-seg-time">11–15초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.06);flex:1">
+      <div class="tl-seg-name">UX배리어 ④</div>
+      <div class="tl-seg-time">15–18초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(245,158,11,.08);flex:1.4">
+      <div class="tl-seg-name" style="color:var(--gold)">첫 3일 미리보기</div>
+      <div class="tl-seg-time">18–25초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(16,185,129,.1);flex:1">
+      <div class="tl-seg-name" style="color:var(--green)">CTA</div>
+      <div class="tl-seg-time">25–30초</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCENES ── -->
+<div class="sec-divider">씬별 상세 촬영 대본</div>
+<div class="scenes-wrap">
+
+  <!-- ═══════════════════════════════════ SCENE 01 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 01</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">앱 첫 화면 — 손이 멈추는 순간</div>
+        <div class="sc-head-time">⏱ 0″ ~ 3″ &nbsp;|&nbsp; 3초</div>
+      </div>
+      <div class="sc-tag tag-hook">공감 훅</div>
+    </div>
+    <div class="sc-body">
+
+      <!-- 콜 1: 화면 구성 -->
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span class="mock-ver">v1.3</span>
+            </div>
+            <div class="mock-day">Day 1</div>
+            <div class="mock-jp blur">いきます</div>
+            <div class="mock-rd" style="opacity:.3">???</div>
+            <div class="mock-mic-btn">🎤</div>
+          </div>
+        </div>
+        <div class="mock-arrow" style="margin-top:8px">😰 어디를 눌러야?</div>
+      </div>
+
+      <!-- 콜 2: 카메라 / 연출 -->
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">실사 POV 클로즈업 (핸드헬드). 스마트폰 화면 정면. 손가락이 화면 앞 5cm에서 멈추는 장면. 흔들림 최소화.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">구도 / 조명</div>
+          <div class="shot-val cam">화면 밝기로 얼굴 조금 비침. 배경 어둡게. 화면 글로우 자연스럽게.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">빠른 컷 (Hard Cut) — 검정에서 바로 화면으로</div>
+        </div>
+      </div>
+
+      <!-- 콜 3: 음성 / 자막 -->
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"앱 처음 여셨나요? <em>당황하지 않아도 됩니다.</em> 차근차근 알려드릴게요."</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">화면 하단 중앙 — 흰 굵은 자막<br>「처음이라 어색한 게 정상입니다 😊」</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">배경음악</div>
+          <div class="shot-val sfx">피아노 솔로 페이드 인 (0초부터). 80 BPM, 단조롭지 않은 따뜻한 진행. 볼륨 40% — VO 아래로.</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>0.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>3.0″ 컷</div>
+      <div class="timing-note">→ 손가락 멈추는 장면 0.5초 유지 후 VO 시작</div>
+      <div class="tx-badge">다음 → 크로스페이드 0.3초</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 02 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 02</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">UX 배리어 ① — 흐릿한 글자 해소</div>
+        <div class="sc-head-time">⏱ 3″ ~ 7″ &nbsp;|&nbsp; 4초</div>
+      </div>
+      <div class="sc-tag tag-ux">UX 배리어 ①</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span class="mock-ver">v1.3</span>
+            </div>
+            <div class="mock-day">Day 1</div>
+            <div class="mock-jp blur" style="position:relative">
+              いきます
+              <div style="position:absolute;top:-2px;right:-2px;font-size:7px;background:var(--gold);color:#000;padding:1px 4px;border-radius:4px;font-weight:800">정상!</div>
+            </div>
+            <div class="mock-btn" style="margin-top:8px">👁️ 보기 / 정답 확인</div>
+            <div class="mock-arrow">↑ 여기 누르세요</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">앱 화면 실제 녹화 (스크린 레코드). 흐릿한 텍스트 위에 빨간 동그라미 오버레이(모션 그래픽). '보기' 버튼 탭 → 언블러 애니메이션.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① 화면 등장 (0.2초 페이드)<br>② 흐린 텍스트에 빨간 동그라미 드로우온 0.3초<br>③ 금색 배지 「정상!」 팝업 0.2초<br>④ 손가락 탭 → 텍스트 블러 제거 0.4초</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">크로스페이드 0.3초</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"글자가 흐릿하게 보이는 건 정상입니다. <em>먼저 귀로 들은 뒤, '보기' 버튼으로 확인하세요.</em>"</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">흐린 글자 위 → 「✅ 정상! 의도된 설계입니다」<br>보기 버튼 옆 → 「← 여기를 먼저 누르세요」(파란 화살표)</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">효과음</div>
+          <div class="shot-val sfx">버튼 탭 순간 — 부드러운 클릭/팝 사운드 (0.1초)</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>3.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>7.0″ 컷</div>
+      <div class="timing-note">→ 언블러 애니메이션 완료 후 0.5초 정지 → 컷</div>
+      <div class="tx-badge">다음 → Hard Cut</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 03 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 03</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">UX 배리어 ② — 마이크 권한 팝업</div>
+        <div class="sc-head-time">⏱ 7″ ~ 11″ &nbsp;|&nbsp; 4초</div>
+      </div>
+      <div class="sc-tag tag-ux">UX 배리어 ②</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span class="mock-ver">v1.3</span>
+            </div>
+            <div style="margin:6px 0">
+              <div class="mock-perm">
+                <p>🎤 말트임이 마이크에<br>접근하려고 합니다</p>
+                <div class="mock-perm-btns">
+                  <div class="mock-perm-btn">허용</div>
+                  <div class="mock-perm-btn deny">거부</div>
+                </div>
+              </div>
+            </div>
+            <div class="mock-arrow">↑ 「허용」 필수!</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">스크린 레코드. 권한 팝업 클로즈업. 금색 화살표 모션 그래픽이 '허용' 버튼을 가리킴. 탭 → 팝업 사라짐 → 마이크 버튼 글로우 활성화.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① 팝업 등장 0.2초<br>② 금색 화살표 바운스 → '허용' 가리킴 0.5초<br>③ 손가락 탭 → 팝업 페이드아웃 0.3초<br>④ 마이크 버튼 파란 링 글로우 등장 0.3초</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">Hard Cut</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"마이크 권한 팝업이 뜨면 <em>'허용'</em>을 눌러주세요. 발음 채점에 꼭 필요합니다."</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">「'허용' 클릭 → AI 발음 채점 시작 🎤」<br>허용 버튼 위에 강조 테두리 모션</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">효과음</div>
+          <div class="shot-val sfx">팝업 사라질 때 — 부드러운 성공음 (팡~) 0.2초</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>7.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>11.0″ 컷</div>
+      <div class="timing-note">→ 마이크 글로우 활성화 0.5초 유지 후 컷</div>
+      <div class="tx-badge">다음 → Hard Cut</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 04 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 04</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">UX 배리어 ③ — 마이크 꾹 누르기</div>
+        <div class="sc-head-time">⏱ 11″ ~ 15″ &nbsp;|&nbsp; 4초</div>
+      </div>
+      <div class="sc-tag tag-ux">UX 배리어 ③</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span class="mock-ver">v1.3</span>
+            </div>
+            <div class="mock-jp" style="font-size:12px">いきます</div>
+            <div class="mock-mic-btn active">🎤</div>
+            <div style="font-size:8px;color:var(--blue);text-align:center;margin-top:4px">🔴 녹음 중...</div>
+            <div class="mock-arrow">꾹 누르고 → 말하기</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">실사 핸드 클로즈업 + 스크린 레코드 혼합 (PiP). 엄지손가락이 마이크 버튼에 올라가는 장면 → 꾹 누름 → 파형 등장 → 손 뗌 → 채점 등장.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① 「길게 누르기 ↓」 화살표 바운스 0.5초<br>② 누름 → 파란 링 확산 (글로우 애니메이션) 1초<br>③ 「🔴 녹음 중」 텍스트 깜빡임<br>④ 손 뗌 → 점수 숫자 카운트업 0.5초</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">Hard Cut</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"마이크 버튼은 <em>꾹 누르고 있는 동안</em> 녹음됩니다. 말 다 하고 손 떼면 점수가 바로 나와요."</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">버튼 위 → 「길게 누르기 = 녹음」<br>점수 등장 시 → 「📊 AI 채점 완료!」</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">효과음</div>
+          <div class="shot-val sfx">누름 시작 — 저음 비프 0.1초<br>점수 등장 — 경쾌한 팡! 0.15초</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>11.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>15.0″ 컷</div>
+      <div class="timing-note">→ 점수 숫자 완전히 등장 후 0.3초 유지 → 컷</div>
+      <div class="tx-badge">다음 → Hard Cut</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 05 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 05</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">UX 배리어 ④ — 🔒 락 화면 해소</div>
+        <div class="sc-head-time">⏱ 15″ ~ 18″ &nbsp;|&nbsp; 3초</div>
+      </div>
+      <div class="sc-tag tag-ux">UX 배리어 ④</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span class="mock-ver">v1.3</span>
+            </div>
+            <div class="mock-jp" style="font-size:12px">いきます</div>
+            <div class="mock-score">84점</div>
+            <div class="mock-lock-bar">🔒 다시 도전! — 85점 이상이면 통과</div>
+            <div class="mock-arrow" style="color:var(--green);margin-top:4px">✅ 정상 작동 중</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">스크린 레코드. 락 화면 클로즈업. 「정상 작동 중 ✅」 초록 배지 팝업. 2초 후 자동 재녹음 카운트다운 (3·2·1) 등장.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① 락 레이어 등장 — 살짝 흔들림 (셰이크 0.2초)<br>② 초록 「✅ 정상!」 배지 팝업 0.3초<br>③ 점수 미터 — 84→85 간격 강조<br>④ 「자동 재시도 3…2…1」 카운트</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">Hard Cut</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"잠금이 뜨면 앱이 멈춘 게 아닙니다. <em>85점 이상이면 자동으로 넘어갑니다.</em> 딱 한 번만 더!"</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">락 화면 위 → 「정상 작동 중 ✅ 조금만 더!」<br>점수 옆 → 「85점이 목표!」</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">효과음</div>
+          <div class="shot-val sfx">락 등장 — 저음 틱(tick) 0.1초<br>카운트다운 — 부드러운 비프×3</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>15.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>18.0″ 컷</div>
+      <div class="timing-note">→ 카운트다운 「1」 완료 후 즉시 컷</div>
+      <div class="tx-badge">다음 → 슬라이드 와이프 (↑)</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 06 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 06</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">첫 3일 미리보기 — "이것만 알아도 여행됩니다"</div>
+        <div class="sc-head-time">⏱ 18″ ~ 25″ &nbsp;|&nbsp; 7초</div>
+      </div>
+      <div class="sc-tag tag-learn">3일 미리보기</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen">
+            <div style="display:flex;flex-direction:column;gap:4px;padding:2px">
+              <div style="background:var(--s2);border-radius:6px;padding:5px 7px">
+                <div style="color:var(--gold);font-size:7px;font-weight:800">Day 1 · 이동</div>
+                <div style="font-family:'Hiragino Sans',serif;font-size:10px">いきます · きます · たべます</div>
+                <div style="color:var(--dim);font-size:7px">가다 · 오다 · 먹다</div>
+              </div>
+              <div style="background:var(--s2);border-radius:6px;padding:5px 7px">
+                <div style="color:var(--gold);font-size:7px;font-weight:800">Day 2 · 일과</div>
+                <div style="font-family:'Hiragino Sans',serif;font-size:10px">おきます · ねます · のみます</div>
+                <div style="color:var(--dim);font-size:7px">일어나다 · 자다 · 마시다</div>
+              </div>
+              <div style="background:var(--s2);border-radius:6px;padding:5px 7px">
+                <div style="color:var(--gold);font-size:7px;font-weight:800">Day 3 · 주문·가격</div>
+                <div style="font-family:'Hiragino Sans',serif;font-size:9px">これをください · いくらですか</div>
+                <div style="color:var(--dim);font-size:7px">이것 주세요 · 얼마예요?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">스크린 레코드. Day 1 → Day 2 → Day 3 카드 순서대로 슬라이드 업 (각 2.3초). 마지막에 3개 카드 동시에 보이는 화면.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① Day 1 카드 슬라이드 업 → 2.3초<br>② Day 2 카드 슬라이드 업 → 2.3초<br>③ Day 3 카드 슬라이드 업 → 2.4초<br>④ 마지막 자막 「3일 후 → 여행 회화 OK! ✈️」 팝업</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">슬라이드 와이프 (↑) 0.3초</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"Day 1은 이동 표현. Day 2는 일과. Day 3이면 <em>주문과 가격 묻기</em>까지 됩니다. 한국어 어순 그대로, 어미만 바꾸면 됩니다."</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">각 카드 하단 → Day 번호 + 핵심 키워드<br>마지막 → 「3일 후 → 편의점·식당·거리 회화 OK! ✈️」</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">배경음악</div>
+          <div class="shot-val sfx">이 구간부터 볼륨 약간 업 (50%). 밝고 경쾌하게 전환. 조금 더 업템포.</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>18.0″ 시작</div>
+      <div class="timing-pill"><div class="dot"></div>25.0″ 컷</div>
+      <div class="timing-note">→ 「여행 회화 OK」 자막 1초 유지 후 컷</div>
+      <div class="tx-badge">다음 → 크로스페이드 0.5초</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ SCENE 07 ═══ -->
+  <div class="scene-card">
+    <div class="sc-head">
+      <div class="sc-num-badge">Scene 07</div>
+      <div class="sc-head-info">
+        <div class="sc-head-title">CTA — 따뜻한 마무리</div>
+        <div class="sc-head-time">⏱ 25″ ~ 30″ &nbsp;|&nbsp; 5초</div>
+      </div>
+      <div class="sc-tag tag-cta">CTA</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-col">
+        <div class="sc-col-label">📱 화면 구성</div>
+        <div class="mock-phone">
+          <div class="mock-status">9:41 AM</div>
+          <div class="mock-screen" style="background:linear-gradient(160deg,#0f2545,#0a1a2a);text-align:center;padding:10px 6px">
+            <div style="font-size:18px;font-weight:900;margin-bottom:4px">말트임<br><span style="color:var(--blue)">일본어</span></div>
+            <div style="font-size:8px;color:var(--dim);margin-bottom:8px">왕초보도 괜찮습니다</div>
+            <div style="background:var(--blue);color:#fff;padding:5px 10px;border-radius:12px;font-size:8px;font-weight:800">무료로 시작하기 →</div>
+            <div style="font-size:7px;color:var(--dim);margin-top:6px">설치 없음 · 완전 무료</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎬 카메라 / 연출</div>
+        <div class="shot-row">
+          <div class="shot-label">샷 타입</div>
+          <div class="shot-val cam">모션 그래픽 전환. 파란 배경으로 전환 (실사 없음). 로고 애니메이션 → 버튼 팝업 → URL/QR. 전체적으로 밝고 따뜻한 톤.</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">모션 그래픽</div>
+          <div class="shot-val cam">① 로고 페이드인 + 살짝 스케일업 0.5초<br>② 슬로건 타이프온 0.5초<br>③ CTA 버튼 바운스 등장 0.3초<br>④ URL + QR 페이드인 0.5초<br>⑤ 전체 정지 1초 (클릭 유도)</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">전환 (In)</div>
+          <div class="shot-val tx">크로스페이드 0.5초</div>
+        </div>
+      </div>
+      <div class="sc-col">
+        <div class="sc-col-label">🎙 음성 · 자막 · 음악</div>
+        <div class="shot-row">
+          <div class="shot-label">내레이션 (VO)</div>
+          <div class="shot-val vo">"<em>말트임 일본어.</em> 왕초보도, 포기한 분도 괜찮습니다. 지금 바로 열어보세요."</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">화면 자막</div>
+          <div class="shot-val caption">상단 → 로고<br>중간 → 「왕초보도 · 포기한 분도 괜찮습니다」<br>하단 → 「설치 없음 · 완전 무료 🆓」<br>최하단 → URL 또는 QR 코드</div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-label">배경음악</div>
+          <div class="shot-val sfx">희망찬 마지막 코드로 리졸브. 볼륨 60% → 30초에 페이드아웃. 깔끔한 엔딩.</div>
+        </div>
+      </div>
+    </div>
+    <div class="timing-row">
+      <div class="timing-pill"><div class="dot"></div>25.0″ 시작</div>
+      <div class="timing-pill"><div class="dot" style="background:var(--green)"></div>30.0″ 종료</div>
+      <div class="timing-note">→ CTA 버튼 1.5초 이상 정지 (클릭 유도)</div>
+      <div class="tx-badge" style="color:var(--green);border-color:rgba(16,185,129,.4)">END</div>
+    </div>
+  </div>
+
+</div><!-- /scenes-wrap -->
+
+<!-- ── PRODUCTION NOTES ── -->
+<div class="sec-divider" style="background:var(--bg)">제작 가이드라인</div>
+<div class="notes-wrap">
+
+  <div class="note-card">
+    <div class="note-card-title">📹 촬영 · 편집 기술</div>
+    <div class="note-item">
+      <div class="note-key">화면 녹화 해상도</div>
+      <div class="note-val">1080×1920 이상 (9:16). 60fps 권장. 시스템 UI (배터리, 알림) 숨김 처리.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">실사 촬영 기기</div>
+      <div class="note-val">iPhone 또는 동급 스마트폰 후면 카메라. 핸드헬드, 안정적으로. 짐벌 권장.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">편집 소프트웨어</div>
+      <div class="note-val">Premiere Pro / DaVinci Resolve / CapCut (간편). 자막은 별도 레이어로.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">전환 규칙</div>
+      <div class="note-val">씬 02~05 사이는 Hard Cut 원칙. 씬 06·07 진입 시만 슬라이드/페이드 허용.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">색 보정</div>
+      <div class="note-val">전체 채도 약간 낮춤. 파란 계열 강조. 화면 화이트발란스는 자연스럽게.</div>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-title">🎙 내레이션 · 음성</div>
+    <div class="note-item">
+      <div class="note-key">성별 / 연령대</div>
+      <div class="note-val">30~40대 여성 또는 남성. 선생님 같은 차분하고 친근한 톤. 과하게 밝지 않게.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">속도</div>
+      <div class="note-val">일반 대화보다 약 10% 느리게. 강조 단어에서 한 박자 쉬기.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">강조 단어</div>
+      <div class="note-val">「당황하지 않아도」 「보기 버튼」 「허용」 「꾹 누르고」 「85점 이상」 「어미만 바꾸면」 — 이 6개는 볼드 발음.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">녹음 환경</div>
+      <div class="note-val">방음 처리된 공간. 에코 제거 플러그인 사용. 마이크는 콘덴서 마이크 권장.</div>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-title">🎵 배경음악</div>
+    <div class="note-item">
+      <div class="note-key">장르 / 분위기</div>
+      <div class="note-val">피아노 + 경전타악 (로파이 분위기). 안심감. 너무 감성적이지 않게.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">템포</div>
+      <div class="note-val">80~90 BPM. 씬 06부터 살짝 업템포 전환 권장.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">볼륨 레벨</div>
+      <div class="note-val">씬 01~05: VO 대비 40% / 씬 06~07: 50~60% / 마지막 3초: 페이드아웃</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">추천 소스</div>
+      <div class="note-val">Epidemic Sound「Warm Piano」 계열, Artlist 로파이 피아노 카테고리. 상업 라이선스 확인 필수.</div>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <div class="note-card-title">📝 자막 스타일 가이드</div>
+    <div class="note-item">
+      <div class="note-key">폰트</div>
+      <div class="note-val">Noto Sans KR Bold 또는 Apple SD Gothic Neo Bold. 아이폰 기본체 친근감.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">색상 규칙</div>
+      <div class="note-val">기본 = 흰색 / 강조 단어 = 파란색 (#3B82F6) / 경고·배리어 = 빨간색 / 성공·통과 = 초록색</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">위치</div>
+      <div class="note-val">화면 하단 Safe Zone (하단 15% 이내). 버튼 안내 화살표는 해당 버튼 바로 옆.</div>
+    </div>
+    <div class="note-item">
+      <div class="note-key">분량</div>
+      <div class="note-val">씬당 자막 최대 2줄. 한 번에 많이 넣지 않기. 핵심 단어만 굵게.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── PRODUCTION CHECKLIST ── -->
+<div style="padding:0 48px 64px;background:var(--bg)">
+  <div class="note-card" style="max-width:700px">
+    <div class="note-card-title">✅ 촬영 전 체크리스트</div>
+    <ul class="check-list">
+      <li><div class="chk"></div>실제 말트임 앱 v1.3 설치 및 Day 1 초기 상태 유지 (초기화 후 녹화)</li>
+      <li><div class="chk"></div>스마트폰 배터리 100% · 시스템 알림 모두 끄기 · DND 모드</li>
+      <li><div class="chk"></div>마이크 권한 초기화 (설정 → 앱 → 권한 리셋) — 씬 03 촬영용</li>
+      <li><div class="chk"></div>내레이션 녹음 완료 및 타임코드 맞춤 (씬별 VO 시작점 확인)</li>
+      <li><div class="chk"></div>배경음악 라이선스 구매 완료</li>
+      <li><div class="chk"></div>모션 그래픽 템플릿 (화살표·배지·점수 카운트) 사전 제작</li>
+      <li><div class="chk"></div>씬 06 Day 1~3 카드 스와이프 화면 사전 녹화 (3개 버전 확보)</li>
+      <li><div class="chk"></div>최종 CTA URL / QR 코드 준비 (해당 배포 채널 링크)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div>
+    <div class="footer-logo">말트임 <span>일본어</span></div>
+    <div class="footer-meta" style="margin-top:4px">30초 광고 촬영 대본 · Version B 가이드형 · v1.0</div>
+  </div>
+  <div class="footer-meta" style="text-align:right">
+    github.com/plan153/maltrim-japanese<br>
+    생성일 2026-05-25
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말트임 일본어 — 30초 광고 콘티 3종</title>
+<style>
+:root {
+  --bg:      #080e1d;
+  --bg2:     #0f172a;
+  --surface: #1a2540;
+  --s2:      #243354;
+  --blue:    #3b82f6;
+  --gold:    #f59e0b;
+  --red:     #ef4444;
+  --green:   #10b981;
+  --purple:  #a855f7;
+  --text:    #f1f5f9;
+  --dim:     #94a3b8;
+  --border:  #2d3f5e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+.topbar {
+  background: rgba(8,14,29,.95); border-bottom: 1px solid var(--border);
+  padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-title { font-size: 16px; font-weight: 800; }
+.topbar-title span { color: var(--blue); }
+.topbar-sub { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+/* ── TABS ── */
+.tabs {
+  display: flex; gap: 0; border-bottom: 2px solid var(--border);
+  padding: 0 32px; background: var(--bg2);
+  overflow-x: auto;
+}
+.tab {
+  padding: 16px 28px; font-size: 14px; font-weight: 700;
+  color: var(--dim); cursor: pointer; border-bottom: 3px solid transparent;
+  margin-bottom: -2px; white-space: nowrap; transition: color .2s, border-color .2s;
+}
+.tab.active { color: var(--text); }
+.tab.a.active { border-color: var(--red); }
+.tab.b.active { border-color: var(--blue); }
+.tab.c.active { border-color: var(--purple); }
+
+/* ── CONTENT PANEL ── */
+.panel { display: none; padding: 40px 32px; max-width: 1100px; margin: 0 auto; }
+.panel.active { display: block; }
+
+/* ── CONCEPT HEADER ── */
+.concept-header {
+  border-radius: 20px; padding: 32px 36px; margin-bottom: 40px;
+  position: relative; overflow: hidden;
+}
+.concept-header::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 240px; height: 240px; border-radius: 50%;
+  opacity: .08;
+}
+.concept-header.red  { background: linear-gradient(135deg, #2a0a0a, #3d1010); border: 1px solid rgba(239,68,68,.3); }
+.concept-header.red::before  { background: var(--red); }
+.concept-header.blue { background: linear-gradient(135deg, #0a1a2a, #0f2545); border: 1px solid rgba(59,130,246,.3); }
+.concept-header.blue::before { background: var(--blue); }
+.concept-header.purple { background: linear-gradient(135deg, #160a2a, #1f0f3d); border: 1px solid rgba(168,85,247,.3); }
+.concept-header.purple::before { background: var(--purple); }
+
+.concept-badge {
+  display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+}
+.red   .concept-badge { background: rgba(239,68,68,.2); color: var(--red); border: 1px solid rgba(239,68,68,.4); }
+.blue  .concept-badge { background: rgba(59,130,246,.2); color: var(--blue); border: 1px solid rgba(59,130,246,.4); }
+.purple.concept-badge-wrap .concept-badge { background: rgba(168,85,247,.2); color: var(--purple); border: 1px solid rgba(168,85,247,.4); }
+.purple .concept-badge { background: rgba(168,85,247,.2); color: var(--purple); border: 1px solid rgba(168,85,247,.4); }
+
+.concept-title { font-size: clamp(1.5rem,3vw,2.1rem); font-weight: 900; margin-bottom: 10px; line-height: 1.2; }
+.concept-sub   { font-size: 14px; color: var(--dim); margin-bottom: 18px; }
+.concept-meta  { display: flex; gap: 20px; flex-wrap: wrap; }
+.cm-item { font-size: 12px; }
+.cm-label { color: var(--dim); margin-right: 6px; }
+.cm-val   { font-weight: 700; }
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 20px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+}
+.sec-label::before { content: ''; width: 4px; height: 16px; border-radius: 2px; background: currentColor; flex-shrink: 0; }
+
+/* ── SCENE GRID ── */
+.scenes { display: flex; flex-direction: column; gap: 0; }
+.scene  {
+  display: grid; grid-template-columns: 80px 220px 1fr;
+  gap: 0; border-bottom: 1px solid var(--border);
+  min-height: 180px;
+}
+.scene:last-child { border-bottom: none; }
+
+/* timing column */
+.sc-time {
+  padding: 20px 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: 6px; border-right: 1px solid var(--border);
+  background: rgba(255,255,255,.01);
+}
+.sc-time-range { font-size: 13px; font-weight: 900; color: var(--blue); line-height: 1; }
+.sc-time-dur   { font-size: 10px; color: var(--dim); }
+.sc-time-bar   { width: 4px; border-radius: 2px; margin-top: 8px; flex: 1; max-height: 80px; min-height: 12px; }
+
+/* visual column */
+.sc-visual {
+  border-right: 1px solid var(--border);
+  padding: 0;
+  background: var(--bg2);
+  display: flex; flex-direction: column;
+}
+.sc-visual-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--dim); padding: 8px 14px; border-bottom: 1px solid var(--border);
+}
+.sc-visual-inner { flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; }
+
+/* screen mockups */
+.mock-screen {
+  background: #0a0f1e; border-radius: 14px;
+  border: 1.5px solid var(--border); padding: 10px 10px 10px;
+  width: 180px; font-size: 9px; position: relative;
+}
+.mock-screen.sm { width: 140px; }
+.mock-hdr  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.mock-logo { font-size: 8px; font-weight: 800; }
+.mock-jp   { font-size: 16px; font-weight: 700; text-align: center; margin: 8px 0 3px; font-family: 'Hiragino Sans','Yu Gothic UI',sans-serif; }
+.mock-jp.blurred { filter: blur(5px); }
+.mock-rd   { font-size: 8px; color: var(--dim); text-align: center; }
+.mock-kr   { font-size: 7px; color: #4b6080; text-align: center; margin-top: 2px; }
+.mock-btn  { background: var(--surface); border-radius: 6px; padding: 5px 8px; text-align: center; font-size: 8px; color: var(--dim); margin-top: 8px; }
+.mock-mic  { text-align: center; font-size: 22px; margin: 6px 0; }
+.mock-chip-row { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+.mock-chip { font-size: 8px; padding: 2px 7px; border-radius: 8px; font-weight: 700; }
+.mock-chip.g { background: rgba(16,185,129,.15); color: var(--green); }
+.mock-chip.b { background: rgba(59,130,246,.15); color: var(--blue); }
+.mock-chip.y { background: rgba(245,158,11,.15); color: var(--gold); }
+.mock-chip.r { background: rgba(239,68,68,.15);  color: var(--red);  }
+.mock-lock { background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.3); border-radius: 8px; padding: 6px; text-align: center; font-size: 9px; color: var(--red); font-weight: 700; margin-top: 6px; }
+.mock-score-ring {
+  width: 50px; height: 50px; margin: 8px auto;
+}
+.mock-perm {
+  background: rgba(255,255,255,.06); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px; margin-top: 6px; text-align: center;
+}
+.mock-perm p { font-size: 7px; color: var(--dim); margin-bottom: 4px; }
+.mock-perm-btns { display: flex; gap: 4px; justify-content: center; }
+.mock-perm-btn { font-size: 7px; padding: 2px 6px; border-radius: 4px; background: var(--blue); color: #fff; }
+.mock-perm-btn.deny { background: var(--surface); color: var(--dim); }
+
+/* text column */
+.sc-text { padding: 20px 24px; }
+.sc-num  { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; margin-bottom: 6px; }
+.sc-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.sc-shot  { font-size: 12px; color: var(--dim); margin-bottom: 10px; line-height: 1.6; }
+
+.vo-box {
+  background: var(--surface); border-radius: 10px; padding: 10px 14px;
+  margin-bottom: 8px; border-left: 3px solid var(--blue);
+}
+.vo-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); margin-bottom: 4px; }
+.vo-text  { font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.5; }
+.vo-text em { color: var(--gold); font-style: normal; }
+
+.overlay-box {
+  background: rgba(245,158,11,.07); border-radius: 10px; padding: 8px 12px;
+  margin-bottom: 8px; border-left: 3px solid var(--gold);
+}
+.overlay-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.overlay-text  { font-size: 12px; color: var(--text); line-height: 1.5; }
+
+.sfx-box {
+  background: rgba(168,85,247,.06); border-radius: 10px; padding: 8px 12px;
+  border-left: 3px solid var(--purple);
+}
+.sfx-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--purple); margin-bottom: 4px; }
+.sfx-text  { font-size: 12px; color: var(--dim); line-height: 1.5; }
+
+/* 씬 번호 색상 분기 */
+.scene.v-a .sc-time-range { color: var(--red); }
+.scene.v-a .sc-time-bar { background: var(--red); }
+.scene.v-a .vo-box { border-left-color: var(--red); }
+.scene.v-a .vo-label { color: var(--red); }
+.scene.v-b .sc-time-range { color: var(--blue); }
+.scene.v-b .sc-time-bar { background: var(--blue); }
+.scene.v-c .sc-time-range { color: var(--purple); }
+.scene.v-c .sc-time-bar { background: var(--purple); }
+.scene.v-c .vo-box { border-left-color: var(--purple); }
+.scene.v-c .vo-label { color: var(--purple); }
+
+/* ── TIPS GRID ── */
+.tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; margin-top: 24px; }
+.tip {
+  background: var(--surface); border-radius: 14px; padding: 18px;
+  border: 1px solid var(--border);
+}
+.tip-icon  { font-size: 1.5rem; margin-bottom: 8px; }
+.tip-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.tip-desc  { font-size: 12px; color: var(--dim); line-height: 1.65; }
+.tip-solution { font-size: 12px; color: var(--green); margin-top: 6px; font-weight: 600; }
+
+/* ── LANGUAGE TIPS ── */
+.lang-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 14px; margin-top: 24px; }
+.lang-card {
+  background: var(--surface); border-radius: 14px; padding: 18px;
+  border: 1px solid var(--border);
+}
+.lang-icon  { font-size: 1.4rem; margin-bottom: 8px; }
+.lang-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.lang-ex    { background: var(--bg2); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--dim); line-height: 1.7; margin-bottom: 6px; }
+.lang-ex strong { color: var(--text); }
+.lang-ex em { color: var(--gold); font-style: normal; }
+
+/* ── PRODUCTION NOTES ── */
+.prod-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; margin-top: 24px; }
+.prod-item { background: var(--surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); }
+.prod-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; margin-bottom: 6px; }
+.prod-val   { font-size: 13px; color: var(--text); font-weight: 600; }
+
+/* ── TIMELINE ── */
+.timeline-bar {
+  background: var(--surface); border-radius: 12px; padding: 16px 20px;
+  margin: 24px 0; display: flex; gap: 0; overflow: hidden; border: 1px solid var(--border);
+}
+.tl-seg {
+  flex: 1; padding: 8px 6px; text-align: center; border-right: 1px solid var(--border);
+  font-size: 10px;
+}
+.tl-seg:last-child { border-right: none; }
+.tl-seg-name { font-weight: 700; margin-bottom: 3px; }
+.tl-seg-time { color: var(--dim); }
+
+/* ── SCROLL ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+@media (max-width: 700px) {
+  .scene { grid-template-columns: 60px 1fr; }
+  .sc-visual { display: none; }
+  .panel { padding: 24px 16px; }
+  .tab { padding: 14px 16px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <div class="topbar-title">말트임 <span>일본어</span> — 30초 광고 콘티</div>
+    <div class="topbar-sub">3가지 컨셉 버전 · 각 버전 클릭으로 전환</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab a active" onclick="switchTab('a')">
+    🔥 Version A — 폭로형<br><small style="font-weight:400;font-size:11px">"일본어는 한국인에게 쉽습니다"</small>
+  </div>
+  <div class="tab b" onclick="switchTab('b')">
+    🎯 Version B — 가이드형<br><small style="font-weight:400;font-size:11px">"처음 여는 당신을 위해"</small>
+  </div>
+  <div class="tab c" onclick="switchTab('c')">
+    ⚡ Version C — 도전형<br><small style="font-weight:400;font-size:11px">"지금 30초, 첫 문장에 도전"</small>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VERSION A — 폭로형                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel active" id="panel-a">
+
+  <div class="concept-header red">
+    <div class="concept-badge">Version A · 폭로형</div>
+    <div class="concept-title">일본어, 한국인에게<br>사실 가장 쉬운 언어입니다</div>
+    <div class="concept-sub">한국어 화자가 가진 압도적 유리함을 전면에 내세우는 충격 폭로 컨셉.<br>포기 경험자·시작 두려운 사람 모두를 대상으로 인식의 전환을 유도합니다.</div>
+    <div class="concept-meta">
+      <div class="cm-item"><span class="cm-label">총 길이</span><span class="cm-val">30초</span></div>
+      <div class="cm-item"><span class="cm-label">톤</span><span class="cm-val">자신감 있고 도발적</span></div>
+      <div class="cm-item"><span class="cm-label">주 타깃</span><span class="cm-val">포기 경험자 · 시작 두려운 사람</span></div>
+      <div class="cm-item"><span class="cm-label">핵심 훅</span><span class="cm-val">한일 언어 유사성 충격 폭로</span></div>
+    </div>
+  </div>
+
+  <!-- 타임라인 -->
+  <div class="timeline-bar">
+    <div class="tl-seg" style="background:rgba(239,68,68,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--red)">훅</div>
+      <div class="tl-seg-time">0–4초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(239,68,68,.05);flex:2">
+      <div class="tl-seg-name">유사성 폭로</div>
+      <div class="tl-seg-time">4–16초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(239,68,68,.05);flex:1.5">
+      <div class="tl-seg-name">앱 데모</div>
+      <div class="tl-seg-time">16–24초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(239,68,68,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--red)">CTA</div>
+      <div class="tl-seg-time">24–30초</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="color:var(--red)">씬별 콘티</div>
+  <div class="scenes">
+
+    <!-- SCENE 1 -->
+    <div class="scene v-a">
+      <div class="sc-time">
+        <div class="sc-time-range">0″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center">
+            <div style="font-size:48px;margin-bottom:8px">🤔</div>
+            <div style="font-size:11px;color:var(--dim);line-height:1.5">교재·노트·형광펜<br>쌓인 책상 + 지친 표정<br>실사 또는 CG</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 01 · 훅</div>
+        <div class="sc-title">충격 선언으로 시작</div>
+        <div class="sc-shot">📽 카메라: 교재·단어장이 쌓인 책상을 클로즈업. 지친 손이 책을 덮는 동작. 빠른 컷.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"일본어 공부 <em>몇 년째</em>인데 아직도 말 한마디 못 하시나요?"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text"><strong>"왜 말이 안 나올까요?"</strong><br>큰 흰 글씨, 붉은 강조색, 화면 중앙</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악 / 효과음</div>
+          <div class="sfx-text">낮고 긴장감 있는 피아노 톤. 음악 시작 지점.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div class="scene v-a">
+      <div class="sc-time">
+        <div class="sc-time-range">4″</div>
+        <div class="sc-time-dur">~6초</div>
+        <div class="sc-time-bar" style="height:60px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="background:var(--s2);border-radius:10px;padding:12px;font-size:11px;line-height:1.9">
+              <div style="color:var(--gold);font-weight:700">어순이 같습니다</div>
+              <div>나는 <span style="color:var(--blue)">스시를</span> <span style="color:var(--red)">먹습니다</span></div>
+              <div style="color:var(--dim);font-size:10px">⬇</div>
+              <div>私は <span style="color:var(--blue)">すしを</span> <span style="color:var(--red)">たべます</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 02 · 폭로 ①</div>
+        <div class="sc-title">어순이 완벽히 같다</div>
+        <div class="sc-shot">📽 그래픽 인포그래픽 컷. 한국어 문장이 나타나고, 아래에 일본어가 1:1 대응으로 줄줄이 나타남. 색상 코딩으로 주어/목적어/동사 강조.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"사실, 일본어는 <em>어순이 한국어와 똑같습니다.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막 (애니메이션)</div>
+          <div class="overlay-text">
+            나는(私は) → 스시를(すしを) → 먹습니다(たべます)<br>
+            각 단어가 하나씩 튀어오르는 팝 애니메이션
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div class="scene v-a">
+      <div class="sc-time">
+        <div class="sc-time-range">10″</div>
+        <div class="sc-time-dur">~6초</div>
+        <div class="sc-time-bar" style="height:60px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="background:var(--s2);border-radius:10px;padding:12px;font-size:10px;line-height:2">
+              <div style="color:var(--gold);font-weight:700;margin-bottom:4px">조사 5개만 알면 됩니다</div>
+              <div>은/는 → <span style="color:var(--blue);font-size:13px">は</span></div>
+              <div>을/를 → <span style="color:var(--blue);font-size:13px">を</span></div>
+              <div>에/에게 → <span style="color:var(--blue);font-size:13px">に</span></div>
+              <div>에서 → <span style="color:var(--blue);font-size:13px">で</span></div>
+              <div>의 → <span style="color:var(--blue);font-size:13px">の</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 03 · 폭로 ②</div>
+        <div class="sc-title">조사 5개 = 문장 구조 해독 완료</div>
+        <div class="sc-shot">📽 일본어 조사 5개가 하나씩 나타나며 한국어 조사와 1:1 매핑. 간단한 모션 그래픽. 마지막에 "끝!" 강조 컷.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"조사도 그냥 한국어 조사로 바꾸면 됩니다. は는 '는', を는 '를', に는 '에'. <em>5개면 끝입니다.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">は·を·に·で·の 순서로 팝업, 마지막에 ✅ 체크 애니메이션</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 4 -->
+    <div class="scene v-a">
+      <div class="sc-time">
+        <div class="sc-time-range">16″</div>
+        <div class="sc-time-dur">~8초</div>
+        <div class="sc-time-bar" style="height:80px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div class="mock-screen">
+            <div class="mock-hdr">
+              <span class="mock-logo">말트임 🇯🇵</span>
+              <span style="font-size:7px;color:var(--gold)">Day 1</span>
+            </div>
+            <div style="font-size:8px;color:var(--dim);text-align:center">듣고 따라 말하세요</div>
+            <div class="mock-jp">いきます</div>
+            <div class="mock-rd">이키마스</div>
+            <div class="mock-kr">갑니다</div>
+            <div class="mock-mic">🎤</div>
+            <div class="mock-chip-row">
+              <span class="mock-chip g">✅ 91점</span>
+              <span class="mock-chip b">⚡ 0.9초</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 04 · 앱 데모</div>
+        <div class="sc-title">Day 1: 동사 어미만 바꾸면 모든 말이 된다</div>
+        <div class="sc-shot">📽 앱 화면 화면 녹화 + 보이스오버. いきます → きます → たべます 가 빠르게 스위칭. 어미 부분만 빨갛게 하이라이트 애니메이션.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"동사 어미만 바꾸면 됩니다. いきます(갑니다), きます(옵니다), たべます(먹습니다). <em>30일, 98문장.</em> 말트임이 회로를 만들어 줍니다."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">어미 부분 「ます」 빨간색 하이라이트 → 어간만 교체되는 애니메이션</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악</div>
+          <div class="sfx-text">긴장감 해소 → 업비트로 전환, 템포 상승</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 5 -->
+    <div class="scene v-a">
+      <div class="sc-time">
+        <div class="sc-time-range">24″</div>
+        <div class="sc-time-dur">~6초</div>
+        <div class="sc-time-bar" style="height:60px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="font-size:28px;font-weight:900;color:var(--text);line-height:1.2">말트임<br><span style="color:var(--red)">일본어</span></div>
+            <div style="margin-top:10px;background:var(--red);color:#fff;padding:8px 16px;border-radius:20px;font-size:11px;font-weight:700">무료로 시작하기 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 05 · CTA</div>
+        <div class="sc-title">행동 유도 마무리</div>
+        <div class="sc-shot">📽 로고 중앙 등장. 흰 배경 or 다크 배경. 큰 타이포그래피 + 버튼. 마지막 1초: "설치 없이 브라우저에서 지금 바로" 자막 fade out.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"<em>말트임 일본어.</em> 설치 없이, 지금 바로, 무료로."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">말트임 로고 + "설치 없음 · 완전 무료 · 지금 바로"<br>하단에 URL 또는 QR 코드</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악</div>
+          <div class="sfx-text">클라이막스 → 짧고 강한 마무리 스팅</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /scenes -->
+
+  <!-- 제작 메모 -->
+  <div style="margin-top:48px">
+    <div class="sec-label" style="color:var(--red)">제작 노트</div>
+    <div class="prod-grid">
+      <div class="prod-item"><div class="prod-label">영상 포맷</div><div class="prod-val">9:16 세로 (릴스·쇼츠) + 16:9 가로 버전 병행</div></div>
+      <div class="prod-item"><div class="prod-label">내레이션 스타일</div><div class="prod-val">자신감 있고 빠른 남성 또는 여성 VO. 친근하되 단호한 어조.</div></div>
+      <div class="prod-item"><div class="prod-label">배경음악</div><div class="prod-val">초반: 서스펜스풀 피아노 → 중반: 업비트 일렉트로닉 → 후반: 짧은 스팅</div></div>
+      <div class="prod-item"><div class="prod-label">컬러 테마</div><div class="prod-val">다크 네이비 배경 + 빨간 강조색 → 마지막 화면에서 전환</div></div>
+      <div class="prod-item"><div class="prod-label">자막 스타일</div><div class="prod-val">굵은 흰색 대형 자막. 핵심 단어만 빨간색·노란색 강조.</div></div>
+      <div class="prod-item"><div class="prod-label">앱 화면 캡처</div><div class="prod-val">실제 앱 화면 녹화. 마이크 애니메이션·점수 등장 포함 필수.</div></div>
+    </div>
+  </div>
+
+</div><!-- /panel-a -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VERSION B — 가이드형                              -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-b">
+
+  <div class="concept-header blue">
+    <div class="concept-badge">Version B · 가이드형</div>
+    <div class="concept-title">처음 앱을 여는 당신,<br>당황하지 않아도 됩니다</div>
+    <div class="concept-sub">초보자가 앱을 처음 열었을 때 마주하는 5가지 당황스러운 순간을 미리 보여주고<br>해결책을 안내하는 공감형 컨셉. UX 배리어를 광고 콘텐츠로 전환합니다.</div>
+    <div class="concept-meta">
+      <div class="cm-item"><span class="cm-label">총 길이</span><span class="cm-val">30초</span></div>
+      <div class="cm-item"><span class="cm-label">톤</span><span class="cm-val">따뜻하고 공감적, 튜토리얼 느낌</span></div>
+      <div class="cm-item"><span class="cm-label">주 타깃</span><span class="cm-val">왕초보 · 기술에 익숙하지 않은 사용자</span></div>
+      <div class="cm-item"><span class="cm-label">핵심 훅</span><span class="cm-val">UX 배리어를 먼저 보여주고 해결</span></div>
+    </div>
+  </div>
+
+  <!-- 타임라인 -->
+  <div class="timeline-bar">
+    <div class="tl-seg" style="background:rgba(59,130,246,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--blue)">공감 훅</div>
+      <div class="tl-seg-time">0–3초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.05);flex:2.5">
+      <div class="tl-seg-name">UX 배리어 해소</div>
+      <div class="tl-seg-time">3–18초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.05);flex:1.5">
+      <div class="tl-seg-name">첫 3일 미리보기</div>
+      <div class="tl-seg-time">18–25초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(59,130,246,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--blue)">CTA</div>
+      <div class="tl-seg-time">25–30초</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="color:var(--blue)">씬별 콘티</div>
+  <div class="scenes">
+
+    <!-- B-1 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">0″</div>
+        <div class="sc-time-dur">~3초</div>
+        <div class="sc-time-bar" style="height:30px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center">
+            <div style="font-size:36px;margin-bottom:6px">😰</div>
+            <div style="font-size:10px;color:var(--dim)">손이 화면 앞에서<br>멈칫하는 장면</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 01 · 공감 훅</div>
+        <div class="sc-title">앱을 열었는데 뭘 눌러야 할지 모르는 순간</div>
+        <div class="sc-shot">📽 스마트폰 화면을 실사 POV. 말트임 앱 첫 화면이 뜨는 순간. 화면 위에 손가락이 어디를 눌러야 할지 머뭇거리는 장면.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"앱 처음 여셨나요? <em>당황하지 않아도 됩니다.</em> 차근차근 알려드릴게요."</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악 / 효과음</div>
+          <div class="sfx-text">따뜻하고 차분한 피아노 시작. 빠르지 않은 템포.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-2 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">3″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div class="mock-screen sm">
+            <div class="mock-hdr"><span class="mock-logo">말트임 🇯🇵</span></div>
+            <div style="font-size:8px;color:var(--dim);text-align:center;margin-bottom:4px">Day 1</div>
+            <div class="mock-jp blurred">いきます</div>
+            <div class="mock-rd" style="opacity:.3">???</div>
+            <div class="mock-btn" style="border:1px solid rgba(59,130,246,.5);color:var(--blue)">👁️ 보기 / 정답 확인</div>
+            <div style="margin-top:6px;font-size:8px;color:var(--gold);text-align:center">← 여기를 먼저 누르세요!</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 02 · UX 배리어 ① 해소</div>
+        <div class="sc-title">흐릿한 글자 — "화면이 깨진 게 아닙니다"</div>
+        <div class="sc-shot">📽 앱 화면 클로즈업. 흐릿한 일본어 텍스트 위에 빨간 화살표 + "정상입니다!"자막 오버레이. 그 다음 '보기' 버튼 탭 → 선명해지는 애니메이션.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"글자가 흐릿하게 보이는 건 정상입니다. <em>먼저 귀로 들은 뒤, '보기' 버튼으로 확인하세요.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">흐린 화면 위 → "정상! 의도된 설계입니다 👍"<br>→ 보기 버튼 누르자 텍스트 선명해지는 장면</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-3 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">7″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div class="mock-screen sm">
+            <div class="mock-hdr"><span class="mock-logo">말트임 🇯🇵</span></div>
+            <div class="mock-perm">
+              <p>🎤 말트임이 마이크에<br>접근하려고 합니다</p>
+              <div class="mock-perm-btns">
+                <div class="mock-perm-btn">허용</div>
+                <div class="mock-perm-btn deny">거부</div>
+              </div>
+            </div>
+            <div style="margin-top:6px;font-size:8px;color:var(--gold);text-align:center">← "허용" 꼭 눌러주세요!</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 03 · UX 배리어 ② 해소</div>
+        <div class="sc-title">마이크 권한 팝업 — "허용을 눌러야 합니다"</div>
+        <div class="sc-shot">📽 마이크 권한 요청 팝업 화면 클로즈업. 황금색 화살표가 '허용' 버튼을 가리킴. 탭 → 팝업 사라짐 → 마이크 아이콘 활성화.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"마이크 권한 팝업이 뜨면 <em>'허용'</em>을 눌러주세요. 발음 채점에 꼭 필요합니다."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">"'허용' 클릭 → AI 발음 채점 시작" 자막 강조</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-4 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">11″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div class="mock-screen sm">
+            <div class="mock-hdr"><span class="mock-logo">말트임 🇯🇵</span></div>
+            <div class="mock-jp" style="font-size:13px">いきます</div>
+            <div class="mock-mic">🎤</div>
+            <div style="font-size:9px;color:var(--blue);text-align:center;margin-top:4px">누르고 있는 동안 녹음</div>
+            <div style="font-size:8px;color:var(--dim);text-align:center;margin-top:2px">← 꾹 누르고 말하세요</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 04 · UX 배리어 ③ 해소</div>
+        <div class="sc-title">마이크 버튼 — "짧게 탭이 아니라 꾹 누르기"</div>
+        <div class="sc-shot">📽 손가락이 마이크 버튼에 올라가는 클로즈업. "꾹 누르는" 동작 강조 → 파형 애니메이션 활성화 → 말하는 동안 유지 → 손 뗌 → 채점 결과 등장.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"마이크 버튼은 <em>꾹 누르고 있는 동안</em> 녹음됩니다. 말 다 하고 손 떼세요."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">손가락 누름 → "🎤 녹음 중" 표시 → 손 뗌 → 점수 등장<br>버튼 위에 "길게 누르기" 텍스트 강조</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-5 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">15″</div>
+        <div class="sc-time-dur">~3초</div>
+        <div class="sc-time-bar" style="height:30px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div class="mock-screen sm">
+            <div class="mock-hdr"><span class="mock-logo">말트임 🇯🇵</span></div>
+            <div class="mock-jp" style="font-size:13px">いきます</div>
+            <div class="mock-lock">🔒 다시 도전!</div>
+            <div style="font-size:8px;color:var(--dim);text-align:center;margin-top:4px">84점 → 85점 이상이면 통과</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 05 · UX 배리어 ④ 해소</div>
+        <div class="sc-title">🔒 락 화면 — "앱이 멈춘 게 아닙니다"</div>
+        <div class="sc-shot">📽 락 화면 등장. "🔒 다시 도전!" 텍스트 클로즈업. 그 위에 오버레이로 "정상! 85점 이상이면 넘어갑니다" 자막. 2초 후 자동 재녹음 시작 화면으로 전환.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"잠금이 뜨면 앱이 멈춘 게 아닙니다. <em>85점 이상이면 자동으로 넘어갑니다.</em> 한 번 더만 해보세요."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">"정상 작동 중 ✅ 조금만 더 정확하게!" 오버레이</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-6 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">18″</div>
+        <div class="sc-time-dur">~7초</div>
+        <div class="sc-time-bar" style="height:70px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="display:flex;flex-direction:column;gap:6px;padding:8px">
+            <div style="background:var(--s2);border-radius:8px;padding:8px 10px;font-size:10px">
+              <div style="color:var(--gold);font-weight:700;margin-bottom:3px">Day 1</div>
+              <div style="font-family:'Hiragino Sans',sans-serif">いきます / きます / たべます</div>
+              <div style="color:var(--dim);font-size:9px">가다 / 오다 / 먹다</div>
+            </div>
+            <div style="background:var(--s2);border-radius:8px;padding:8px 10px;font-size:10px">
+              <div style="color:var(--gold);font-weight:700;margin-bottom:3px">Day 2</div>
+              <div style="font-family:'Hiragino Sans',sans-serif">おきます / ねます / のみます</div>
+              <div style="color:var(--dim);font-size:9px">일어나다 / 자다 / 마시다</div>
+            </div>
+            <div style="background:var(--s2);border-radius:8px;padding:8px 10px;font-size:10px">
+              <div style="color:var(--gold);font-weight:700;margin-bottom:3px">Day 3</div>
+              <div style="font-family:'Hiragino Sans',sans-serif">これをください / いくらですか</div>
+              <div style="color:var(--dim);font-size:9px">이것 주세요 / 얼마예요?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 06 · 첫 3일 미리보기</div>
+        <div class="sc-title">Day 1~3: 이것만 알아도 여행이 됩니다</div>
+        <div class="sc-shot">📽 Day 1→2→3 카드가 순서대로 스와이프. 각 Day의 대표 문장 1~2개씩 빠르게 노출. 마지막에 "3일 후, 여행 일본어 완성" 자막.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"Day 1은 이동 표현. Day 2는 일과. Day 3이면 <em>주문과 가격 묻기</em>까지 됩니다. 한국어 어순 그대로, 어미만 바꾸면 됩니다."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">"3일 후 → 편의점·식당·거리 회화 OK!" 강조 자막</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B-7 -->
+    <div class="scene v-b">
+      <div class="sc-time">
+        <div class="sc-time-range">25″</div>
+        <div class="sc-time-dur">~5초</div>
+        <div class="sc-time-bar" style="height:50px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="font-size:24px;font-weight:900;color:var(--text)">말트임<br><span style="color:var(--blue)">일본어</span></div>
+            <div style="margin-top:8px;background:var(--blue);color:#fff;padding:6px 14px;border-radius:16px;font-size:10px;font-weight:700">무료로 시작하기 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 07 · CTA</div>
+        <div class="sc-title">따뜻한 마무리 + 행동 유도</div>
+        <div class="sc-shot">📽 로고 등장. 밝고 따뜻한 배경. "지금 열어보세요" 버튼 강조. 마지막 자막: "왕초보도, 포기한 분도 괜찮습니다".</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"<em>말트임 일본어.</em> 왕초보도, 포기한 분도 괜찮습니다. 지금 열어보세요."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">"설치 없음 · 완전 무료" + 로고 + URL/QR</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악</div>
+          <div class="sfx-text">따뜻하고 희망찬 코드 진행으로 마무리</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /scenes -->
+
+  <div style="margin-top:40px">
+    <div class="sec-label" style="color:var(--blue)">제작 노트</div>
+    <div class="prod-grid">
+      <div class="prod-item"><div class="prod-label">영상 포맷</div><div class="prod-val">9:16 세로 우선 (릴스·쇼츠). 화면 녹화 + 실사 혼합.</div></div>
+      <div class="prod-item"><div class="prod-label">내레이션 스타일</div><div class="prod-val">부드럽고 친근한 여성 또는 남성 VO. 선생님 같은 안심감.</div></div>
+      <div class="prod-item"><div class="prod-label">화면 오버레이</div><div class="prod-val">빨간 화살표·동그라미로 버튼 위치 직접 표시. 시선 유도 필수.</div></div>
+      <div class="prod-item"><div class="prod-label">배경음악</div><div class="prod-val">전체적으로 차분하고 따뜻한 피아노 BGM. 너무 빠르지 않게.</div></div>
+      <div class="prod-item"><div class="prod-label">자막 스타일</div><div class="prod-val">중간 굵기 흰 자막 + 핵심 단어만 파란색 강조. 너무 많지 않게.</div></div>
+      <div class="prod-item"><div class="prod-label">UX 배리어 표현</div><div class="prod-val">실제 앱 화면 그대로 녹화. 연출 없이 날것의 첫 화면 그대로 보여주기.</div></div>
+    </div>
+  </div>
+
+</div><!-- /panel-b -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- VERSION C — 도전형                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="panel" id="panel-c">
+
+  <div class="concept-header purple">
+    <div class="concept-badge">Version C · 도전형</div>
+    <div class="concept-title">지금 30초,<br>당신의 첫 일본어 문장에 도전합니다</div>
+    <div class="concept-sub">광고 영상 자체가 하나의 짧은 학습 체험이 되는 컨셉.<br>시청자가 영상을 보는 동안 따라 말하고 싶어지게 만듭니다. 게이미피케이션 강조.</div>
+    <div class="concept-meta">
+      <div class="cm-item"><span class="cm-label">총 길이</span><span class="cm-val">30초</span></div>
+      <div class="cm-item"><span class="cm-label">톤</span><span class="cm-val">역동적, 흥미롭고 게임 같은 느낌</span></div>
+      <div class="cm-item"><span class="cm-label">주 타깃</span><span class="cm-val">1020대 · J-POP·드라마 팬 · 게이머</span></div>
+      <div class="cm-item"><span class="cm-label">핵심 훅</span><span class="cm-val">시청자가 직접 따라 말하게 유도</span></div>
+    </div>
+  </div>
+
+  <!-- 타임라인 -->
+  <div class="timeline-bar">
+    <div class="tl-seg" style="background:rgba(168,85,247,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--purple)">카운트다운</div>
+      <div class="tl-seg-time">0–3초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(168,85,247,.05);flex:2.5">
+      <div class="tl-seg-name">첫 문장 도전</div>
+      <div class="tl-seg-time">3–16초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(168,85,247,.05);flex:1.5">
+      <div class="tl-seg-name">30일 미래</div>
+      <div class="tl-seg-time">16–24초</div>
+    </div>
+    <div class="tl-seg" style="background:rgba(168,85,247,.08);flex:1">
+      <div class="tl-seg-name" style="color:var(--purple)">CTA</div>
+      <div class="tl-seg-time">24–30초</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="color:var(--purple)">씬별 콘티</div>
+  <div class="scenes">
+
+    <!-- C-1 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">0″</div>
+        <div class="sc-time-dur">~3초</div>
+        <div class="sc-time-bar" style="height:30px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center">
+            <div style="font-size:64px;font-weight:900;color:var(--purple)">3</div>
+            <div style="font-size:12px;color:var(--dim)">초 후 첫 문장 시작</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 01 · 카운트다운</div>
+        <div class="sc-title">3·2·1 — 영상이 곧 학습이 되는 순간</div>
+        <div class="sc-shot">📽 검은 배경에 큰 숫자 3→2→1 카운트다운. 각 숫자와 함께 심장 뛰는 듯한 비트 효과음. 화면 테두리에 보라색 네온 이펙트.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"지금부터 30초. <em>당신의 첫 일본어 문장에 도전합니다.</em> 따라 말해보세요."</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악 / 효과음</div>
+          <div class="sfx-text">게임 카운트다운 효과음 + 긴장감 있는 일렉트로닉 빌드업 시작</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C-2 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">3″</div>
+        <div class="sc-time-dur">~5초</div>
+        <div class="sc-time-bar" style="height:50px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="font-size:28px;font-weight:700;font-family:'Hiragino Sans',sans-serif;color:var(--text);margin-bottom:6px">すしを　ください</div>
+            <div style="font-size:14px;color:var(--gold);margin-bottom:4px">스시오 쿠다사이</div>
+            <div style="font-size:12px;color:var(--dim)">스시 주세요</div>
+            <div style="margin-top:10px;font-size:20px">🔊</div>
+            <div style="font-size:10px;color:var(--purple)">← 먼저 들어보세요</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 02 · 첫 문장 등장</div>
+        <div class="sc-title">"すしをください" — 세상에서 가장 유용한 첫 문장</div>
+        <div class="sc-shot">📽 화면 전체에 일본어 문장이 크게 등장. TTS 음성이 실제로 재생됨. 한글 독음이 아래에 나타남. "따라 해보세요!" 자막과 함께 마이크 아이콘 등장.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"<em>すしをください</em> — 스시오 쿠다사이. 스시 주세요. 따라 해보세요!"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">문장 전체 등장 → 글자별로 하이라이트 → 마이크 이모지 강조<br>"지금 따라 말해보세요 🎤" 애니메이션</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악 / 효과음</div>
+          <div class="sfx-text">실제 TTS 음성: "すしをください" 재생 (앱 내장 음성)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C-3 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">8″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <svg viewBox="0 0 100 100" width="80" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#1e293b" stroke-width="8"/>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="254 283" stroke-dashoffset="70.75" transform="rotate(-90 50 50)"/>
+              <text x="50" y="54" text-anchor="middle" fill="white" font-size="22" font-weight="900">92</text>
+              <text x="50" y="68" text-anchor="middle" fill="#94a3b8" font-size="9">점</text>
+            </svg>
+            <div style="font-size:12px;color:var(--green);margin-top:6px;font-weight:700">⚡ 조건반사 마스터!</div>
+            <div style="font-size:10px;color:var(--dim)">반응속도 0.9초</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 03 · 채점 결과 등장</div>
+        <div class="sc-title">92점! 뇌 반응속도 0.9초 — 성취감 폭발</div>
+        <div class="sc-shot">📽 링 게이지가 0에서 92까지 빠르게 채워지는 애니메이션. "⚡ 조건반사 마스터!" 타이틀 등장. 배경에 파티클 이펙트. 효과음: 게임 클리어 사운드.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"92점! 반응속도 0.9초. <em>당신의 뇌가 이미 반응하기 시작했습니다.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">링 게이지 충전 애니메이션 + "⚡ 조건반사 마스터!" 대형 자막<br>파티클 이펙트 + 효과음</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 효과음</div>
+          <div class="sfx-text">게임 클리어 사운드 + 음악 클라이막스</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C-4 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">12″</div>
+        <div class="sc-time-dur">~4초</div>
+        <div class="sc-time-bar" style="height:40px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="padding:8px;font-size:10px;line-height:2">
+            <div style="color:var(--gold);font-weight:700;margin-bottom:4px">한국어처럼 읽히는 한자</div>
+            <div><span style="color:var(--text)">電車</span> → 전차 → <span style="color:var(--gold)">でんしゃ</span> (덴샤)</div>
+            <div><span style="color:var(--text)">学校</span> → 학교 → <span style="color:var(--gold)">がっこう</span> (각코)</div>
+            <div><span style="color:var(--text)">日本</span> → 일본 → <span style="color:var(--gold)">にほん</span> (니혼)</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 04 · 유리한 이유 폭로</div>
+        <div class="sc-title">한자·발음·어순 — 한국인은 이미 유리합니다</div>
+        <div class="sc-shot">📽 빠른 인포그래픽 컷. 한자 단어 3개가 순서대로 등장. 한국어 발음과 일본어 발음이 비슷함을 강조. 어순 비교 그래픽. 전체 1~2초씩 빠르게 전환.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"한자 발음도 비슷하고, 어순도 같습니다. <em>한국인은 태어날 때부터 유리합니다.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">電車(전차↔덴샤), 学校(학교↔각코) 비교 애니메이션<br>마지막에 "어순: 나는→すしを→たべます" 대응 표시</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C-5 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">16″</div>
+        <div class="sc-time-dur">~8초</div>
+        <div class="sc-time-bar" style="height:80px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="padding:6px;display:flex;flex-direction:column;gap:5px">
+            <div style="background:var(--s2);border-radius:8px;padding:7px 10px;font-size:9px;display:flex;justify-content:space-between;align-items:center">
+              <span>Day 1</span>
+              <span style="color:var(--green);font-weight:700">✅ 완료</span>
+            </div>
+            <div style="background:var(--s2);border-radius:8px;padding:7px 10px;font-size:9px;display:flex;justify-content:space-between;align-items:center">
+              <span>Day 7</span>
+              <span style="color:var(--blue)">주문 OK</span>
+            </div>
+            <div style="background:var(--s2);border-radius:8px;padding:7px 10px;font-size:9px;display:flex;justify-content:space-between;align-items:center">
+              <span>Day 14</span>
+              <span style="color:var(--gold)">대화 OK</span>
+            </div>
+            <div style="background:rgba(245,158,11,.15);border-radius:8px;padding:7px 10px;font-size:9px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(245,158,11,.3)">
+              <span style="font-weight:700">Day 30</span>
+              <span style="color:var(--gold);font-weight:700">🎓 입이 트임!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 05 · 30일 미래 시각화</div>
+        <div class="sc-title">Day 1 → Day 30: 단계별 변화를 보여준다</div>
+        <div class="sc-shot">📽 앱의 Day 진행 그리드가 하나씩 체크되는 애니메이션. Day 7, 14, 21, 30 각 마일스톤에서 달라지는 것을 짧은 장면으로 인서트. 마지막 Day 30에서 "🎓 입이 트임!" 자막 폭발.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"30일, 98문장. Day 7이면 주문, Day 14면 대화, Day 30이면 <em>입이 트입니다.</em>"</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">Day 7 → "편의점·식당 OK" / Day 14 → "일상 대화 OK" / Day 30 → "🎓 입이 트임!" 자막 순서대로 등장</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악</div>
+          <div class="sfx-text">점점 고조되는 업비트. Day 30 자막에서 최고조.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C-6 -->
+    <div class="scene v-c">
+      <div class="sc-time">
+        <div class="sc-time-range">24″</div>
+        <div class="sc-time-dur">~6초</div>
+        <div class="sc-time-bar" style="height:60px"></div>
+      </div>
+      <div class="sc-visual">
+        <div class="sc-visual-label">화면 구성</div>
+        <div class="sc-visual-inner">
+          <div style="text-align:center;padding:8px">
+            <div style="font-size:22px;font-weight:900;color:var(--text)">말트임<br><span style="color:var(--purple)">일본어</span></div>
+            <div style="margin-top:8px;background:var(--purple);color:#fff;padding:7px 16px;border-radius:16px;font-size:11px;font-weight:700">지금 도전하기 →</div>
+            <div style="margin-top:6px;font-size:9px;color:var(--dim)">설치 없음 · 완전 무료</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-text">
+        <div class="sc-num">Scene 06 · CTA</div>
+        <div class="sc-title">"지금 도전하기" — 게임 시작 버튼처럼</div>
+        <div class="sc-shot">📽 게임의 "START" 버튼처럼 연출. 로고 + "지금 도전하기" 버튼이 빛나는 네온 이펙트로 표시. 마지막 0.5초: 앱 첫 화면 플래시 컷 → 블랙아웃.</div>
+        <div class="vo-box">
+          <div class="vo-label">🎙 내레이션 (VO)</div>
+          <div class="vo-text">"<em>말트임 일본어.</em> 지금 도전하세요. 무료입니다."</div>
+        </div>
+        <div class="overlay-box">
+          <div class="overlay-label">📝 화면 자막</div>
+          <div class="overlay-text">로고 + "지금 도전하기 →" 네온 버튼 + URL/QR 코드<br>마지막 자막: "설치 없음 · 완전 무료 · 지금 바로"</div>
+        </div>
+        <div class="sfx-box">
+          <div class="sfx-label">🎵 음악 / 효과음</div>
+          <div class="sfx-text">짧고 강렬한 마무리 스팅 + 게임 시작 효과음 느낌</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /scenes -->
+
+  <div style="margin-top:40px">
+    <div class="sec-label" style="color:var(--purple)">제작 노트</div>
+    <div class="prod-grid">
+      <div class="prod-item"><div class="prod-label">영상 포맷</div><div class="prod-val">9:16 세로 최우선 (쇼츠·릴스·틱톡). 화면 녹화 + 모션 그래픽.</div></div>
+      <div class="prod-item"><div class="prod-label">내레이션 스타일</div><div class="prod-val">빠르고 에너지 넘치는 VO. 게임 유튜버 톤. 1~1.2x 속도.</div></div>
+      <div class="prod-item"><div class="prod-label">배경음악</div><div class="prod-val">초반: 긴장감 빌드업 → 중반: 업비트 일렉트로닉 → 후반: 클라이막스 스팅</div></div>
+      <div class="prod-item"><div class="prod-label">컬러 테마</div><div class="prod-val">다크 배경 + 보라 네온 강조. 점수 등장 시 초록 파티클.</div></div>
+      <div class="prod-item"><div class="prod-label">핵심 포인트</div><div class="prod-val">실제 TTS 음성이 영상 안에서 재생되어야 함. 시청자가 따라 말하게 유도.</div></div>
+      <div class="prod-item"><div class="prod-label">인터랙션 포인트</div><div class="prod-val">Scene 02에서 시청자가 실제로 "すしをください"를 따라 말하도록 2~3초 여백 배치.</div></div>
+    </div>
+  </div>
+
+</div><!-- /panel-c -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 공통 제작 가이드 (항상 표시)                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div style="max-width:1100px;margin:0 auto;padding:48px 32px 80px">
+  <div class="sec-label">공통 — UX 배리어 해소 체크리스트</div>
+  <div class="tips">
+    <div class="tip">
+      <div class="tip-icon">🌫️</div>
+      <div class="tip-title">흐릿한 텍스트 (blur)</div>
+      <div class="tip-desc">첫 화면의 일본어 텍스트가 흐릿하게 표시됨. 화면 오류로 오해할 수 있음.</div>
+      <div class="tip-solution">→ "의도된 설계, '보기' 버튼으로 확인" 명시</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">🎤</div>
+      <div class="tip-title">마이크 권한 팝업</div>
+      <div class="tip-desc">브라우저 마이크 권한 요청이 갑자기 뜸. 거부하면 핵심 기능 비활성화.</div>
+      <div class="tip-solution">→ "허용을 눌러야 AI 채점 가능" 선행 안내</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">👇</div>
+      <div class="tip-title">꾹 누르기 방식</div>
+      <div class="tip-desc">마이크 버튼은 짧게 탭이 아닌 "누르고 있는 동안" 녹음. 짧게 탭하면 작동 안 함.</div>
+      <div class="tip-solution">→ "꾹 누르기" 손가락 동작 직접 시연 필수</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">🔒</div>
+      <div class="tip-title">85점 락 화면</div>
+      <div class="tip-desc">84점 이하 시 "🔒 다시 도전!" 화면이 뜸. 앱이 멈춘 줄 알고 종료할 수 있음.</div>
+      <div class="tip-solution">→ "정상 작동, 85점 이상이면 자동 통과" 안내</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">🔁</div>
+      <div class="tip-title">3회 자동 녹음 모드</div>
+      <div class="tip-desc">'듣고 따라하기' 버튼 누르면 TTS → 자동 녹음이 3회 반복. 예고 없이 시작돼 당황.</div>
+      <div class="tip-solution">→ "총 3회 자동 반복, 준비 후 시작" 사전 설명</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">📅</div>
+      <div class="tip-title">Day 뱃지 탭 기능</div>
+      <div class="tip-desc">상단 "Day 1/30" 뱃지가 탭 가능한 버튼임을 모름. 진도 이동 방법 불명확.</div>
+      <div class="tip-solution">→ "위 뱃지 탭 → 30일 그리드 이동 가능" 안내</div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px">
+    <div class="sec-label">공통 — 한국인 우위 언어 포인트 (영상 활용 소재)</div>
+    <div class="lang-grid">
+      <div class="lang-card">
+        <div class="lang-icon">🔄</div>
+        <div class="lang-title">어순이 완벽히 같습니다</div>
+        <div class="lang-ex">
+          <strong>나는</strong> 스시를 먹습니다<br>
+          <em>私は</em> すしを たべます<br>
+          <span style="font-size:11px;color:#3b82f6">주어 → 목적어 → 동사 · 동일!</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-icon">📖</div>
+        <div class="lang-title">조사 5개만 외우면 됩니다</div>
+        <div class="lang-ex">
+          은/는 → <em>は</em> &nbsp; 을/를 → <em>を</em><br>
+          에/에게 → <em>に</em> &nbsp; 에서 → <em>で</em><br>
+          의 → <em>の</em>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-icon">🈳</div>
+        <div class="lang-title">한자 발음이 비슷합니다</div>
+        <div class="lang-ex">
+          電車 전차 → <em>でんしゃ 덴샤</em><br>
+          学校 학교 → <em>がっこう 각코</em><br>
+          日本 일본 → <em>にほん 니혼</em>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-icon">⚙️</div>
+        <div class="lang-title">어미만 바꾸면 다 됩니다</div>
+        <div class="lang-ex">
+          いき<em>ます</em> 갑니다<br>
+          いき<em>ました</em> 갔습니다<br>
+          いき<em>ましょう</em> 갑시다<br>
+          いき<em>たいです</em> 가고 싶습니다
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-icon">🎯</div>
+        <div class="lang-title">Day 1~3이면 여행 됩니다</div>
+        <div class="lang-ex">
+          <strong>Day 1</strong>: いきます / たべます / ください<br>
+          <strong>Day 2</strong>: おきます / のみます / ねます<br>
+          <strong>Day 3</strong>: これを ください / いくらですか
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-icon">🔒</div>
+        <div class="lang-title">동사 원형은 Day 22에 공개</div>
+        <div class="lang-ex">
+          먼저 소리(ます형)로 뇌에 각인<br>
+          → Day 22 "비밀 해제"로<br>
+          <em>いく→いきます</em> 자연스럽게 납득
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px">
+    <div class="sec-label">3가지 버전 한눈에 비교</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:var(--surface);border-bottom:2px solid var(--border)">
+            <th style="padding:12px 16px;text-align:left;color:var(--dim);font-weight:700;width:120px">항목</th>
+            <th style="padding:12px 16px;text-align:center;color:var(--red)">Version A<br><small style="font-weight:400">폭로형</small></th>
+            <th style="padding:12px 16px;text-align:center;color:var(--blue)">Version B<br><small style="font-weight:400">가이드형</small></th>
+            <th style="padding:12px 16px;text-align:center;color:var(--purple)">Version C<br><small style="font-weight:400">도전형</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px;color:var(--dim)">핵심 훅</td>
+            <td style="padding:12px 16px;text-align:center">한일 언어 유사성 충격 폭로</td>
+            <td style="padding:12px 16px;text-align:center">UX 배리어 공감 → 해결</td>
+            <td style="padding:12px 16px;text-align:center">시청자가 직접 따라 말함</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px;color:var(--dim)">감정 코드</td>
+            <td style="padding:12px 16px;text-align:center">자신감 / 충격</td>
+            <td style="padding:12px 16px;text-align:center">공감 / 안심</td>
+            <td style="padding:12px 16px;text-align:center">흥미 / 도전</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px;color:var(--dim)">주 타깃</td>
+            <td style="padding:12px 16px;text-align:center">포기 경험자<br>시작 두려운 사람</td>
+            <td style="padding:12px 16px;text-align:center">왕초보<br>기술 미숙 사용자</td>
+            <td style="padding:12px 16px;text-align:center">1020대<br>J-팬 / 게이머</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:12px 16px;color:var(--dim)">채널 적합성</td>
+            <td style="padding:12px 16px;text-align:center">유튜브 프리롤<br>페이스북 광고</td>
+            <td style="padding:12px 16px;text-align:center">인스타 릴스<br>카카오 광고</td>
+            <td style="padding:12px 16px;text-align:center">쇼츠·틱톡<br>인스타 릴스</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;color:var(--dim)">제작 난이도</td>
+            <td style="padding:12px 16px;text-align:center">⭐⭐⭐ 중간<br>(모션그래픽 필요)</td>
+            <td style="padding:12px 16px;text-align:center">⭐⭐ 쉬움<br>(화면녹화 중심)</td>
+            <td style="padding:12px 16px;text-align:center">⭐⭐⭐⭐ 어려움<br>(이펙트·사운드 복잡)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(v) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.tab.' + v).classList.add('active');
+  document.getElementById('panel-' + v).classList.add('active');
+  window.scrollTo({ top: 72, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -5,6 +5,19 @@
 
 ---
 
+## [v1.4] — 2026-05-25
+
+### 🔊 Changed — Google Neural2 TTS 사전 생성 방식 전환
+
+- **`generate_audio.py` 추가**: Google Cloud TTS `ja-JP-Neural2-B` 모델로 30일 커리큘럼 전 문장(98개) MP3 사전 생성. REST API 직접 호출, SDK 의존성 없음.
+- **`speak()` 함수 교체**: `window.speechSynthesis` 대신 GitHub Pages 호스팅 MP3 파일을 `<Audio>` 엘리먼트로 재생. 속도 0.85(학습자용), 원어민 Neural2 발음.
+- **Fallback 유지**: `speakFallback()` 분리 — 네트워크 오류 또는 AUDIO_MAP 미등록 텍스트 시 기존 Web Speech API 자동 전환.
+- **AUDIO_MAP 사전 계산**: 앱 로드 시 `CURRICULUM` 전체 순회하여 `jp텍스트 → GitHub Pages URL` 매핑 테이블 구성. 런타임 조회 O(1).
+- **월 비용**: 월 1만 MAU 기준 TTS 비용 $0 (사전 생성 + GitHub Pages 무료 호스팅).
+- **FFD 호환**: `audio.onended` 콜백에서 `S.t0 = Date.now()` 스탬핑으로 기존 반응속도 계측 로직 완전 호환.
+
+---
+
 ## [v1.3] — 2026-05-24
 
 ### 📊 Added — 학습 통계 대시보드

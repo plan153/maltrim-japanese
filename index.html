@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>말트임 일본어 v1.3 🇯🇵</title>
+<title>말트임 일본어 v1.4 🇯🇵</title>
 <style>
 :root {
   --primary: #1e3a8a;
@@ -550,7 +550,7 @@ body {
   <div class="header-logo">말트임 <span>일본어</span> 🇯🇵</div>
   <div class="header-right">
     <button class="stats-btn" onclick="openStats()" title="학습 통계">📊</button>
-    <span class="v-badge">v1.3</span>
+    <span class="v-badge">v1.4</span>
     <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
   </div>
 </header>
@@ -883,6 +883,20 @@ const CURRICULUM = {
 };
 
 // ════════════════════════════════════════════════════
+// v1.4 — Google Neural2 TTS 사전 생성 오디오 맵
+// ════════════════════════════════════════════════════
+const AUDIO_BASE = 'https://plan153.github.io/maltrim-japanese/audio/';
+const AUDIO_MAP = (() => {
+  const m = {};
+  Object.entries(CURRICULUM).forEach(([day, data]) => {
+    data.phrases.forEach((p, i) => {
+      m[p.jp] = `${AUDIO_BASE}d${String(day).padStart(2,'0')}_p${i}.mp3`;
+    });
+  });
+  return m;
+})();
+
+// ════════════════════════════════════════════════════
 // STATE  (v1.2 확장 — S.isPremium / S.isNativePlatform 분기 준비)
 // ════════════════════════════════════════════════════
 const S = {
@@ -1186,9 +1200,26 @@ function triggerErrorLock(sc) {
 }
 
 // ════════════════════════════════════════════════════
-// TTS  ── [기능 A] T0 스탬핑
+// TTS  ── [v1.4] Google Neural2 사전 생성 오디오 우선
+//         fallback: Web Speech API
 // ════════════════════════════════════════════════════
 function speak(text, rate = 0.8) {
+  return new Promise(resolve => {
+    const src = AUDIO_MAP[text];
+    if (src) {
+      S.synth.cancel();
+      const a = new Audio(src);
+      // Neural2 파일은 0.85 속도로 생성됨 → 추가 조정 없이 자연스럽게 재생
+      a.onended = () => { S.t0 = Date.now(); resolve(); };
+      a.onerror  = () => speakFallback(text, rate).then(resolve);
+      a.play().catch(() => speakFallback(text, rate).then(resolve));
+    } else {
+      speakFallback(text, rate).then(resolve);
+    }
+  });
+}
+
+function speakFallback(text, rate = 0.8) {
   return new Promise(resolve => {
     S.synth.cancel();
     const u = new SpeechSynthesisUtterance(text.replace(/　/g, ''));
@@ -1196,11 +1227,7 @@ function speak(text, rate = 0.8) {
     u.rate  = rate;
     u.pitch = 1.0;
     if (S.jpVoice) u.voice = S.jpVoice;
-
-    u.onend = () => {
-      S.t0 = Date.now(); // ── FFD 기준점 스탬핑
-      resolve();
-    };
+    u.onend  = () => { S.t0 = Date.now(); resolve(); };
     u.onerror = () => { S.t0 = Date.now(); resolve(); };
     S.synth.speak(u);
   });
