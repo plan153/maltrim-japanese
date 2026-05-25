@@ -1236,8 +1236,11 @@ function playTTS() {
   const p   = CURRICULUM[S.day].phrases[S.phrase];
   const btn = $('btnPlay');
   btn.classList.add('playing');
-  S.t0 = null; // FFD 리셋 (수동 듣기 후 수동 녹음하는 경우)
-  speak(p.jp).then(() => btn.classList.remove('playing'));
+  S.t0 = null;
+  speak(p.jp).then(() => {
+    btn.classList.remove('playing');
+    startRec(); // TTS 종료 후 STT 자동 시작
+  });
 }
 
 // ════════════════════════════════════════════════════
@@ -1255,13 +1258,34 @@ function lev(a, b) {
 }
 
 function norm(s) {
-  // 공백·구두점 제거 후 히라가나→가타카나 변환(루즈 매칭)
-  return s.replace(/[\s　・、。！？→「」]/g, '')
-          .split('').map(c => {
-            const code = c.charCodeAt(0);
-            return (code >= 0x3041 && code <= 0x3096)
-              ? String.fromCharCode(code + 0x60) : c;
-          }).join('');
+  // 한자→히라가나 (커리큘럼 어휘 기준, 긴 복합어 우선)
+  const K = [
+    ['美味しい','おいしい'],['難しい','むずかしい'],['楽しい','たのしい'],
+    ['日本語','にほんご'],['友達','ともだち'],['一緒','いっしょ'],
+    ['毎日','まいにち'],['学校','がっこう'],['仕事','しごと'],['勉強','べんきょう'],
+    ['日本','にほん'],['食べ','たべ'],['飲ん','のん'],['飲み','のみ'],
+    ['帰っ','かえっ'],['帰り','かえり'],['帰る','かえる'],
+    ['行っ','いっ'],['行き','いき'],['行く','いく'],
+    ['買っ','かっ'],['買い','かい'],['買う','かう'],
+    ['疲れ','つかれ'],['泳ぐ','およぐ'],
+    ['話せ','はなせ'],['話し','はなし'],['話す','はなす'],
+    ['聞い','きい'],['聞く','きく'],
+    ['書い','かい'],['書く','かく'],
+    ['見て','みて'],['見る','みる'],['見','み'],
+    ['待っ','まっ'],['待つ','まつ'],
+    ['入っ','はいっ'],['始め','はじめ'],['教え','おしえ'],['洗','あら'],
+    ['早く','はやく'],['早','はや'],['良く','よく'],
+    ['高い','たかい'],['高','たか'],
+    ['前','まえ'],['後','あと'],['家','うち'],['水','みず'],['店','みせ'],
+    ['何時','なんじ'],['誰','だれ'],['何','なに'],['手','て'],['来','き'],
+  ];
+  let t = s.replace(/[\s　・、。！？→「」]/g, '');
+  K.forEach(([k, h]) => { t = t.split(k).join(h); });
+  // 히라가나→가타카나 변환(루즈 매칭)
+  return t.split('').map(c => {
+    const code = c.charCodeAt(0);
+    return (code >= 0x3041 && code <= 0x3096) ? String.fromCharCode(code + 0x60) : c;
+  }).join('');
 }
 
 function score(orig, spoken) {
@@ -1524,6 +1548,9 @@ function startRec(e) {
           if (altSc > bestSc) { best = alt; bestSc = altSc; }
         }
         accumulated += best;
+        // 백업 타이머: onspeechend 미발화 시 isFinal 후 800ms 강제 종료
+        if (S.silenceTimer) clearTimeout(S.silenceTimer);
+        S.silenceTimer = setTimeout(() => { try { S.recObj.stop(); } catch(e) {} }, 800);
       }
     }
   };
