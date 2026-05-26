@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>말트임 일본어 v1.4 🇯🇵</title>
+<title>말트임 일본어 v1.6 🇯🇵</title>
 <style>
 :root {
   --primary: #1e3a8a;
@@ -613,6 +613,23 @@ body.cfg-hide-reading #jpReading { display: none !important; }
   border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--text-dim);
   cursor: pointer; width: fit-content;
 }
+/* ── TRAVEL CORNER ────────────────────────────── */
+.travel-corner { border: 1px solid rgba(245,158,11,.25); border-radius: var(--radius); overflow: hidden; }
+.travel-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 16px; cursor: pointer; font-size: 13px; font-weight: 700;
+  color: var(--accent); background: rgba(245,158,11,.07); user-select: none;
+}
+.travel-body { display: none; padding: 14px 16px; background: var(--surface); flex-direction: column; gap: 10px; }
+.travel-body.open { display: flex; }
+.travel-qa { display: flex; flex-direction: column; gap: 5px; }
+.travel-row { display: flex; align-items: flex-start; gap: 8px; }
+.travel-lbl { font-size: 10px; color: var(--text-dim); min-width: 16px; margin-top: 4px; font-weight: 700; }
+.travel-jp { font-family: var(--font-jp); font-size: 16px; flex: 1; line-height: 1.5; }
+.travel-kr { font-size: 12px; color: var(--text-dim); margin-left: 24px; }
+.btn-ttl { background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text-dim); font-size: 13px; padding: 2px 8px; cursor: pointer; flex-shrink: 0; }
+.btn-ttl:active { opacity: .6; }
+.travel-link { font-size: 11px; color: var(--primary-light); background: rgba(59,130,246,.08); border-radius: 8px; padding: 6px 10px; }
 </style>
 </head>
 <body>
@@ -623,7 +640,7 @@ body.cfg-hide-reading #jpReading { display: none !important; }
   <div class="header-right">
     <button class="stats-btn" onclick="openSettings()" title="환경 설정">⚙️</button>
     <button class="stats-btn" onclick="openStats()" title="학습 통계">📊</button>
-    <span class="v-badge">v1.5</span>
+    <span class="v-badge">v1.6</span>
     <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
   </div>
 </header>
@@ -716,6 +733,31 @@ body.cfg-hide-reading #jpReading { display: none !important; }
       <div class="wave-stats" id="waveStats"></div>
     </div>
 
+  </div>
+
+  <!-- ✈️ TRAVEL CORNER -->
+  <div class="travel-corner" id="travelCorner">
+    <div class="travel-hdr" onclick="toggleTravel()">
+      <span id="travelHdrText">✈️ 여행 응용</span>
+      <span id="travelArrow">▼</span>
+    </div>
+    <div class="travel-body" id="travelBody">
+      <div class="travel-qa">
+        <div class="travel-row">
+          <span class="travel-lbl">Q</span>
+          <span class="travel-jp" id="travelQjp"></span>
+          <button class="btn-ttl" onclick="speakTravel('q')">🔊</button>
+        </div>
+        <div class="travel-kr" id="travelQkr"></div>
+        <div class="travel-row" style="margin-top:6px">
+          <span class="travel-lbl">A</span>
+          <span class="travel-jp" id="travelAjp"></span>
+          <button class="btn-ttl" onclick="speakTravel('a')">🔊</button>
+        </div>
+        <div class="travel-kr" id="travelAkr"></div>
+      </div>
+      <div class="travel-link" id="travelLink"></div>
+    </div>
   </div>
 
   <!-- nav -->
@@ -1051,6 +1093,64 @@ const CURRICULUM = {
     { jp:"これからも　がんばります！",             rd:"코레카라모 감바리마스!",             kr:"앞으로도 열심히 하겠습니다!" },
   ]},
 };
+
+// ════════════════════════════════════════════════════
+// [v1.6] TRAVEL — 여행 응용 코너 (30일 커리큘럼 연계)
+// ════════════════════════════════════════════════════
+const TRAVEL = {
+  1:  { sit:"교통 · 전철",      q:{jp:"この電車は新宿に行きますか？",   kr:"이 전철은 신주쿠에 가나요?"},         a:{jp:"はい、行きます。",                    kr:"네, 갑니다."},                   link:"오늘의 〜に いきます → 목적지+行きます 그대로 여행 실전!" },
+  2:  { sit:"숙소 · 체크인",    q:{jp:"チェックインをお願いします。",   kr:"체크인 부탁합니다."},                  a:{jp:"予約のお名前は？",                   kr:"예약 성함이 어떻게 되세요?"},    link:"오늘의 〜を します → チェックインをします 완전 동일!" },
+  3:  { sit:"식당 · 주문",      q:{jp:"おすすめは何ですか？",           kr:"추천 메뉴가 뭐예요?"},                 a:{jp:"これをください。",                   kr:"이거 주세요."},                  link:"오늘의 〜を たべます / のみます → 음식 주문·추천 바로 실전!" },
+  4:  { sit:"쇼핑 · 가격",      q:{jp:"これはいくらですか？",           kr:"이거 얼마예요?"},                      a:{jp:"〇〇円です。",                       kr:"〇〇엔입니다."},                 link:"오늘의 〜を かいます → 사는 것 = 가격 묻기로 이어져요!" },
+  5:  { sit:"숙소 · 방 확인",   q:{jp:"部屋はありますか？",             kr:"방 있어요?"},                          a:{jp:"はい、あります。",                   kr:"네, 있어요."},                   link:"오늘의 〜が あります → 部屋はありますか 완전 동일 구조!" },
+  6:  { sit:"이동 · 길 묻기",   q:{jp:"〇〇はどこですか？",             kr:"〇〇이 어디예요?"},                    a:{jp:"次のバスは何時に来ますか？",         kr:"다음 버스는 몇 시에 오나요?"},   link:"오늘의 どこ・なに・なんじ 의문사 → 여행에서 가장 많이 쓰는 질문들!" },
+  7:  { sit:"숙소 · 예약",      q:{jp:"どこに泊まりますか？",           kr:"어디에 묵으실 건가요?"},               a:{jp:"ホテルに泊まります。",               kr:"호텔에 묵을 거예요."},           link:"오늘의 〜で 장소+동사 복합 → 숙소 예약 상황에서 활용!" },
+  8:  { sit:"공항 · 입국심사",  q:{jp:"何の目的で来ましたか？",         kr:"무슨 목적으로 오셨나요?"},             a:{jp:"観光に来ました。",                   kr:"관광하러 왔습니다."},            link:"오늘의 〜に いきました 과거형 → 来ました도 같은 이동 과거형!" },
+  9:  { sit:"식당 · 식사 후",   q:{jp:"今日、何を食べましたか？",       kr:"오늘 뭘 드셨어요?"},                   a:{jp:"とても美味しかったです！",           kr:"정말 맛있었습니다!"},            link:"오늘의 〜を たべました + おいしかったです → 식당 식사 후 한 문장!" },
+  10: { sit:"숙소 · 체크인",    q:{jp:"予約をしました。",               kr:"예약을 했습니다."},                    a:{jp:"かしこまりました。",                 kr:"알겠습니다."},                   link:"오늘의 〜を しました 완료 과거 → 호텔 체크인에서 바로 쓰는 표현!" },
+  11: { sit:"긴급 · 도움 요청", q:{jp:"助けてください！",               kr:"도와주세요!"},                         a:{jp:"どうしましたか？",                   kr:"무슨 일이세요?"},                link:"오늘의 はやく / つかれました → 여행 중 긴급상황 표현으로 연결!" },
+  12: { sit:"이동 · 동행 권유", q:{jp:"一緒に行きましょう！",           kr:"같이 가요!"},                          a:{jp:"いいですね！",                       kr:"좋아요!"},                       link:"오늘의 〜ましょう 권유형 → 一緒に行きましょう 완전 동일!" },
+  13: { sit:"숙소 · 희망",      q:{jp:"どこに泊まりたいですか？",       kr:"어디에 묵고 싶으세요?"},               a:{jp:"駅の近くに泊まりたいです。",         kr:"역 근처에 묵고 싶어요."},        link:"오늘의 〜たいです 희망 → 숙소 선택 상황에서 그대로!" },
+  14: { sit:"관광 · 재방문",    q:{jp:"また来たいですね！",             kr:"또 오고 싶네요!"},                     a:{jp:"ぜひ一緒に行きましょう！",           kr:"꼭 같이 가요!"},                 link:"오늘의 過去+ましょう+たいです 3패턴 복합 → 여행 대화에서 다 나와요!" },
+  15: { sit:"이동 · 길 안내",   q:{jp:"まっすぐ行ってください。",       kr:"직진해 주세요."},                      a:{jp:"右に曲がってください。",             kr:"오른쪽으로 돌아 주세요."},       link:"오늘의 〜て ください 요청 → まっすぐ行ってください 완전 동일!" },
+  16: { sit:"식당 · 주문",      q:{jp:"これをください。",               kr:"이거 주세요."},                        a:{jp:"かしこまりました。",                 kr:"알겠습니다."},                   link:"오늘의 〜て ください (음식·동작) → 주문할 때 가장 많이 쓰는 한 마디!" },
+  17: { sit:"숙소 · Wi-Fi",    q:{jp:"Wi-Fiのパスワードを教えてください。", kr:"와이파이 비번 알려주세요."},      a:{jp:"こちらです。",                       kr:"여기 있어요."},                  link:"오늘의 おしえて ください → Wi-Fi 비번 요청에서 완전 동일!" },
+  18: { sit:"이동 · 도보 거리", q:{jp:"歩いて何分ですか？",             kr:"걸어서 몇 분이에요?"},                 a:{jp:"〇〇分くらいです。",                 kr:"약 〇〇분이요."},                link:"오늘의 〜て 연결형 → 歩いて(걸어서)가 テ형 연결의 실전 활용!" },
+  19: { sit:"관광 · 촬영 허가", q:{jp:"写真を撮ってもいいですか？",     kr:"사진 찍어도 되나요?"},                 a:{jp:"はい、どうぞ。",                     kr:"네, 물론이요."},                 link:"오늘의 〜ても いいですか → 写真を撮ってもいいですか 완전 동일!" },
+  20: { sit:"관광 · 출입 금지", q:{jp:"ここに入ってはいけません。",     kr:"여기에 들어가면 안 됩니다."},          a:{jp:"わかりました。すみません。",         kr:"알겠습니다. 죄송합니다."},       link:"오늘의 〜ては いけません 금지 → 촬영·출입 금지 안내 완전 동일!" },
+  21: { sit:"관광 · 사진 부탁", q:{jp:"写真を撮ってもらえますか？",     kr:"사진 찍어줄 수 있나요?"},              a:{jp:"はい、いいですよ。",                 kr:"네, 좋아요."},                   link:"오늘의 テ형 복합 → 〜てもらえますか 「해줄 수 있나요?」 고급 활용!" },
+  22: { sit:"공항 · 입국 목적", q:{jp:"観光する目的で来ました。",       kr:"관광 목적으로 왔습니다."},             a:{jp:"どうぞ楽しんでください。",           kr:"즐겁게 여행하세요."},            link:"오늘의 사전형 → 観光する 사전형 그대로 목적 표현에 활용!" },
+  23: { sit:"쇼핑 · 결제",      q:{jp:"クレジットカードは使えますか？", kr:"카드 쓸 수 있나요?"},                  a:{jp:"はい、使えます。",                   kr:"네, 쓸 수 있어요."},             link:"오늘의 〜こと が できます → 使えます는 できます의 활용형!" },
+  24: { sit:"식당 · 계산",      q:{jp:"食べた後でお会計をお願いします。", kr:"먹고 나서 계산해 주세요."},          a:{jp:"少々お待ちください。",               kr:"잠시만 기다려 주세요."},         link:"오늘의 〜まえに / 〜あとで → 食べた後で が 완전 동일 구조!" },
+  25: { sit:"이동 · 판단",      q:{jp:"遠いと思います。",               kr:"멀다고 생각해요."},                    a:{jp:"タクシーを使った方がいいですよ。", kr:"택시를 쓰는 게 좋아요."},        link:"오늘의 〜と おもいます → 여행 중 거리·상황 판단 표현으로 자연스럽게!" },
+  26: { sit:"인사 · 보통체",    q:{jp:"どこから来たの？",               kr:"어디서 왔어?"},                        a:{jp:"韓国から来た。",                     kr:"한국에서 왔어."},                link:"오늘의 보통체 どこに いくの？ → 현지인과 친해진 후 반말 대화!" },
+  27: { sit:"인사 · 체험담",    q:{jp:"日本はどうだった？",             kr:"일본 어땠어?"},                        a:{jp:"最高だった！また来たいな。",         kr:"최고였어! 또 오고 싶어."},       link:"오늘의 보통체 과거 どこに いたの？ → 여행 체험 보통체 과거 완전 동일!" },
+  28: { sit:"작별 · 재회 약속", q:{jp:"また会おう！",                   kr:"또 만나자!"},                          a:{jp:"ぜひ！またいつか。",                 kr:"꼭이요! 언젠가 또."},            link:"오늘의 보통체 권유 また あそぼう！ → また会おう 완전 동일 구조!" },
+  29: { sit:"편의 · 화장실",    q:{jp:"トイレはどこ？",                 kr:"화장실이 어디야?"},                    a:{jp:"あっちだよ。",                       kr:"저기야."},                       link:"오늘의 보통체 위치 どこ → トイレはどこ？ 보통체 질문 완전 동일!" },
+  30: { sit:"마무리 · 감사",    q:{jp:"ありがとうございました！また来ます。", kr:"감사했습니다! 또 올게요."},        a:{jp:"ぜひいらしてください。",             kr:"꼭 오세요."},                    link:"오늘의 〜ように なりました + ありがとう → 30일 여행 일본어 완성!" },
+};
+
+function renderTravel() {
+  const t = TRAVEL[S.day];
+  if (!t) return;
+  $('travelHdrText').textContent = `✈️ 여행 응용 — ${t.sit}`;
+  $('travelQjp').textContent = t.q.jp;
+  $('travelQkr').textContent = t.q.kr;
+  $('travelAjp').textContent = t.a.jp;
+  $('travelAkr').textContent = t.a.kr;
+  $('travelLink').textContent = '📌 ' + t.link;
+}
+
+function toggleTravel() {
+  const open = $('travelBody').classList.toggle('open');
+  $('travelArrow').textContent = open ? '▲' : '▼';
+}
+
+function speakTravel(qOrA) {
+  const t = TRAVEL[S.day];
+  if (!t) return;
+  speakFallback(qOrA === 'q' ? t.q.jp : t.a.jp);
+}
 
 // ════════════════════════════════════════════════════
 // v1.4 — Google Neural2 TTS 사전 생성 오디오 맵
@@ -1470,6 +1570,8 @@ function render() {
   $('btnPrev').disabled = S.day === 1 && S.phrase === 0;
   $('btnNext').textContent = isLastPhrase() ? 'Day 완료 ✓' : '다음 ▶';
   $('btnNext').classList.toggle('highlight', isLastPhrase());
+
+  renderTravel();
 }
 
 function applyReveal() {
