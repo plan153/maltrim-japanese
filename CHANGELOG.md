@@ -3,6 +3,28 @@
 > 모든 주요 변경사항은 이 문서에 기록됩니다.  
 > 형식은 [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/) 규약을 따릅니다.
 
+## [v2.0] — 2026-05-28
+
+### Added
+- Vercel 서버리스 백엔드 구조 추가
+  - `api/schedule.js` — 에빙하우스 망각곡선 기반 오늘의 학습 세트 API
+  - `api/fluency.js`  — Azure Speech 발음 평가 + Claude Haiku 피드백 API
+  - `api/generate.js` — Claude Sonnet + prompt_caching 응용 문장 생성 API
+- `lib/db.js` — Neon PostgreSQL 서버리스 연결 모듈
+- `db/schema.sql` — PostgreSQL 스키마 (5테이블 + 뷰 + 트리거)
+- `skills/` — curriculum-scheduler / fluency-analyzer / contextual-generator SKILL.md
+- `vercel.json` — Vercel 라우팅 + 서버리스 함수 설정
+- `package.json` — @anthropic-ai/sdk, @neondatabase/serverless 의존성
+- `.env.example` — 환경변수 템플릿
+
+### Architecture
+- Frontend: GitHub Pages (index.html, 오디오 MP3) 유지
+- Backend: Vercel Serverless Functions (Node.js 20.x)
+- Database: Neon PostgreSQL (서버리스)
+- AI: Claude Haiku (발음 피드백) + Sonnet with caching (문장 생성)
+
+---
+
 ---
 
 ## [v1.4] — 2026-05-25
