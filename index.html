@@ -630,6 +630,14 @@ body.cfg-hide-reading #jpReading { display: none !important; }
 .btn-ttl { background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text-dim); font-size: 13px; padding: 2px 8px; cursor: pointer; flex-shrink: 0; }
 .btn-ttl:active { opacity: .6; }
 .travel-link { font-size: 11px; color: var(--primary-light); background: rgba(59,130,246,.08); border-radius: 8px; padding: 6px 10px; }
+
+/* ── AI 피드백 팁 ─────────────────────────────── */
+.ai-tip { display:none; margin-top:10px; padding:10px 14px; background:rgba(59,130,246,.08);
+  border:1px solid rgba(59,130,246,.2); border-radius:10px; font-size:13px;
+  color:var(--text); line-height:1.6; }
+.ai-tip.show { display:block; }
+.ai-tip-lbl { font-size:10px; color:var(--primary-light); font-weight:700;
+  letter-spacing:.05em; margin-bottom:4px; }
 </style>
 </head>
 <body>
@@ -640,7 +648,7 @@ body.cfg-hide-reading #jpReading { display: none !important; }
   <div class="header-right">
     <button class="stats-btn" onclick="openSettings()" title="환경 설정">⚙️</button>
     <button class="stats-btn" onclick="openStats()" title="학습 통계">📊</button>
-    <span class="v-badge">v1.6</span>
+    <span class="v-badge">v2.0</span>
     <div class="day-badge" id="dayBadge" onclick="openDrawer()">Day 1 / 30</div>
   </div>
 </header>
@@ -722,6 +730,12 @@ body.cfg-hide-reading #jpReading { display: none !important; }
       <div class="ffd-chip" id="vadChip">🔇 머뭇거림: —</div>
     </div>
 
+
+    <!-- AI 코멘트 (Claude Haiku) -->
+    <div class="ai-tip" id="aiTip">
+      <div class="ai-tip-lbl">🤖 AI 코치</div>
+      <div id="aiTipText"></div>
+    </div>
     <!-- 파형 비교 토글 -->
     <button class="wave-toggle-btn" id="waveToggleBtn" onclick="toggleWaveCompare()" style="display:none">📊 파형 비교 보기</button>
     <div class="wave-compare" id="waveCompare" style="display:none">
@@ -933,6 +947,44 @@ body.cfg-hide-reading #jpReading { display: none !important; }
 // ════════════════════════════════════════════════════
 // 30일 커리큘럼 (CURRICULUM — 무결성 유지)
 // ════════════════════════════════════════════════════
+
+// ── Vercel API 베이스 URL ────────────────────────────────────
+const API_BASE = (() => {
+  const h = window.location.hostname;
+  if (h === 'maltrim-japanese.vercel.app' || h === 'localhost') return '';
+  return 'https://maltrim-japanese.vercel.app';
+})();
+
+// ── Claude Haiku 피드백 호출 ─────────────────────────────────
+async function callFluencyAPI(score, orig, spoken) {
+  try {
+    const words = orig.replace(/　/g,' ').trim().split(/\s+/).map(w => ({
+      word: w,
+      accuracy: spoken.includes(w) ? 95 : 40,
+      error_type: spoken.includes(w) ? 'None' : 'Mispronunciation'
+    }));
+    const res = await fetch(API_BASE + '/api/fluency', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: 'guest',
+        azure_result: {
+          reference_text: orig,
+          overall: { accuracy: score, fluency: Math.max(score - 5, 0), completeness: 100 },
+          words
+        }
+      })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.feedback) {
+      $('aiTipText').textContent = data.feedback;
+      $('aiTip').classList.add('show');
+    }
+  } catch (e) {
+    console.warn('AI 피드백 스킵:', e.message);
+  }
+}
 const CURRICULUM = {
   1: { title: "핵심 뼈대 · 이동 동사", phrases: [
     { jp:"がっこうに　いきます", rd:"각꼬우니 이키마스", kr:"학교에 갑니다" },
@@ -1954,8 +2006,10 @@ function showFeedback(orig, spoken, textSc = null, audioData = null) {
     vadEl.className   = 'ffd-chip slow';
   }
 
+  $('aiTip').classList.remove('show');  // 이전 결과 초기화
   $('feedbackPanel').classList.add('show');
   $('feedbackPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  callFluencyAPI(sc, orig, spoken);  // AI 피드백 비동기 요청
 }
 
 // ════════════════════════════════════════════════════
