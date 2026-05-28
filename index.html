@@ -1640,7 +1640,6 @@ function isLastPhrase() { return S.phrase >= CURRICULUM[S.day].phrases.length - 
 // NAVIGATION  ── [기능 B] 오답 락 루프 적용
 // ════════════════════════════════════════════════════
 function nextPhrase() {
-  if (S.lockActive) return;
 
   // 점수 제한 없음 — 자유롭게 다음으로 이동
 
@@ -1659,7 +1658,6 @@ function nextPhrase() {
 }
 
 function prevPhrase() {
-  if (S.lockActive) return;
   if (S.phrase > 0) {
     S.phrase--;
   } else if (S.day > 1) {
@@ -1678,21 +1676,7 @@ function goToDay(d) {
   saveState(); render(); closeDrawer(); buildDayGrid();
 }
 
-// [기능 B] 오답 락 루프
-function triggerErrorLock(sc) {
-  S.lockActive = true;
-  const layer  = $('lockLayer');
-  const banner = $('lockBanner');
-  banner.innerHTML = `🔒 ${sc}점 — 85점 이상이어야 넘어갈 수 있어요!<br><span style="font-size:13px;opacity:.85">1.5초 후 자동 재시도...</span>`;
-  layer.classList.add('show');
-
-  setTimeout(() => {
-    layer.classList.remove('show');
-    S.lockActive = false;
-    // 자동 재녹음 파이프라인 재기동
-    startRec();
-  }, 1500);
-}
+// [기능 B] 오답 락 — 제거됨
 
 // ════════════════════════════════════════════════════
 // TTS  ── [v1.4] Google Neural2 사전 생성 오디오 우선
@@ -1805,11 +1789,13 @@ function score(orig, spoken) {
   const bodyRatio = Math.max(0, 1 - bodyDist / Math.max(aBody.length, bBody.length, 1));
   const endRatio  = Math.max(0, 1 - endDist  / Math.max(aEnd.length,  bEnd.length,  1));
 
-  const W_END = 1.5;
+  const W_END = 1.2;  // 1.5→1.2: 어미 엄격도 완화
   const totalWeight   = bodyLen + endLen * W_END;
   const weightedScore = (bodyRatio * bodyLen + endRatio * endLen * W_END) / totalWeight;
 
-  return Math.round(weightedScore * 100);
+  // 파워커브 부스트: 낮은 점수 구간 완화 (50→59, 70→77, 90→93, 100→100)
+  const raw = weightedScore * 100;
+  return Math.min(100, Math.round(Math.pow(raw / 100, 0.75) * 100));
 }
 
 // ════════════════════════════════════════════════════
@@ -1923,7 +1909,7 @@ function renderSpeedo(fillId, numId, sc, ffd, vadCnt, titleId, subId) {
     sub   = ffdSec ? `반응 ${ffdSec}초` : '잘했어요!';
   } else if (sc >= 60) {
     title = '👍 조금 더!';
-    sub   = '85점 이상이면 다음으로 넘어갑니다';
+    sub   = '더 연습하거나 다음으로 이동하세요';
   } else {
     title = '💪 다시 도전!';
     sub   = '발음을 더 명확하게 해보세요';
@@ -2013,7 +1999,7 @@ function showFeedback(orig, spoken, textSc = null, audioData = null) {
 // ════════════════════════════════════════════════════
 function startRec(e) {
   if (e) e.preventDefault();
-  if (S.recActive || S.lockActive) return;
+  if (S.recActive) return;
   S.recActive = true;
 
   // FFD / VAD 초기화
