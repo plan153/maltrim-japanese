@@ -1249,7 +1249,7 @@ const S = {
   lockActive: false, // 오답 락 활성 여부
 
   // ── [v1.5] 환경설정 ─────────────────────────────
-  cfg: { micMode:'auto', peek:2, hideReading:false, waveEnabled:false, wText:50, wDur:25, wPitch:25 },
+  cfg: { micMode:'auto', peek:2, hideReading:false, waveEnabled:false, wText:45, wDur:25, wPitch:30 },
   peekTimer: null,
 
   // ── [v1.5] 파형 분석용 오디오 캡처 ──────────────
@@ -1302,9 +1302,9 @@ function loadCfg() {
       peek:        c.peek        ?? 2,
       hideReading: c.hideReading ?? false,
       waveEnabled: c.waveEnabled ?? false,
-      wText:       c.wText       ?? 50,
+      wText:       c.wText       ?? 45,
       wDur:        c.wDur        ?? 25,
-      wPitch:      c.wPitch      ?? 25,
+      wPitch:      c.wPitch      ?? 30,
     };
   } catch(e) {}
 }
