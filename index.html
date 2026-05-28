@@ -638,6 +638,26 @@ body.cfg-hide-reading #jpReading { display: none !important; }
 .ai-tip.show { display:block; }
 .ai-tip-lbl { font-size:10px; color:var(--primary-light); font-weight:700;
   letter-spacing:.05em; margin-bottom:4px; }
+
+/* ── 닉네임 모달 ─────────────────────────────── */
+.nick-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:9999;
+  display:flex; align-items:center; justify-content:center; }
+.nick-overlay.hide { display:none; }
+.nick-box { background:var(--surface); border:1px solid var(--border); border-radius:20px;
+  padding:32px 28px; width:min(340px,90vw); display:flex; flex-direction:column; gap:16px; }
+.nick-title { font-size:20px; font-weight:800; color:var(--accent); text-align:center; }
+.nick-sub   { font-size:13px; color:var(--text-dim); text-align:center; line-height:1.5; }
+.nick-input { background:var(--bg); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; font-size:16px; color:var(--text); width:100%; box-sizing:border-box;
+  outline:none; }
+.nick-input:focus { border-color:var(--accent); }
+.nick-btn { background:var(--accent); color:#000; border:none; border-radius:10px;
+  padding:13px; font-size:15px; font-weight:700; cursor:pointer; width:100%; }
+.nick-btn:disabled { opacity:.4; cursor:not-allowed; }
+/* 유저 뱃지 */
+.user-badge { font-size:11px; color:var(--text-dim); cursor:pointer; padding:3px 8px;
+  border:1px solid var(--border); border-radius:20px; }
+.user-badge:hover { color:var(--accent); border-color:var(--accent); }
 </style>
 </head>
 <body>
@@ -948,6 +968,49 @@ body.cfg-hide-reading #jpReading { display: none !important; }
 // 30일 커리큘럼 (CURRICULUM — 무결성 유지)
 // ════════════════════════════════════════════════════
 
+
+// ── 사용자 인증 (닉네임 + UUID) ──────────────────────────────
+function generateUUID() {
+  return 'u-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+}
+
+function initUser() {
+  const stored = localStorage.getItem('maltrim_user');
+  if (stored) {
+    try {
+      const u = JSON.parse(stored);
+      S.userId   = u.id;
+      S.userName = u.name;
+      $('userBadge').textContent = '👤 ' + u.name;
+      return;
+    } catch(e) {}
+  }
+  // 첫 방문 → 모달 표시
+  $('nickOverlay').classList.remove('hide');
+  setTimeout(() => $('nickInput').focus(), 100);
+}
+
+function saveNick() {
+  const name = $('nickInput').value.trim();
+  if (!name) return;
+  const user = { id: generateUUID(), name };
+  localStorage.setItem('maltrim_user', JSON.stringify(user));
+  S.userId   = user.id;
+  S.userName = user.name;
+  $('userBadge').textContent = '👤 ' + user.name;
+  $('nickOverlay').classList.add('hide');
+}
+
+function resetUser() {
+  if (!confirm(`닉네임을 변경하시겠어요? (현재: ${S.userName})`)) return;
+  localStorage.removeItem('maltrim_user');
+  S.userId = 'guest'; S.userName = '';
+  $('nickOverlay').classList.remove('hide');
+  $('nickInput').value = '';
+  $('nickBtn').disabled = true;
+  setTimeout(() => $('nickInput').focus(), 100);
+}
+
 // ── Vercel API 베이스 URL ────────────────────────────────────
 const API_BASE = (() => {
   const h = window.location.hostname;
@@ -967,7 +1030,7 @@ async function callFluencyAPI(score, orig, spoken) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        user_id: 'guest',
+        user_id: S.userId || 'guest',
         azure_result: {
           reference_text: orig,
           overall: { accuracy: score, fluency: Math.max(score - 5, 0), completeness: 100 },
@@ -1246,7 +1309,8 @@ const S = {
 
   // ── [기능 B] 오답 락 루프 ───────────────────────
   lastScore: null,   // 가장 최근 채점 결과
-  lockActive: false, // 오답 락 활성 여부
+  lockActive: false,
+  userId: 'guest', userName: ''
 
   // ── [v1.5] 환경설정 ─────────────────────────────
   cfg: { micMode:'auto', peek:2, hideReading:false, waveEnabled:false, wText:45, wDur:25, wPitch:30 },
@@ -2318,4 +2382,16 @@ document.addEventListener('keydown', e => {
 init();
 </script>
 </body>
-</html>
+</html>  <!-- 닉네임 모달 -->
+  <div class="nick-overlay hide" id="nickOverlay">
+    <div class="nick-box">
+      <div class="nick-title">✏️ 말트임에 오신 걸 환영해요!</div>
+      <div class="nick-sub">학습 진도를 저장하려면<br>닉네임을 입력해주세요</div>
+      <input class="nick-input" id="nickInput" type="text" maxlength="12"
+             placeholder="닉네임 (최대 12자)" oninput="$('nickBtn').disabled=!this.value.trim()"
+             onkeydown="if(event.key==='Enter')saveNick()">
+      <button class="nick-btn" id="nickBtn" onclick="saveNick()" disabled>시작하기 →</button>
+    </div>
+  </div>
+
+
