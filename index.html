@@ -2235,7 +2235,7 @@ function lrRecord(targetJp) {
     const r = new SR();
     r.lang             = 'ja-JP';
     r.interimResults   = true;
-    r.maxAlternatives  = 3;
+    r.maxAlternatives  = 5;
 
     let done = false;
     const finish = sc => { if (!done) { done = true; resolve(sc); } };
@@ -2250,7 +2250,15 @@ function lrRecord(targetJp) {
       if (S.vadLastSpeech && now - S.vadLastSpeech > 500) S.vadCount++;
       S.vadLastSpeech = now;
       const last = e.results[e.results.length - 1];
-      if (last.isFinal) finish(score(targetJp, last[0].transcript));
+      if (last.isFinal) {
+        // 모든 후보 중 최고 점수 선택 (메인 STT와 동일 방식)
+        let best = 0;
+        for (let i = 0; i < last.length; i++) {
+          const sc = score(targetJp, last[i].transcript);
+          if (sc > best) best = sc;
+        }
+        finish(best);
+      }
     };
 
     r.onerror = ev => {
