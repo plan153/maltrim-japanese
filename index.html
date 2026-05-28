@@ -1642,11 +1642,7 @@ function isLastPhrase() { return S.phrase >= CURRICULUM[S.day].phrases.length - 
 function nextPhrase() {
   if (S.lockActive) return;
 
-  // 85점 미만이면 진도 고정 → 자동 재녹음 루프
-  if (S.lastScore !== null && S.lastScore < 85) {
-    triggerErrorLock(S.lastScore);
-    return;
-  }
+  // 점수 제한 없음 — 자유롭게 다음으로 이동
 
   const key = `${S.day}-${S.phrase}`;
   S.donePhrases[key] = true;
