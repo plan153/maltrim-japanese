@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ],
-  "functions": {
-    "api/*.js": {
-      "maxDuration": 15
-    }
-  }
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/$1" }],
+  "functions": { "api/*.js": { "maxDuration": 15 } }
 }

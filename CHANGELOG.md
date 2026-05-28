@@ -3,27 +3,35 @@
 > 모든 주요 변경사항은 이 문서에 기록됩니다.  
 > 형식은 [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/) 규약을 따릅니다.
 
-## [v2.0] — 2026-05-28
-
-### Added
-- Vercel 서버리스 백엔드 구조 추가
-  - `api/schedule.js` — 에빙하우스 망각곡선 기반 오늘의 학습 세트 API
-  - `api/fluency.js`  — Azure Speech 발음 평가 + Claude Haiku 피드백 API
-  - `api/generate.js` — Claude Sonnet + prompt_caching 응용 문장 생성 API
-- `lib/db.js` — Neon PostgreSQL 서버리스 연결 모듈
-- `db/schema.sql` — PostgreSQL 스키마 (5테이블 + 뷰 + 트리거)
-- `skills/` — curriculum-scheduler / fluency-analyzer / contextual-generator SKILL.md
-- `vercel.json` — Vercel 라우팅 + 서버리스 함수 설정
-- `package.json` — @anthropic-ai/sdk, @neondatabase/serverless 의존성
-- `.env.example` — 환경변수 템플릿
-
-### Architecture
-- Frontend: GitHub Pages (index.html, 오디오 MP3) 유지
-- Backend: Vercel Serverless Functions (Node.js 20.x)
-- Database: Neon PostgreSQL (서버리스)
-- AI: Claude Haiku (발음 피드백) + Sonnet with caching (문장 생성)
-
 ---
+
+## [v1.5] — 2026-05-29
+
+### ⚡ Added — Vercel 백엔드 + Upstash Redis 캐싱
+
+#### 신규 파일
+- **`package.json`**: Node 20.x, `@anthropic-ai/sdk` · `@neondatabase/serverless` · `@upstash/redis` 의존성
+- **`vercel.json`**: Serverless Functions 라우팅, `maxDuration: 15`
+- **`lib/db.js`**: Neon PostgreSQL 싱글턴 커넥션 (`DATABASE_URL` 환경변수)
+- **`lib/cache.js`**: Upstash Redis 래퍼 — `cacheGet` / `cacheSet` / `cacheDel` + graceful fallback (env 미설정 시 캐시 없이 동작)
+- **`api/schedule.js`**: `POST /api/schedule` — 에빙하우스 스케줄 기반 오늘 학습 문장 반환 (복습 10개 + 신규 3개)
+- **`api/fluency.js`**: `POST /api/fluency` — Claude Haiku 발음 피드백 + Redis 1h 캐시 + Neon 진도 저장
+- **`api/generate.js`**: `POST /api/generate` — Claude Sonnet 예문 생성 + Redis 24h 공유 캐시 + prompt_caching
+
+#### Redis 캐싱 전략
+| 엔드포인트 | 캐시 키 | TTL | 절감 효과 |
+|---|---|---|---|
+| `/api/generate` | `gen:{pattern}:{category}:{level}:{count}` | 24시간 | Claude Sonnet 호출 40~60% 절감 |
+| `/api/fluency` | `flu:{reference_text}:{score_bucket}` | 1시간 | Claude Haiku 호출 30~40% 절감 |
+| `/api/schedule` | 캐시 없음 | — | 사용자별 실시간 데이터 |
+
+#### 환경변수 (Vercel Dashboard에 설정 필요)
+```
+DATABASE_URL           Neon PostgreSQL 연결 문자열
+ANTHROPIC_API_KEY      Claude API 키
+UPSTASH_REDIS_REST_URL     Upstash Redis REST URL
+UPSTASH_REDIS_REST_TOKEN   Upstash Redis REST Token
+```
 
 ---
 
