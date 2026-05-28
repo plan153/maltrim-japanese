@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말트임 — 화면별 UX 계획서</title>
+<style>
+:root{
+  --sumi:#1a1a2e;--ai:#2d4a6f;--beni:#c73e4a;--kin:#c9a227;
+  --washi:#f7f5f0;--washi2:#efece4;--ink:#2c2c2c;--ink2:#5c5c5c;--ink3:#8a8a8a;
+  --mint:#2a9d8f;--sage:#57886c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--washi);color:var(--ink);line-height:1.6;}
+header{background:var(--sumi);color:#fff;padding:2rem 2.5rem;border-bottom:4px solid var(--beni);}
+header h1{font-size:1.6rem;font-weight:700;letter-spacing:.04em;}
+header p{margin-top:.4rem;color:#aac;font-size:.875rem;}
+.badge{display:inline-block;background:var(--beni);color:#fff;font-size:.7rem;font-weight:700;padding:.2em .6em;border-radius:4px;margin-left:.6rem;vertical-align:middle;}
+nav{background:var(--ai);padding:.75rem 2.5rem;display:flex;gap:.5rem;flex-wrap:wrap;}
+nav a{color:#d0e4ff;font-size:.8rem;text-decoration:none;padding:.3em .7em;border-radius:4px;transition:background .15s;}
+nav a:hover{background:rgba(255,255,255,.15);}
+main{max-width:1100px;margin:0 auto;padding:2rem 2rem 4rem;}
+.screen-block{margin-bottom:3.5rem;border:1px solid #ddd;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.screen-header{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.6rem;background:var(--ai);color:#fff;}
+.screen-num{font-size:1.8rem;font-weight:900;opacity:.5;min-width:2.2rem;}
+.screen-header h2{font-size:1.15rem;font-weight:700;flex:1;}
+.screen-tag{font-size:.72rem;background:rgba(255,255,255,.2);padding:.2em .6em;border-radius:20px;}
+.screen-body{display:grid;grid-template-columns:220px 1fr;gap:0;}
+.mockup-col{padding:1.4rem 1.2rem;border-right:1px solid #eee;background:var(--washi2);display:flex;flex-direction:column;align-items:center;gap:.8rem;}
+.content-col{padding:1.4rem 1.6rem;}
+.phone{width:160px;height:290px;border:3px solid #333;border-radius:28px;background:#1a1a2e;overflow:hidden;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.25);}
+.phone-notch{width:60px;height:16px;background:#333;border-radius:0 0 12px 12px;position:absolute;top:0;left:50%;transform:translateX(-50%);}
+.phone-inner{padding:22px 10px 10px;height:100%;display:flex;flex-direction:column;gap:4px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.cell{background:var(--washi2);border:1px solid #e0ddd5;border-radius:8px;padding:.9rem 1rem;}
+.cell h4{font-size:.78rem;font-weight:700;color:var(--ai);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;border-bottom:1px solid #ddd;padding-bottom:.35rem;}
+.cell ul{padding-left:1rem;font-size:.83rem;color:var(--ink2);}
+.cell ul li{margin-bottom:.25rem;}
+.cell p{font-size:.83rem;color:var(--ink2);}
+.tag-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem;}
+.tag{font-size:.72rem;padding:.2em .55em;border-radius:4px;font-weight:600;}
+.tag-goal{background:#e8f4fd;color:#1a6fa8;}
+.tag-action{background:#fef3cd;color:#856404;}
+.tag-state{background:#fde;color:#a01;}
+.tag-cta{background:#d4edda;color:#155724;}
+.tag-copy{background:#e8e8ff;color:#3a3aaa;}
+.tag-retain{background:#fff3e0;color:#e65100;}
+.section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin:1rem 0 .4rem;}
+.microcopy-box{background:#f0f4ff;border-left:3px solid var(--ai);padding:.6rem .9rem;border-radius:0 6px 6px 0;font-size:.82rem;color:var(--ink);font-style:italic;margin:.2rem 0;}
+.state-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem;}
+.state-pill{font-size:.74rem;padding:.25em .65em;border-radius:20px;border:1px solid #ccc;background:#fff;color:var(--ink2);}
+.state-pill.empty{border-color:#aaa;color:#888;}
+.state-pill.loading{border-color:#6aacf5;color:#1a6fa8;}
+.state-pill.error{border-color:#f5a6a6;color:#c0392b;}
+.retain-box{background:#fff9e6;border:1px solid #f5d87a;border-radius:6px;padding:.65rem .9rem;font-size:.82rem;color:#856404;margin-top:.3rem;}
+/* mockup widgets */
+.mp-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.15);margin-bottom:3px;}
+.mp-bar.accent{background:var(--beni);width:60%;}
+.mp-card{background:rgba(255,255,255,.08);border-radius:8px;padding:6px 8px;margin-bottom:4px;}
+.mp-card .mp-title{font-size:8px;color:rgba(255,255,255,.9);font-weight:700;}
+.mp-card .mp-sub{font-size:6px;color:rgba(255,255,255,.5);margin-top:1px;}
+.mp-btn{background:var(--beni);border-radius:6px;height:16px;margin-top:4px;}
+.mp-btn.alt{background:rgba(255,255,255,.15);}
+.mp-icon-row{display:flex;gap:4px;margin-top:4px;}
+.mp-icon{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:8px;}
+.mp-big-jp{font-size:18px;color:rgba(255,255,255,.95);text-align:center;margin:8px 0 4px;font-weight:700;}
+.mp-gauge{width:60px;height:60px;margin:4px auto;border-radius:50%;border:4px solid rgba(255,255,255,.1);border-top-color:var(--beni);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;}
+.mp-diff{font-size:7px;line-height:1.6;color:rgba(255,255,255,.7);text-align:center;}
+.mp-diff .ok{color:#6af;}.mp-diff .ng{color:#f88;text-decoration:line-through;}
+.mp-label{font-size:6px;color:rgba(255,255,255,.5);text-align:center;}
+.mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px;}
+.mp-cell{background:rgba(255,255,255,.07);border-radius:4px;padding:3px 4px;font-size:6px;color:rgba(255,255,255,.7);}
+.mp-streak{font-size:10px;color:var(--kin);text-align:center;font-weight:700;}
+.mp-progress{display:flex;gap:2px;flex-wrap:wrap;margin:4px 0;}
+.mp-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);}
+.mp-dot.done{background:var(--mint);}
+.mp-dot.today{background:var(--kin);}
+.mp-input{background:rgba(255,255,255,.1);border-radius:4px;height:12px;margin:4px 0;}
+.mp-toggle-row{display:flex;justify-content:space-between;align-items:center;margin:3px 0;}
+.mp-toggle-label{font-size:6px;color:rgba(255,255,255,.7);}
+.mp-toggle{width:16px;height:8px;border-radius:4px;background:var(--mint);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>말트임 일본어 <span class="badge">UX</span></h1>
+  <p>화면별 UX 계획서 · 경력 모바일 UX 디자이너 관점 · 왕초보 한국인 학습자 대상</p>
+</header>
+
+<nav>
+  <a href="#s1">① 온보딩</a>
+  <a href="#s2">② 홈·오늘학습</a>
+  <a href="#s3">③ 발음연습</a>
+  <a href="#s4">④ 점수결과</a>
+  <a href="#s5">⑤ 단어장퀴즈</a>
+  <a href="#s6">⑥ 가나연습</a>
+  <a href="#s7">⑦ 프로필</a>
+  <a href="#s8">⑧ 설정</a>
+</nav>
+
+<main>
+
+<!-- ─── SCREEN 1: 온보딩 ─────────────────────────────── -->
+<div class="screen-block" id="s1">
+  <div class="screen-header">
+    <div class="screen-num">01</div>
+    <div>
+      <h2>온보딩 (Onboarding)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">첫 실행 · 목표 설정 · 허가 요청</p>
+    </div>
+    <span class="screen-tag">첫 인상</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div style="text-align:center;margin:8px 0 4px;">
+            <div style="font-size:22px;">🎌</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.9);font-weight:700;margin-top:2px;">말트임 일본어</div>
+            <div style="font-size:6px;color:rgba(255,255,255,.5);margin-top:1px;">말로 트이는 일본어</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px;">
+            <div class="mp-card" style="border:1px solid var(--kin);opacity:1;">
+              <div class="mp-title">✈️ 여행 준비 중</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">💼 업무·출장</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">🎌 문화·취미</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">📚 자격시험</div>
+            </div>
+          </div>
+          <div class="mp-btn" style="margin-top:auto;"></div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">Step 2 / 3<br>목표 선택</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">학습 동기를 설정하고, 마이크 권한을 자연스럽게 허가받아 첫 세션까지 진입 장벽을 제거한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>스플래시 → 슬라이드 3장 (Why · How · What)</li>
+            <li>학습 목표 선택 (여행·업무·문화·시험)</li>
+            <li>하루 목표 시간 선택 (5·10·15분)</li>
+            <li>마이크 권한 허가 (이유 설명 선행)</li>
+            <li>닉네임 입력 (선택, 건너뛰기 가능)</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>풀스크린 슬라이드 (Lottie 애니메이션)</li>
+            <li>선택 카드 그리드 (활성화 테두리)</li>
+            <li>하단 고정 CTA 버튼</li>
+            <li>진행 도트 인디케이터</li>
+            <li>권한 설명 바텀시트</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">빈 화면: 선택 전 → CTA 비활성(회색)</span>
+        <span class="state-pill loading">로딩: 선택 저장 중 → 스피너</span>
+        <span class="state-pill error">오류: 마이크 거부 → 인앱 안내 배너</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「시작하기」→ 슬라이드 1</span>
+        <span class="tag tag-cta">「다음」→ 단계 진행</span>
+        <span class="tag tag-cta">「건너뛰기」→ 닉네임 스킵</span>
+        <span class="tag tag-cta">「지금 바로 연습하기」→ 홈</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">🎙 "발음을 들려줘야 정확히 교정해 드릴 수 있어요. 마이크는 연습할 때만 켜져요."</div>
+      <div class="microcopy-box">✈️ "3분이면 오늘 배울 문장이 준비돼요!"</div>
+      <div class="microcopy-box">건너뛰기 링크 텍스트: "나중에 설정할게요" (버튼 아님 → 탭 영역 명확히)</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">🔒 권한 허가 직후 "마이크 테스트 해볼까요?" 인라인 미니 녹음 → 즉각 성공 경험 제공으로 이탈 방지</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 2: 홈·오늘 학습 ──────────────────────────── -->
+<div class="screen-block" id="s2">
+  <div class="screen-header" style="background:var(--sage);">
+    <div class="screen-num">02</div>
+    <div>
+      <h2>홈 · 오늘 학습 (Home / Daily Session)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">매일 재방문 · 학습 진입점 · 스트릭 동기부여</p>
+    </div>
+    <span class="screen-tag">핵심 루프</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-streak">🔥 7일 연속!</div>
+          <div class="mp-progress">
+            <div class="mp-dot done"></div><div class="mp-dot done"></div><div class="mp-dot done"></div>
+            <div class="mp-dot today"></div><div class="mp-dot"></div><div class="mp-dot"></div>
+            <div class="mp-dot"></div><div class="mp-dot"></div><div class="mp-dot"></div>
+            <div class="mp-dot"></div>
+          </div>
+          <div class="mp-label">오늘 4/10 완료</div>
+          <div style="margin-top:4px;">
+            <div class="mp-card">
+              <div class="mp-title">🔄 복습 8개 대기 중</div>
+              <div class="mp-sub">에빙하우스 스케줄</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">✨ 신규 3문장</div>
+              <div class="mp-sub">Day 12 · ～てください</div>
+            </div>
+          </div>
+          <div class="mp-btn" style="margin-top:auto;"></div>
+          <div class="mp-icon-row" style="justify-content:center;">
+            <div class="mp-icon">🏠</div>
+            <div class="mp-icon">📖</div>
+            <div class="mp-icon">📊</div>
+            <div class="mp-icon">⚙️</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">홈 대시보드</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">매일 앱을 열었을 때 "오늘 뭘 해야 하는지" 즉시 파악하고, 1탭으로 학습 시작.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>오늘 복습 + 신규 문장 카운트 확인</li>
+            <li>연속 학습 스트릭 뱃지 확인</li>
+            <li>30일 달력에서 완료일 시각화</li>
+            <li>「오늘 학습 시작」→ 발음 연습 화면</li>
+            <li>탭바: 홈·단어장·통계·설정</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>상단 인사 헤더 (시간대별 문구)</li>
+            <li>스트릭 뱃지 + 화염 애니메이션</li>
+            <li>오늘 세션 카드 (복습 N개 + 신규 N개)</li>
+            <li>30일 진도 미니 달력</li>
+            <li>하단 탭바 (4탭)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">빈 화면: 첫날 → "오늘의 첫 문장을 만나볼까요?" 대형 CTA</span>
+        <span class="state-pill loading">로딩: 스케줄 API → 스켈레톤 카드</span>
+        <span class="state-pill error">오류: 오프라인 → "오프라인 모드: 저장된 문장 연습"</span>
+      </div>
+      <div class="state-row">
+        <span class="state-pill" style="border-color:#2a9d8f;color:#2a9d8f;">완료: 오늘 학습 끝 → 완료 애니메이션 + 내일 예고</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「오늘 학습 시작 →」(대형 원색 버튼)</span>
+        <span class="tag tag-cta">「복습 먼저」/ 「신규 먼저」스위치</span>
+        <span class="tag tag-cta">「통계 보기」→ 통계 화면</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">오전: "おはようございます! 오늘도 화이팅이에요 ☀️"</div>
+      <div class="microcopy-box">완료 후: "오늘 할 건 다 했어요! 내일 또 만나요 🎌"</div>
+      <div class="microcopy-box">스트릭 위험: "내일 놓치면 🔥가 꺼져요. 딱 2분만요!"</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">📬 스트릭 위험 시 (18시 이후 미학습) 푸시 알림 + 앱 배지. 완료 시 "내일 미리보기" 카드로 내일 재방문 앵커 제공.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 3: 발음 연습 ──────────────────────────────── -->
+<div class="screen-block" id="s3">
+  <div class="screen-header" style="background:var(--beni);">
+    <div class="screen-num">03</div>
+    <div>
+      <h2>발음 연습 (Speaking Practice)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">TTS 듣기 → 따라말하기 → 실시간 채점</p>
+    </div>
+    <span class="screen-tag">핵심 기능</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-label">3 / 11</div>
+          <div class="mp-bar accent" style="width:30%;"></div>
+          <div class="mp-big-jp">ホテルに<br>行きます</div>
+          <div style="font-size:7px;color:rgba(255,255,255,.6);text-align:center;margin-bottom:4px;">호테루니 이키마스</div>
+          <div style="font-size:7px;color:rgba(255,255,255,.4);text-align:center;margin-bottom:6px;">호텔에 가겠습니다</div>
+          <div style="display:flex;gap:6px;justify-content:center;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;">🔊</div>
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--beni);display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid #fff;">🎤</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;">💡</div>
+          </div>
+          <div style="margin-top:4px;background:rgba(255,255,255,.05);border-radius:6px;height:20px;display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:7px;color:rgba(255,255,255,.4);">파형 애니메이션</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">녹음 대기 상태</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">원어민 TTS를 듣고 즉시 따라 말하는 반복 루프로 조건반사적 발화 습관을 형성한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>일본어 문장 카드 표시 (독음·의미 blur)</li>
+            <li>🔊 → Neural TTS 재생 (0.85배속)</li>
+            <li>🎤 홀드 또는 자동 녹음 (3초)</li>
+            <li>실시간 STT 텍스트 스트림</li>
+            <li>LCS diff 채색 피드백 표시</li>
+            <li>85점↑ → 자동 다음 / 미만 → 락 루프</li>
+            <li>L&R 모드 (3회 연속 평균 모달)</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>대형 일본어 텍스트 (28pt+)</li>
+            <li>독음/의미 블러 토글 버튼</li>
+            <li>TTS 버튼 · 마이크 버튼 · 힌트 버튼</li>
+            <li>진행 바 (오늘 N/M)</li>
+            <li>파형 애니메이션 (녹음 중)</li>
+            <li>FFD 반응속도 칩 (⚡/🐢)</li>
+            <li>VAD 머뭇거림 칩</li>
+            <li>오답 교정 말풍선 레이어</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">대기: 문장 카드만 표시, 마이크 비활성</span>
+        <span class="state-pill loading">TTS 재생 중: 마이크 버튼 회색</span>
+        <span class="state-pill loading">녹음 중: 파형 + 카운트다운 링</span>
+        <span class="state-pill error">STT 오류: 토스트 + 재시도 버튼</span>
+      </div>
+      <div class="state-row">
+        <span class="state-pill" style="border-color:#2a9d8f;color:#2a9d8f;">85점↑ 통과: 초록 링 + 진동 햅틱 + 자동 전환</span>
+        <span class="state-pill error">락 루프: 빨간 오버레이 + 1.5초 재시도</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「🔊」→ TTS 재생</span>
+        <span class="tag tag-cta">「🎤」홀드/탭 → 녹음</span>
+        <span class="tag tag-cta">「💡」→ 힌트 말풍선</span>
+        <span class="tag tag-cta">「→」→ 다음 문장 (통과 후)</span>
+        <span class="tag tag-cta">「✕」→ 세션 종료 확인</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">녹음 전: "TTS를 듣고 따라 말해보세요"</div>
+      <div class="microcopy-box">통과: "⚡ 조건반사 마스터! 반응속도 0.7초"</div>
+      <div class="microcopy-box">락 루프: "조금만 더! 85점이면 통과예요 💪"</div>
+      <div class="microcopy-box">STT 거부: "🔒 마이크 권한을 허용해 주세요" → 설정 이동 버튼</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">🎮 SVG 링 게이지 + 제목 피드백(조건반사 마스터/유창성 우수)으로 세션 중 지속 몰입. 3회 연속 95점↑ 시 "완벽 마스터!" 특별 애니메이션 → SNS 공유 버튼.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 4: 점수 결과 ──────────────────────────────── -->
+<div class="screen-block" id="s4">
+  <div class="screen-header" style="background:#3a6186;">
+    <div class="screen-num">04</div>
+    <div>
+      <h2>점수 결과 (Score Result)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">세션 종료 요약 · 성취 확인 · 다음 행동 유도</p>
+    </div>
+    <span class="screen-tag">성취 루프</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-gauge">87</div>
+          <div class="mp-label" style="margin-top:-2px;">오늘 평균 점수</div>
+          <div class="mp-grid" style="margin-top:6px;">
+            <div class="mp-cell">⚡ 반응속도<br><strong style="color:var(--kin);">0.8초</strong></div>
+            <div class="mp-cell">🎤 연습<br><strong style="color:var(--kin);">11개</strong></div>
+            <div class="mp-cell">🔥 스트릭<br><strong style="color:var(--beni);">8일</strong></div>
+            <div class="mp-cell">⭐ 신기록<br><strong style="color:var(--mint);">+2점</strong></div>
+          </div>
+          <div class="mp-diff">
+            <span class="ok">ホテルに</span><span class="ng">いきます</span><span class="ok"> → 이키마스</span>
+          </div>
+          <div class="mp-btn" style="margin-top:auto;"></div>
+          <div class="mp-btn alt"></div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">세션 완료 결과</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">오늘 학습 성취를 시각화해 보상감을 극대화하고, 명확한 다음 행동(홈/공유/이어서)을 제시한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>세션 평균 점수 SVG 게이지 애니메이션</li>
+            <li>반응속도·연습 수·스트릭·신기록 4격자</li>
+            <li>오늘 틀린 문장 diff 미리보기</li>
+            <li>에빙하우스 다음 복습일 예고</li>
+            <li>SNS/카카오 공유 버튼</li>
+            <li>「이어서 자유 연습」 / 「홈으로」</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>대형 SVG 링 게이지 (점수 애니메이션)</li>
+            <li>2×2 성취 격자 카드</li>
+            <li>오류 diff 요약 (최대 3개)</li>
+            <li>다음 복습 예정 배지</li>
+            <li>공유 카드 미리보기 (이미지 생성)</li>
+            <li>Confetti 애니메이션 (90점↑)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">무결점 세션 (오류 0): "완벽한 발음이에요! 🏆" 특별 화면</span>
+        <span class="state-pill loading">결과 집계 중: 게이지 0→N 카운트업</span>
+        <span class="state-pill error">DB 저장 실패: 로컬 저장 + "다음에 동기화" 안내</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「홈으로 →」(기본 버튼)</span>
+        <span class="tag tag-cta">「이어서 연습」(보조 버튼)</span>
+        <span class="tag tag-cta">「공유하기」(카카오/인스타)</span>
+        <span class="tag tag-cta">「틀린 문장 다시 보기」(링크)</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">90점↑: "🎉 오늘 최고 기록이에요! 내일도 기대돼요"</div>
+      <div class="microcopy-box">60~89점: "💪 잘 하고 있어요! 내일 이 문장 다시 만나요"</div>
+      <div class="microcopy-box">공유 카드: "[이름]님이 오늘 일본어 87점 달성! 🎌 #말트임"</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">📅 "다음 복습일: 내일 3개, 3일 후 5개 예정" → 미래 방문 앵커 설정. 스트릭 N일 달성 시 특별 뱃지 잠금 해제 → 프로필 화면 연결.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 5: 단어장 퀴즈 ─────────────────────────────── -->
+<div class="screen-block" id="s5">
+  <div class="screen-header" style="background:#5c4d7d;">
+    <div class="screen-num">05</div>
+    <div>
+      <h2>단어장 · 퀴즈 (Vocabulary Quiz)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">학습한 표현 복습 · 플래시카드 · 4지선다</p>
+    </div>
+    <span class="screen-tag">보조 학습</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-label">퀴즈 5 / 20</div>
+          <div class="mp-bar accent" style="width:25%;"></div>
+          <div class="mp-card" style="margin-top:6px;padding:8px;text-align:center;">
+            <div style="font-size:14px;color:rgba(255,255,255,.95);font-weight:700;">ください</div>
+            <div style="font-size:7px;color:rgba(255,255,255,.5);margin-top:2px;">이 표현의 의미는?</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-top:6px;">
+            <div class="mp-card">
+              <div class="mp-title">① ~해 주세요</div>
+            </div>
+            <div class="mp-card" style="border:1px solid var(--mint);">
+              <div class="mp-title" style="color:var(--mint);">② ~하고 싶어요 ✓</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">③ ~할 수 있어요</div>
+            </div>
+            <div class="mp-card">
+              <div class="mp-title">④ ~해도 돼요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">4지선다 퀴즈</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">발음 연습 외 시간(통근·휴식)에 가볍게 어휘·문법 의미를 복습해 장기 기억을 강화한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>플래시카드: 앞(JP) → 탭 → 뒤(의미+독음)</li>
+            <li>4지선다 퀴즈 (의미·독음·용례 교차)</li>
+            <li>학습한 표현 전체 목록 필터(카테고리·난이도)</li>
+            <li>북마크 저장 (오답 즐겨찾기)</li>
+            <li>TTS 버튼으로 발음 확인</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>뒤집기 애니메이션 플래시카드</li>
+            <li>4지선다 버튼 (정답 초록 / 오답 빨강)</li>
+            <li>진행 바 + 정답률 칩</li>
+            <li>카테고리 필터 탭 (여행·일상·음식…)</li>
+            <li>검색 바 (JP/KO 텍스트)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">미학습 상태: "아직 학습한 표현이 없어요 → 발음 연습 시작하기"</span>
+        <span class="state-pill loading">퀴즈 생성 중: 스켈레톤 카드</span>
+        <span class="state-pill error">오프라인: 캐시된 표현으로 플래시카드 동작</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「퀴즈 시작」(N개 준비)</span>
+        <span class="tag tag-cta">「플래시카드」토글</span>
+        <span class="tag tag-cta">「🔊」→ TTS 재생</span>
+        <span class="tag tag-cta">「🔖」→ 북마크</span>
+        <span class="tag tag-cta">「오답 다시 풀기」</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">퀴즈 완료: "🎯 정답률 80%! 오답 5개는 내일 발음 연습에서 만나요"</div>
+      <div class="microcopy-box">오답 직후: "정답은 '~해 주세요'예요. 한 번 더 들어볼까요? 🔊"</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">🎰 퀴즈 완료 후 "오늘의 랜덤 표현" 카드 1장 제공 → 앱 체류 시간 연장. 오답 표현은 다음 발음 연습 세션에 우선 포함.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 6: 가나 연습 ──────────────────────────────── -->
+<div class="screen-block" id="s6">
+  <div class="screen-header" style="background:#2c5f2e;">
+    <div class="screen-num">06</div>
+    <div>
+      <h2>가나 연습 (Kana Practice)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">히라가나·가타카나 읽기 마스터</p>
+    </div>
+    <span class="screen-tag">기초 기능</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-label">히라가나 あ행</div>
+          <div class="mp-grid" style="grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:4px;">
+            <div class="mp-cell" style="text-align:center;font-size:14px;color:rgba(255,255,255,.9);">あ</div>
+            <div class="mp-cell" style="text-align:center;font-size:14px;color:rgba(255,255,255,.9);">い</div>
+            <div class="mp-cell" style="text-align:center;font-size:14px;color:rgba(255,255,255,.9);background:rgba(42,157,143,.2);border:1px solid var(--mint);">う ✓</div>
+            <div class="mp-cell" style="text-align:center;font-size:14px;color:rgba(255,255,255,.9);">え</div>
+            <div class="mp-cell" style="text-align:center;font-size:14px;color:rgba(255,255,255,.9);">お</div>
+            <div class="mp-cell" style="text-align:center;font-size:6px;color:rgba(255,255,255,.4);">잠김</div>
+          </div>
+          <div class="mp-bar" style="margin-top:6px;background:rgba(255,255,255,.1);">
+            <div class="mp-bar accent" style="width:45%;margin:0;"></div>
+          </div>
+          <div class="mp-label">23 / 46 완료</div>
+          <div class="mp-btn" style="margin-top:auto;"></div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">가나 그리드</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">초보자가 히라가나/가타카나 46자를 부담 없이 완주하도록 행(あいうえお)별 잠금 해제 방식으로 단계적으로 제공한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>행별 가나 그리드 (잠금 → 해제 진행)</li>
+            <li>각 가나 탭 → 카드 뒤집기 (발음·예시어)</li>
+            <li>행 완료 시 퀴즈 미니게임 (5문제)</li>
+            <li>히라가나 ↔ 가타카나 탭 전환</li>
+            <li>TTS로 원어민 발음 청취</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>5×10 가나 그리드 (잠금/완료/진행 색상)</li>
+            <li>탭 뒤집기 카드 (가나·로마자·예시어)</li>
+            <li>행별 진행 바</li>
+            <li>히라가나/가타카나 세그먼트 컨트롤</li>
+            <li>완료 뱃지 (행별 수집)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">미시작: あ행만 열림, 나머지 잠금 처리</span>
+        <span class="state-pill loading">퀴즈 로딩: 스켈레톤</span>
+        <span class="state-pill" style="border-color:#2a9d8f;color:#2a9d8f;">행 완료: 폭죽 + 다음 행 잠금 해제 애니메이션</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「행 퀴즈 시작」→ 5문제</span>
+        <span class="tag tag-cta">「🔊 발음 듣기」</span>
+        <span class="tag tag-cta">「다음 행 열기」(완료 후)</span>
+        <span class="tag tag-cta">「전체 복습」(46자)</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">첫 행 완료: "あ행 마스터! 이제 か행이 열렸어요 🔓"</div>
+      <div class="microcopy-box">전체 완료: "히라가나 46자 완주! 이제 어떤 일본어든 읽을 수 있어요 🎌"</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">🔓 행 잠금 해제 진행 구조 → 완료 욕구 자극. 가나 완주 후 "이 문장도 이제 읽을 수 있어요!" → 발음 연습 화면 샘플 미리보기로 연결.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 7: 프로필 ──────────────────────────────────── -->
+<div class="screen-block" id="s7">
+  <div class="screen-header" style="background:#7d4e2d;">
+    <div class="screen-num">07</div>
+    <div>
+      <h2>프로필 (Profile)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">성취 이력 · 뱃지 컬렉션 · 학습 통계</p>
+    </div>
+    <span class="screen-tag">동기 강화</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div style="text-align:center;margin:4px 0;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--beni);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;">👤</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.9);font-weight:700;margin-top:2px;">다비드</div>
+            <div style="font-size:6px;color:rgba(255,255,255,.4);">Lv.5 · 초급자</div>
+          </div>
+          <div class="mp-grid">
+            <div class="mp-cell">🔥 최장 스트릭<br><strong style="color:var(--kin);">15일</strong></div>
+            <div class="mp-cell">⭐ 총 연습<br><strong style="color:var(--kin);">342회</strong></div>
+            <div class="mp-cell">📊 평균점수<br><strong style="color:var(--mint);">83점</strong></div>
+            <div class="mp-cell">🎌 마스터<br><strong style="color:var(--beni);">67개</strong></div>
+          </div>
+          <div style="font-size:6px;color:rgba(255,255,255,.5);margin-top:4px;">획득 뱃지</div>
+          <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:2px;">
+            <div style="width:16px;height:16px;border-radius:4px;background:var(--kin);font-size:8px;display:flex;align-items:center;justify-content:center;">🔥</div>
+            <div style="width:16px;height:16px;border-radius:4px;background:var(--beni);font-size:8px;display:flex;align-items:center;justify-content:center;">⚡</div>
+            <div style="width:16px;height:16px;border-radius:4px;background:var(--sage);font-size:8px;display:flex;align-items:center;justify-content:center;">🎌</div>
+            <div style="width:16px;height:16px;border-radius:4px;background:rgba(255,255,255,.1);font-size:8px;display:flex;align-items:center;justify-content:center;">🔒</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">프로필 요약</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">누적 학습 데이터를 시각화해 "내가 얼마나 성장했는지" 확인하고, 다음 뱃지를 향한 목표의식을 부여한다.</p>
+
+      <div class="grid-2">
+        <div class="cell">
+          <h4>주요 동작</h4>
+          <ul>
+            <li>닉네임/아바타 편집</li>
+            <li>레벨 + 경험치 바 확인</li>
+            <li>4종 핵심 지표 카드 (스트릭·연습수·평균점·마스터수)</li>
+            <li>뱃지 컬렉션 (잠금 포함, 조건 표시)</li>
+            <li>주간/월간 학습 히트맵</li>
+            <li>공유하기 (성취 카드 이미지)</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>UI 요소</h4>
+          <ul>
+            <li>아바타 원형 + 편집 아이콘</li>
+            <li>XP 진행 바 (현재 레벨 → 다음 레벨)</li>
+            <li>2×2 지표 격자 카드</li>
+            <li>뱃지 그리드 (획득=컬러 / 미획득=회색+🔒)</li>
+            <li>GitHub-style 학습 히트맵 (7×52)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill empty">신규 유저: 모든 지표 0 → "첫 연습을 시작해 기록을 채워보세요"</span>
+        <span class="state-pill loading">통계 로딩: 스켈레톤 카드</span>
+        <span class="state-pill" style="border-color:#c9a227;color:#8a6a00;">뱃지 신규 획득: 애니메이션 + 팝업</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「닉네임 편집 ✏️」</span>
+        <span class="tag tag-cta">「성취 카드 공유」</span>
+        <span class="tag tag-cta">잠긴 뱃지 탭 → 「획득 조건 보기」</span>
+        <span class="tag tag-cta">「전체 통계 보기 →」→ 통계 상세</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">XP 바 근접: "다음 레벨까지 23XP 남았어요! 오늘 연습하면 달성해요"</div>
+      <div class="microcopy-box">뱃지 잠금: "🔒 15일 연속 학습 시 획득 — 현재 8일 진행 중"</div>
+      <div class="microcopy-box">공유 카드: "[이름]님이 말트임에서 Lv.5를 달성했어요! 🎌"</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">🏆 "다음 뱃지까지 N일" 카운트다운이 자연스러운 재방문 이유를 생성. 히트맵 빈칸이 보이면 채우고 싶은 심리적 강박 제공 (GitHub 잔디 효과).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCREEN 8: 설정 ────────────────────────────────────── -->
+<div class="screen-block" id="s8">
+  <div class="screen-header" style="background:#444;">
+    <div class="screen-num">08</div>
+    <div>
+      <h2>설정 (Settings)</h2>
+      <p style="font-size:.8rem;opacity:.75;margin-top:.1rem;">알림·학습 설정 · 계정 · 접근성</p>
+    </div>
+    <span class="screen-tag">지원 화면</span>
+  </div>
+  <div class="screen-body">
+    <div class="mockup-col">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="mp-label" style="margin-bottom:4px;">설정</div>
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">🔔 학습 알림</div>
+              <div class="mp-toggle"></div>
+            </div>
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">📅 매일 오전 8시</div>
+              <div style="font-size:6px;color:rgba(255,255,255,.4);">▶</div>
+            </div>
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">🔊 TTS 속도</div>
+              <div style="font-size:6px;color:rgba(255,255,255,.4);">0.85×</div>
+            </div>
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">🌙 다크모드</div>
+              <div class="mp-toggle" style="background:rgba(255,255,255,.2);"></div>
+            </div>
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">💎 프리미엄</div>
+              <div style="font-size:6px;color:var(--kin);">업그레이드</div>
+            </div>
+            <div class="mp-toggle-row">
+              <div class="mp-toggle-label">🗑 데이터 초기화</div>
+              <div style="font-size:6px;color:#f88;">▶</div>
+            </div>
+          </div>
+          <div class="mp-btn alt" style="margin-top:auto;"></div>
+        </div>
+      </div>
+      <div style="font-size:.72rem;color:var(--ink3);text-align:center;">설정 목록</div>
+    </div>
+    <div class="content-col">
+      <div class="section-label">목표 (Goal)</div>
+      <p style="font-size:.85rem;color:var(--ink2);margin-bottom:1rem;">학습 경험을 개인화하고, 알림 설정으로 재방문율을 높이며, 프리미엄 업그레이드로 자연스럽게 유도한다.</p>
+
+      <div class="grid-3">
+        <div class="cell">
+          <h4>학습 설정</h4>
+          <ul>
+            <li>하루 목표 (5·10·15·30분)</li>
+            <li>TTS 속도 (0.7×~1.0×)</li>
+            <li>학습 시작 화면 선택</li>
+            <li>독음 표시 기본값</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>알림 설정</h4>
+          <ul>
+            <li>매일 알림 ON/OFF</li>
+            <li>알림 시간 (시간 피커)</li>
+            <li>스트릭 위험 알림</li>
+            <li>복습 예정 알림</li>
+          </ul>
+        </div>
+        <div class="cell">
+          <h4>계정·기타</h4>
+          <ul>
+            <li>프리미엄 업그레이드</li>
+            <li>데이터 내보내기</li>
+            <li>진도 초기화</li>
+            <li>앱 버전 · 문의</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-label">상태 처리</div>
+      <div class="state-row">
+        <span class="state-pill loading">알림 권한 요청: 시스템 다이얼로그 → 거부 시 인앱 설정 안내</span>
+        <span class="state-pill error">초기화 확인: "이 작업은 되돌릴 수 없어요" 경고 다이얼로그</span>
+        <span class="state-pill empty">프리미엄 미구독: 잠긴 기능 그레이 처리 + 💎 뱃지</span>
+      </div>
+
+      <div class="section-label">CTA</div>
+      <div class="tag-row">
+        <span class="tag tag-cta">「💎 프리미엄 시작하기」(하이라이트)</span>
+        <span class="tag tag-cta">「알림 시간 변경」→ 타임피커</span>
+        <span class="tag tag-cta">「데이터 초기화」→ 확인 다이얼로그</span>
+        <span class="tag tag-cta">「피드백 보내기」→ 이메일/폼</span>
+      </div>
+
+      <div class="section-label">마이크로카피</div>
+      <div class="microcopy-box">알림 권한 요청 전: "📅 하루 딱 한 번, 잊지 않도록 알려드려요. 알림을 허용할까요?"</div>
+      <div class="microcopy-box">프리미엄 잠금: "💎 프리미엄에서 뉴럴 TTS + AI 발음 코치를 사용해 보세요"</div>
+      <div class="microcopy-box">초기화 버튼: 버튼 레이블은 "모든 진도 삭제" (절대 "초기화"나 "리셋" 만 쓰지 않기)</div>
+
+      <div class="section-label">사용자 유지 기회</div>
+      <div class="retain-box">💎 설정 화면 상단 또는 하단에 프리미엄 배너 1개 고정 (비침습적). 알림 설정 완료 → "내일 [시간]에 알려드릴게요 ✅" 확인 토스트로 재방문 기대감 생성.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer style="background:var(--sumi);color:rgba(255,255,255,.4);text-align:center;padding:1.5rem;font-size:.8rem;">
+  말트임 일본어 · 화면별 UX 계획서 · v1.0 · 2026-05-29
+</footer>
+
+</body>
+</html>
