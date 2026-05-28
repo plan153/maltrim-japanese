@@ -1795,7 +1795,7 @@ function score(orig, spoken) {
 
   // 파워커브 부스트: 낮은 점수 구간 완화 (50→59, 70→77, 90→93, 100→100)
   const raw = weightedScore * 100;
-  return Math.min(100, Math.round(Math.pow(raw / 100, 0.75) * 100));
+  return Math.min(100, Math.round(Math.pow(raw / 100, 0.75) * 100 * 1.2));  // +20% 완화
 }
 
 // ════════════════════════════════════════════════════
