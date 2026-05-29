@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말트임 일본어 — PRD v1.0</title>
+<style>
+:root{
+  --sumi:#1a1a2e;--ai:#2d4a6f;--beni:#c73e4a;--kin:#c9a227;
+  --washi:#f7f5f0;--washi2:#efece4;--ink:#2c2c2c;--ink2:#5c5c5c;--ink3:#8a8a8a;
+  --mint:#2a9d8f;--ok:#27ae60;--warn:#e67e22;--danger:#c0392b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard','Apple SD Gothic Neo',sans-serif;background:var(--washi);color:var(--ink);line-height:1.7;font-size:15px;}
+
+/* ── HEADER ── */
+header{background:var(--sumi);color:#fff;padding:2.2rem 3rem 1.8rem;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+header h1{font-size:1.75rem;font-weight:800;letter-spacing:.03em;}
+header h1 span{color:var(--beni);}
+.meta-chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem;}
+.chip{font-size:.72rem;padding:.25em .7em;border-radius:20px;font-weight:600;}
+.chip-ver{background:var(--beni);color:#fff;}
+.chip-date{background:rgba(255,255,255,.1);color:#ccc;}
+.chip-stat{background:rgba(201,162,39,.2);color:var(--kin);border:1px solid rgba(201,162,39,.4);}
+.doc-meta{font-size:.8rem;color:rgba(255,255,255,.4);text-align:right;}
+.doc-meta strong{color:rgba(255,255,255,.7);}
+
+/* ── NAV ── */
+nav{background:var(--ai);padding:.65rem 3rem;display:flex;gap:.3rem;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+nav a{color:rgba(255,255,255,.7);font-size:.78rem;text-decoration:none;padding:.3em .65em;border-radius:4px;white-space:nowrap;transition:all .15s;}
+nav a:hover{background:rgba(255,255,255,.15);color:#fff;}
+
+/* ── LAYOUT ── */
+main{max-width:960px;margin:0 auto;padding:2.5rem 2rem 5rem;}
+section{margin-bottom:3rem;}
+h2{font-size:1.15rem;font-weight:800;color:var(--sumi);border-left:4px solid var(--beni);padding-left:.75rem;margin-bottom:1.2rem;scroll-margin-top:60px;}
+h3{font-size:.95rem;font-weight:700;color:var(--ai);margin:1.2rem 0 .5rem;}
+
+/* ── CARDS & TABLES ── */
+.card{background:#fff;border:1px solid #e0ddd5;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.card p, .card li{font-size:.875rem;color:var(--ink2);}
+.card ul{padding-left:1.2rem;}
+.card ul li{margin-bottom:.3rem;}
+.card-grid{display:grid;gap:1rem;margin-bottom:1rem;}
+.card-grid.col2{grid-template-columns:1fr 1fr;}
+.card-grid.col3{grid-template-columns:1fr 1fr 1fr;}
+.card-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ai);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;}
+.card-title .icon{font-size:1rem;}
+
+table{width:100%;border-collapse:collapse;font-size:.85rem;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+thead tr{background:var(--ai);color:#fff;}
+th{padding:.65rem .9rem;text-align:left;font-weight:600;font-size:.78rem;}
+td{padding:.6rem .9rem;border-bottom:1px solid #eee;vertical-align:top;color:var(--ink2);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafaf7;}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:.25em;font-size:.72rem;font-weight:700;padding:.2em .55em;border-radius:4px;}
+.b-must{background:#fde8e8;color:var(--danger);}
+.b-should{background:#fef3cd;color:#856404;}
+.b-nice{background:#d4edda;color:#155724;}
+.b-out{background:#eee;color:#666;}
+.b-kpi{background:#e8f4fd;color:#1a6fa8;}
+.b-risk{background:#fff3e0;color:var(--warn);}
+.b-tech{background:#f0e6ff;color:#5a3e85;}
+
+/* ── PERSONA ── */
+.persona{display:flex;gap:1rem;align-items:flex-start;background:#fff;border:1px solid #e0ddd5;border-radius:10px;padding:1.2rem;margin-bottom:.8rem;}
+.persona-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.persona h4{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.persona p{font-size:.82rem;color:var(--ink2);}
+.persona .tag{font-size:.7rem;padding:.15em .45em;border-radius:3px;background:var(--washi2);color:var(--ink3);margin-right:.25rem;}
+
+/* ── ROADMAP ── */
+.roadmap-row{display:grid;grid-template-columns:110px 1fr;gap:0;border-left:3px solid var(--kin);margin-bottom:.1rem;}
+.roadmap-row:last-child{border-left-color:transparent;}
+.rm-ver{font-size:.8rem;font-weight:700;color:var(--sumi);padding:.7rem .9rem .7rem 1rem;background:var(--washi2);border-radius:4px 0 0 4px;white-space:nowrap;border-right:2px solid var(--kin);}
+.rm-ver span{display:block;font-size:.65rem;font-weight:400;color:var(--ink3);margin-top:.1rem;}
+.rm-content{padding:.7rem 1rem;background:#fff;border-radius:0 4px 4px 0;border:1px solid #eee;border-left:none;font-size:.83rem;color:var(--ink2);}
+.rm-content strong{color:var(--ink);font-size:.85rem;}
+
+/* ── METRIC TABLE ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem;}
+.kpi-card{background:#fff;border:1px solid #e0ddd5;border-radius:8px;padding:.9rem 1rem;text-align:center;}
+.kpi-card .kpi-num{font-size:1.5rem;font-weight:800;color:var(--beni);line-height:1.1;}
+.kpi-card .kpi-label{font-size:.72rem;color:var(--ink3);margin-top:.25rem;}
+.kpi-card .kpi-desc{font-size:.78rem;color:var(--ink2);margin-top:.3rem;}
+
+/* ── RISK ── */
+.risk-row{display:flex;gap:.6rem;align-items:flex-start;padding:.65rem .9rem;border-radius:6px;margin-bottom:.5rem;font-size:.85rem;}
+.risk-row.high{background:#fff0f0;border-left:3px solid var(--danger);}
+.risk-row.mid{background:#fff9ee;border-left:3px solid var(--warn);}
+.risk-row.low{background:#f0fdf4;border-left:3px solid var(--ok);}
+.risk-label{font-size:.7rem;font-weight:700;padding:.15em .45em;border-radius:3px;flex-shrink:0;margin-top:.1rem;}
+.risk-row.high .risk-label{background:#fde;color:var(--danger);}
+.risk-row.mid .risk-label{background:#fef3cd;color:var(--warn);}
+.risk-row.low .risk-label{background:#d4edda;color:var(--ok);}
+.risk-body strong{display:block;color:var(--ink);margin-bottom:.15rem;}
+
+/* ── CALLOUT ── */
+.callout{border-radius:8px;padding:.85rem 1.1rem;margin:1rem 0;font-size:.85rem;}
+.callout.info{background:#e8f4fd;border-left:3px solid #1a6fa8;color:#1a3a5c;}
+.callout.warn{background:#fff9ee;border-left:3px solid var(--warn);color:#6b3a00;}
+.callout.success{background:#f0fdf4;border-left:3px solid var(--ok);color:#1a4228;}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid #e0ddd5;margin:2.5rem 0;}
+
+@media(max-width:640px){
+  main{padding:1.5rem 1rem 4rem;}
+  .card-grid.col2,.card-grid.col3,.kpi-grid{grid-template-columns:1fr;}
+  header{padding:1.5rem 1.2rem;}
+  nav{padding:.5rem 1rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div>
+      <h1>말트임 일본어 <span>PRD</span></h1>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.5);margin-top:.3rem;">Product Requirements Document · CTO/PM 관점</p>
+    </div>
+    <div class="doc-meta">
+      <strong>작성자</strong>: CTO/PM<br>
+      <strong>검토자</strong>: 개발팀 · 디자인팀<br>
+      <strong>상태</strong>: <span style="color:var(--kin);">Draft v1.0</span>
+    </div>
+  </div>
+  <div class="meta-chips">
+    <span class="chip chip-ver">PRD v1.0</span>
+    <span class="chip chip-date">📅 2026-05-29</span>
+    <span class="chip chip-stat">🎌 일본어 학습 앱</span>
+    <span class="chip chip-stat">🚀 MVP → 앱스토어 출시</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#overview">① 제품 개요</a>
+  <a href="#problem">② 사용자 문제</a>
+  <a href="#goals">③ 목표/비목표</a>
+  <a href="#persona">④ 대상 고객</a>
+  <a href="#features">⑤ 핵심 기능</a>
+  <a href="#requirements">⑥ 요구사항</a>
+  <a href="#edge">⑦ 경계 사례</a>
+  <a href="#tech">⑧ 기술 고려사항</a>
+  <a href="#metrics">⑨ 성공 지표</a>
+  <a href="#scope">⑩ 출시 범위</a>
+  <a href="#roadmap">⑪ 로드맵</a>
+</nav>
+
+<main>
+
+<!-- ────────────────────────────────────────────
+     § 1. 제품 개요
+──────────────────────────────────────────── -->
+<section id="overview">
+  <h2>① 제품 개요 (Product Overview)</h2>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🎌</span> 한 줄 정의 (Elevator Pitch)</div>
+    <p style="font-size:1rem;font-weight:600;color:var(--ink);line-height:1.5;">
+      말트임은 <strong>왕초보 한국인 학습자</strong>가 <strong>말부터 트이게</strong> 해주는 일본어 앱으로,<br>
+      원어민 TTS + AI 발음 교정 + 에빙하우스 스케줄을 결합해 <strong>"30일 안에 여행 일본어 완주"</strong>를 보장합니다.
+    </p>
+  </div>
+
+  <div class="card-grid col3">
+    <div class="card">
+      <div class="card-title">🏗 현재 구현 상태</div>
+      <ul>
+        <li>단일 HTML SPA — GitHub Pages 배포</li>
+        <li>Vercel Serverless (Node 20) 백엔드</li>
+        <li>Neon PostgreSQL (에빙하우스 진도 DB)</li>
+        <li>Upstash Redis (API 응답 캐싱)</li>
+        <li>Claude Sonnet/Haiku (예문 생성 + 발음 피드백)</li>
+        <li>Google Neural2 TTS 사전 생성 MP3</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 제품 포지셔닝</div>
+      <ul>
+        <li><strong>경쟁사 대비</strong>: Duolingo(게임화 우선) vs. 말트임(발화 우선)</li>
+        <li><strong>차별화</strong>: STT 실시간 채점 + FFD 반응속도 계측</li>
+        <li><strong>타깃 포지션</strong>: "말하기 특화 일본어" 카테고리 1위</li>
+        <li><strong>수익 모델</strong>: 프리미엄 구독 (뉴럴 TTS + AI 코치)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📐 핵심 원칙</div>
+      <ul>
+        <li>말하기 우선 (쓰기/읽기는 부가 기능)</li>
+        <li>ます형 선행 학습 (문법 설명 최소화)</li>
+        <li>스트릭 기반 습관 형성</li>
+        <li>오프라인 우선 (핵심 기능 네트워크 불필요)</li>
+        <li>단일 세션 ≤ 15분 (마이크로 러닝)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 2. 사용자 문제
+──────────────────────────────────────────── -->
+<section id="problem">
+  <h2>② 사용자 문제 (User Problems)</h2>
+
+  <div class="callout info">
+    <strong>핵심 가설:</strong> 한국 성인 학습자의 60%+가 일본어를 "읽고 쓰기"는 학습했지만, 실제 대화에서 첫 마디를 꺼내지 못한다. 말하기 훈련 없이 문법·어휘만 공부하기 때문이다.
+  </div>
+
+  <table style="margin-bottom:1rem;">
+    <thead>
+      <tr><th>#</th><th>문제</th><th>현재 해결 방법</th><th>한계</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P1</td>
+        <td><strong>말하기 공포</strong><br>"일본어로 말하면 발음이 이상할까 봐 두렵다"</td>
+        <td>유튜브 섀도잉, 학원</td>
+        <td>피드백 없음 / 비용 높음</td>
+      </tr>
+      <tr>
+        <td>P2</td>
+        <td><strong>지속 불가 학습</strong><br>"매일 하려고 했는데 3일이면 포기한다"</td>
+        <td>앱(Duolingo 등)</td>
+        <td>게임화만 있고 실제 발화 훈련 없음</td>
+      </tr>
+      <tr>
+        <td>P3</td>
+        <td><strong>불명확한 진도</strong><br>"내가 어느 수준인지 모르겠다"</td>
+        <td>교재 페이지 진도</td>
+        <td>실제 발화 실력과 무관</td>
+      </tr>
+      <tr>
+        <td>P4</td>
+        <td><strong>망각</strong><br>"배운 것을 금방 잊어버린다"</td>
+        <td>반복 암기</td>
+        <td>에빙하우스 스케줄 미적용</td>
+      </tr>
+      <tr>
+        <td>P5</td>
+        <td><strong>여행/실용 목적 괴리</strong><br>"JLPT 문제만 풀다가 실제 여행에서 말 못 했다"</td>
+        <td>JLPT 교재, 회화 책</td>
+        <td>실전 발화 연습 부재</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 3. 목표 / 비목표
+──────────────────────────────────────────── -->
+<section id="goals">
+  <h2>③ 목표 / 비목표 (Goals & Non-Goals)</h2>
+
+  <div class="card-grid col2">
+    <div class="card">
+      <div class="card-title" style="color:var(--ok);">✅ 목표 (In Scope)</div>
+      <ul>
+        <li>30일 커리큘럼 완주율 <strong>50% 이상</strong> 달성</li>
+        <li>사용자당 주간 학습 세션 ≥ 5회</li>
+        <li>첫 세션 완료율 <strong>70%</strong> 이상</li>
+        <li>말하기 정확도 평균 <strong>80점↑</strong> 달성 (4주 후)</li>
+        <li>앱스토어 평점 4.5+ 유지</li>
+        <li>월간 유료 전환율 <strong>5%</strong> 이상</li>
+        <li>iOS / Android 네이티브 앱 출시 (v2.0)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--danger);">🚫 비목표 (Out of Scope)</div>
+      <ul>
+        <li>JLPT 시험 대비 전문 콘텐츠 (≥ N2 레벨)</li>
+        <li>일본어 → 한국어 번역 기능</li>
+        <li>사용자 간 소셜 기능 (커뮤니티, 채팅)</li>
+        <li>중국어·영어 등 타 언어 지원</li>
+        <li>강사 연결 / 1:1 튜터링</li>
+        <li>웹 RTC 실시간 화상 회화</li>
+        <li>사용자 직접 커리큘럼 편집 기능</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>⚠️ 범위 경계선:</strong> "쓰기 연습"과 "읽기 전용 학습"은 보조 기능으로만 제공. 핵심 엔진은 항상 <strong>발화(STT)</strong> 기반이어야 한다. 이를 희석하는 기능 요청은 로드맵 외로 분류한다.
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 4. 대상 고객
+──────────────────────────────────────────── -->
+<section id="persona">
+  <h2>④ 대상 고객 (Target Users)</h2>
+
+  <div class="persona">
+    <div class="persona-avatar" style="background:#fde8e8;">🧳</div>
+    <div>
+      <h4>Persona A — "여행 준비 직장인" (Primary)</h4>
+      <p>25~40세, 일본 여행 계획 중. 앱/게임/유튜브는 익숙하나 일본어 학습 경험 없음. 출퇴근 시간(15~20분)에 스마트폰으로 학습하고 싶다. 목표: 식당 주문·길 묻기·쇼핑 표현.</p>
+      <div style="margin-top:.4rem;">
+        <span class="tag">📱 스마트폰 헤비유저</span>
+        <span class="tag">⏱ 하루 10~15분</span>
+        <span class="tag">🎯 여행 전 3~4주</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona">
+    <div class="persona-avatar" style="background:#e8f4fd;">💼</div>
+    <div>
+      <h4>Persona B — "출장 비즈니스맨" (Secondary)</h4>
+      <p>30~50세, 일본 거래처 미팅 예정. 기초 인사·감사 표현 필요. 이메일·영어는 가능하나 대화를 "존댓말"로 시작하는 것에 부담감을 느낌.</p>
+      <div style="margin-top:.4rem;">
+        <span class="tag">💳 지불 의향 높음</span>
+        <span class="tag">⏱ 하루 5~10분</span>
+        <span class="tag">🗣 비즈니스 문체</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="persona">
+    <div class="persona-avatar" style="background:#f0fdf4;">🎌</div>
+    <div>
+      <h4>Persona C — "문화 덕후" (Secondary)</h4>
+      <p>20~35세, 애니·드라마·음악 팬. 자막 없이 일본어를 이해하고 싶고, 좋아하는 콘텐츠 속 표현을 직접 말해보고 싶다. 학습 동기 강하지만 지속성 약함.</p>
+      <div style="margin-top:.4rem;">
+        <span class="tag">🎮 게이미피케이션 선호</span>
+        <span class="tag">📱 일 30분+ 가능</span>
+        <span class="tag">💬 구어체 선호</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>시장 규모 추정</h3>
+  <div class="card-grid col3">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:1.4rem;font-weight:800;color:var(--beni);">820만 명</div>
+      <div style="font-size:.8rem;color:var(--ink3);">국내 일본어 학습 관심 인구<br>(2024 구글 트렌드 기준)</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:1.4rem;font-weight:800;color:var(--ai);">~41만 명</div>
+      <div style="font-size:.8rem;color:var(--ink3);">모바일 앱 학습자 (TAM 5%)</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:1.4rem;font-weight:800;color:var(--ok);">10,000명</div>
+      <div style="font-size:.8rem;color:var(--ink3);">1년 목표 MAU (SAM 2.5%)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 5. 핵심 기능
+──────────────────────────────────────────── -->
+<section id="features">
+  <h2>⑤ 핵심 기능 (Core Features)</h2>
+
+  <table style="margin-bottom:1.2rem;">
+    <thead>
+      <tr><th>ID</th><th>기능</th><th>설명</th><th>우선순위</th><th>상태</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>F-01</td>
+        <td><strong>발음 연습 엔진</strong></td>
+        <td>TTS 재생 → STT 녹음 → LCS diff 채점 → 85점 락 루프</td>
+        <td><span class="badge b-must">Must</span></td>
+        <td>✅ v1.2</td>
+      </tr>
+      <tr>
+        <td>F-02</td>
+        <td><strong>에빙하우스 스케줄러</strong></td>
+        <td>stage 0~6, 복습 간격 [0·1·3·7·14·30·60]일, Neon DB</td>
+        <td><span class="badge b-must">Must</span></td>
+        <td>✅ v1.5</td>
+      </tr>
+      <tr>
+        <td>F-03</td>
+        <td><strong>30일 커리큘럼</strong></td>
+        <td>98문장, ます형 선행, 주차별 문법 누적 (테·형/기본형/반말)</td>
+        <td><span class="badge b-must">Must</span></td>
+        <td>✅ v1.1</td>
+      </tr>
+      <tr>
+        <td>F-04</td>
+        <td><strong>FFD/VAD 유창성 계측</strong></td>
+        <td>반응속도(FFD) + 머뭇거림 횟수(VAD) 실시간 측정</td>
+        <td><span class="badge b-must">Must</span></td>
+        <td>✅ v1.2</td>
+      </tr>
+      <tr>
+        <td>F-05</td>
+        <td><strong>Neural TTS 오디오</strong></td>
+        <td>Google Neural2-B 사전 생성 MP3, 0.85× 학습 속도</td>
+        <td><span class="badge b-must">Must</span></td>
+        <td>✅ v1.4</td>
+      </tr>
+      <tr>
+        <td>F-06</td>
+        <td><strong>학습 통계 대시보드</strong></td>
+        <td>7일 정확도 바 차트 + FFD 라인 차트, localStorage</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>✅ v1.3</td>
+      </tr>
+      <tr>
+        <td>F-07</td>
+        <td><strong>AI 발음 피드백</strong></td>
+        <td>Claude Haiku 한국어 격려 피드백 + Redis 1h 캐시</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>✅ v1.5</td>
+      </tr>
+      <tr>
+        <td>F-08</td>
+        <td><strong>AI 예문 생성</strong></td>
+        <td>Claude Sonnet 패턴 기반 예문 + Redis 24h 공유 캐시</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>✅ v1.5</td>
+      </tr>
+      <tr>
+        <td>F-09</td>
+        <td><strong>오답 교정 말풍선</strong></td>
+        <td>HINT_MAP 31개, CSS ::after 팝업, 문법 힌트</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>✅ v1.2</td>
+      </tr>
+      <tr>
+        <td>F-10</td>
+        <td><strong>스트릭 & 뱃지</strong></td>
+        <td>연속 학습일 뱃지, XP 레벨, 히트맵</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>📋 v2.0</td>
+      </tr>
+      <tr>
+        <td>F-11</td>
+        <td><strong>가나 연습 모드</strong></td>
+        <td>히라가나/가타카나 행별 잠금 해제, 퀴즈</td>
+        <td><span class="badge b-nice">Nice</span></td>
+        <td>📋 v2.0</td>
+      </tr>
+      <tr>
+        <td>F-12</td>
+        <td><strong>프리미엄 구독</strong></td>
+        <td>고품질 TTS, AI 코치 무제한, 광고 제거</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>📋 v2.0</td>
+      </tr>
+      <tr>
+        <td>F-13</td>
+        <td><strong>푸시 알림</strong></td>
+        <td>스트릭 리마인더, 복습 예정 알림</td>
+        <td><span class="badge b-should">Should</span></td>
+        <td>📋 v2.0</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 6. 요구사항
+──────────────────────────────────────────── -->
+<section id="requirements">
+  <h2>⑥ 요구사항 (Requirements)</h2>
+
+  <h3>기능 요구사항 (Functional)</h3>
+  <table style="margin-bottom:1.2rem;">
+    <thead>
+      <tr><th>ID</th><th>요구사항</th><th>검증 기준</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>FR-01</td><td>STT는 Web Speech API (웹) 또는 네이티브 STT (앱)를 사용해 4초 이내 텍스트 반환</td><td>4초 초과 시 타임아웃 + 재시도 버튼 노출</td></tr>
+      <tr><td>FR-02</td><td>LCS 채점은 히라가나·가타카나 정규화 후 수행; 종결 어미 구간(끝 3~4음절)에 가중치 1.5 적용</td><td>단위 테스트 — 5개 기준 문장 점수 편차 ±2점 이내</td></tr>
+      <tr><td>FR-03</td><td>85점 미만 시 락 루프: 1.5초 대기 후 자동 재녹음 시작; S.lockActive 플래그로 이중 실행 방지</td><td>연속 5회 락에서 UI 프리즈 없음</td></tr>
+      <tr><td>FR-04</td><td>에빙하우스 stage 업/다운은 score ≥ 80 기준; 다음 복습일은 KST 기준 계산</td><td>stage 6 → 60일 후 next_review_date 일치</td></tr>
+      <tr><td>FR-05</td><td>오프라인 시 localStorage 캐시된 문장으로 발음 연습 가능; DB 저장은 온라인 복귀 후 동기화</td><td>비행기 모드에서 3세션 연속 정상 동작</td></tr>
+      <tr><td>FR-06</td><td>Neural TTS 오디오 미등록 문장은 Web Speech API로 자동 폴백</td><td>AUDIO_MAP 미포함 텍스트 100% 폴백 동작</td></tr>
+    </tbody>
+  </table>
+
+  <h3>비기능 요구사항 (Non-Functional)</h3>
+  <table>
+    <thead>
+      <tr><th>카테고리</th><th>요구사항</th><th>목표치</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>성능</td><td>TTS 오디오 로드 → 재생 시작</td><td>≤ 500ms (캐시 히트), ≤ 2s (미스)</td></tr>
+      <tr><td>성능</td><td>API /api/generate 응답</td><td>캐시 히트 ≤ 200ms, 미스 ≤ 3s</td></tr>
+      <tr><td>가용성</td><td>Vercel 백엔드 업타임</td><td>99.5% (월 기준)</td></tr>
+      <tr><td>보안</td><td>API Key 노출 방지</td><td>모든 API 호출 서버사이드 프록시</td></tr>
+      <tr><td>비용</td><td>월 1만 MAU 기준 Claude API 비용</td><td>캐싱으로 ≤ $150/월 유지</td></tr>
+      <tr><td>접근성</td><td>텍스트 최소 대비율</td><td>WCAG AA (4.5:1)</td></tr>
+      <tr><td>지원 기기</td><td>웹 (Chrome/Safari), iOS 16+, Android 10+</td><td>주요 STT 기능 정상 동작</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 7. 경계 사례
+──────────────────────────────────────────── -->
+<section id="edge">
+  <h2>⑦ 경계 사례 (Edge Cases)</h2>
+
+  <div class="card-grid col2">
+    <div class="card">
+      <div class="card-title">🎙 STT / 오디오</div>
+      <ul>
+        <li><strong>no-speech</strong>: 4초 침묵 → 토스트 "소음 없는 곳에서 말씀해 주세요" + 재시도</li>
+        <li><strong>not-allowed</strong>: 마이크 거부 → 인앱 설정 안내 바텀시트</li>
+        <li><strong>audio-capture</strong>: 하드웨어 오류 → 마이크 확인 안내</li>
+        <li><strong>STT 한국어 인식</strong>: lang=ja-JP 강제 고정; 한국어 결과 수신 시 점수 0처리</li>
+        <li><strong>장문 STT</strong>: 문장 길이 ≥ 30자 → 부분 매칭 허용</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🌐 네트워크</div>
+      <ul>
+        <li><strong>오프라인 진입</strong>: 서비스 워커 캐시 → 저장된 문장 학습 유지</li>
+        <li><strong>DB 저장 실패</strong>: 로컬 큐 저장 → 온라인 복귀 시 일괄 sync</li>
+        <li><strong>Vercel Cold Start</strong>: 첫 요청 ≥ 3s → 클라이언트 재시도 1회 자동</li>
+        <li><strong>Redis 다운</strong>: graceful fallback → 캐시 없이 Claude 직접 호출</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">👤 사용자 행동</div>
+      <ul>
+        <li><strong>백그라운드 전환</strong>: 녹음 중단 → visibilitychange 감지 후 자동 중지</li>
+        <li><strong>빠른 탭 연타</strong>: TTS 중복 재생 방지 → 재생 중 버튼 비활성</li>
+        <li><strong>진도 초기화 오작동</strong>: 이중 확인 다이얼로그 + 입력 검증</li>
+        <li><strong>처음부터 90점 이상</strong>: stage 빠른 진급 → stage 6 도달 후 장기 복습 모드</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🤖 AI / 데이터</div>
+      <ul>
+        <li><strong>Claude 429 / 500</strong>: 재시도 2회 후 기본 피드백 텍스트로 대체</li>
+        <li><strong>JSON 파싱 실패</strong>: parseJsonSafe 예외 → 오류 로그 + 폴백 예문 반환</li>
+        <li><strong>score_bucket 오남용</strong>: bucket=0(점수 0~9)과 bucket=100 경계 처리</li>
+        <li><strong>긴 reference_text</strong>: 캐시 키 길이 제한 → SHA-256 해시로 단축</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 8. 기술적 고려사항
+──────────────────────────────────────────── -->
+<section id="tech">
+  <h2>⑧ 기술적 고려사항 (Technical Considerations)</h2>
+
+  <div class="card-grid col2">
+    <div class="card">
+      <div class="card-title"><span class="badge b-tech">현재 스택</span> 웹 프론트엔드</div>
+      <ul>
+        <li>단일 HTML 파일 SPA (외부 의존성 없음)</li>
+        <li>Web Speech API — STT/TTS 브라우저 내장</li>
+        <li>GitHub Pages 정적 호스팅</li>
+        <li><strong>제약</strong>: iOS Safari STT 품질 불안정, 오프라인 SW 미적용</li>
+        <li><strong>마이그레이션 경로</strong>: React Native (Expo) v2.0</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge b-tech">현재 스택</span> 백엔드</div>
+      <ul>
+        <li>Vercel Serverless Functions (Node 20, maxDuration 15s)</li>
+        <li>Neon PostgreSQL (Singapore, PG 17) — user_progress + expressions</li>
+        <li>Upstash Redis REST — 공유 캐시 (generate 24h, fluency 1h)</li>
+        <li>Claude SDK prompt_caching — 시스템 프롬프트 90% 토큰 절감</li>
+        <li><strong>제약</strong>: Vercel 무료 플랜 Cold Start 300~500ms</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>마이그레이션 고려사항 (v2.0 앱 전환 시)</h3>
+  <table style="margin-bottom:1rem;">
+    <thead>
+      <tr><th>영역</th><th>현재 (웹)</th><th>v2.0 (React Native)</th><th>주의점</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>STT</td><td>Web Speech API</td><td>Expo Speech / Azure STT</td><td>음소 단위 평가는 Azure만 지원</td></tr>
+      <tr><td>TTS</td><td>MP3 사전 생성</td><td>동일 MP3 + 네이티브 TTS 폴백</td><td>번들 사이즈 주의 (98개 MP3 ~12MB)</td></tr>
+      <tr><td>저장소</td><td>localStorage</td><td>MMKV + SQLite</td><td>마이그레이션 스크립트 필요</td></tr>
+      <tr><td>인증</td><td>user_id (임의)</td><td>Apple/Google Sign-In + JWT</td><td>기존 진도 병합 정책 결정 필요</td></tr>
+      <tr><td>푸시</td><td>없음</td><td>Expo Notifications + FCM/APNs</td><td>iOS 권한 허가율 약 50% 고려</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card-grid col2">
+    <div class="card">
+      <div class="card-title">⚡ 성능 최적화 포인트</div>
+      <ul>
+        <li>AUDIO_MAP O(1) 조회 — 앱 로드 시 1회 계산</li>
+        <li>Redis 공유 캐시 — Claude Sonnet 호출 40~60% 절감</li>
+        <li>prompt_caching — 시스템 프롬프트 캐시 히트 시 토큰 90% 절감</li>
+        <li>Neon 싱글턴 커넥션 — Cold Start 이후 연결 재사용</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🔒 보안 & 프라이버시</div>
+      <ul>
+        <li>ANTHROPIC_API_KEY 서버사이드 전용 — 클라이언트 노출 금지</li>
+        <li>user_id 임의 UUID — PII 수집 최소화</li>
+        <li>발음 오디오 버퍼 — 서버 전송 없이 브라우저에서만 처리</li>
+        <li>CORS: 프로덕션 도메인만 허용 (현재 * → 수정 필요)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>⚠️ 즉시 수정 필요:</strong> <code>api/*.js</code>의 CORS 헤더가 <code>Access-Control-Allow-Origin: *</code>로 설정되어 있음. 프로덕션 배포 전 허용 오리진을 <code>https://plan153.github.io</code>로 제한할 것.
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 9. 성공 지표
+──────────────────────────────────────────── -->
+<section id="metrics">
+  <h2>⑨ 성공 지표 (Success Metrics)</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-num">D1 40%</div>
+      <div class="kpi-label">Day-1 Retention</div>
+      <div class="kpi-desc">첫날 학습 후 익일 재방문율 목표</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">D7 20%</div>
+      <div class="kpi-label">Day-7 Retention</div>
+      <div class="kpi-desc">1주일 후 재방문율 (업계 평균 15%)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">5회+/주</div>
+      <div class="kpi-label">Weekly Sessions</div>
+      <div class="kpi-desc">활성 사용자 기준 주당 세션 수</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">50%</div>
+      <div class="kpi-label">30일 완주율</div>
+      <div class="kpi-desc">30일 커리큘럼 전체 완료 비율</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">5%</div>
+      <div class="kpi-label">유료 전환율</div>
+      <div class="kpi-desc">무료 → 프리미엄 구독 전환</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">4.5★</div>
+      <div class="kpi-label">앱스토어 평점</div>
+      <div class="kpi-desc">iOS + Android 통합 평점 목표</div>
+    </div>
+  </div>
+
+  <h3>학습 품질 지표</h3>
+  <table>
+    <thead>
+      <tr><th>지표</th><th>정의</th><th>목표</th><th>측정 방법</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge b-kpi">품질</span> 평균 발음 점수</td>
+        <td>4주 사용 후 사용자별 LCS 점수 평균</td>
+        <td>≥ 80점</td>
+        <td>user_progress.last_score 집계</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-kpi">품질</span> FFD 개선율</td>
+        <td>첫 세션 대비 4주 후 반응속도 개선</td>
+        <td>20% 단축</td>
+        <td>maltrim_stats_v1 localStorage 집계</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-kpi">비용</span> Claude API 비용</td>
+        <td>월 1만 MAU 기준 API 비용</td>
+        <td>≤ $150</td>
+        <td>Anthropic 대시보드 모니터링</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-kpi">성능</span> API P95 응답시간</td>
+        <td>캐시 히트 포함 95퍼센타일 응답</td>
+        <td>≤ 500ms</td>
+        <td>Vercel Analytics</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 10. 출시 범위
+──────────────────────────────────────────── -->
+<section id="scope">
+  <h2>⑩ 출시 범위 (Launch Scope)</h2>
+
+  <div class="card-grid col2">
+    <div class="card">
+      <div class="card-title" style="color:var(--beni);">🚀 MVP (현재 — GitHub Pages 웹)</div>
+      <ul>
+        <li>30일 커리큘럼 전체 (98문장)</li>
+        <li>발음 연습 엔진 (STT + LCS + 락 루프)</li>
+        <li>Neural TTS MP3 재생</li>
+        <li>FFD/VAD 유창성 계측</li>
+        <li>오답 교정 말풍선 (HINT_MAP 31개)</li>
+        <li>학습 통계 대시보드</li>
+        <li>에빙하우스 백엔드 (Vercel + Neon + Redis)</li>
+        <li>AI 발음 피드백 (Claude Haiku)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--ai);">📦 v2.0 앱 출시 (앱스토어)</div>
+      <ul>
+        <li>React Native (Expo) iOS + Android</li>
+        <li>Apple / Google 소셜 로그인</li>
+        <li>푸시 알림 (스트릭 리마인더)</li>
+        <li>프리미엄 인앱 구독 (RevenueCat)</li>
+        <li>스트릭 뱃지 + XP 레벨 시스템</li>
+        <li>가나 연습 모드</li>
+        <li>단어장 퀴즈 (플래시카드 + 4지선다)</li>
+        <li>Azure STT 음소 단위 발음 평가</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>리스크 매트릭스</h3>
+  <div class="risk-row high">
+    <span class="risk-label">HIGH</span>
+    <div class="risk-body">
+      <strong>iOS Safari STT 불안정</strong>
+      Web Speech API가 iOS 17+ Safari에서 간헐적 인식 실패 발생. 완화책: 네이티브 앱(Expo) 조기 전환 또는 Azure STT REST API 폴백 추가.
+    </div>
+  </div>
+  <div class="risk-row high">
+    <span class="risk-label">HIGH</span>
+    <div class="risk-body">
+      <strong>Claude API 비용 과다 발생</strong>
+      MAU 급증 시 Redis 캐시 미스율 증가 → Claude 호출 폭증. 완화책: 캐시 히트율 모니터링 대시보드, 일일 API 예산 Cap 설정.
+    </div>
+  </div>
+  <div class="risk-row mid">
+    <span class="risk-label">MID</span>
+    <div class="risk-body">
+      <strong>Neon DB Cold Start</strong>
+      Serverless DB 첫 쿼리 300~600ms 지연. 완화책: /api/schedule warm-up 엔드포인트 또는 싱글턴 커넥션 유지.
+    </div>
+  </div>
+  <div class="risk-row mid">
+    <span class="risk-label">MID</span>
+    <div class="risk-body">
+      <strong>앱스토어 심사 지연</strong>
+      STT 마이크 권한 + 인앱 구독 조합 시 Apple 심사 지연 가능. 완화책: 심사 4~6주 여유 일정 확보, 심사 가이드라인 사전 점검.
+    </div>
+  </div>
+  <div class="risk-row low">
+    <span class="risk-label">LOW</span>
+    <div class="risk-body">
+      <strong>CORS 설정 오픈</strong>
+      현재 <code>Allow-Origin: *</code> — 프로덕션 전 허용 오리진 제한 필요. 즉시 수정 가능.
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────
+     § 11. 로드맵
+──────────────────────────────────────────── -->
+<section id="roadmap">
+  <h2>⑪ 로드맵 (Roadmap)</h2>
+
+  <div class="roadmap-row">
+    <div class="rm-ver">v1.x<span>완료</span></div>
+    <div class="rm-content">
+      <strong>✅ 웹 MVP 완성</strong><br>
+      발음 엔진 · Neural TTS · FFD/VAD · 오답 교정 · 통계 대시보드 · Vercel 백엔드 (Redis 캐싱 + Neon DB + Claude AI) — GitHub Pages 배포 완료
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="rm-ver">v1.7<span>2026 Q3</span></div>
+    <div class="rm-content">
+      <strong>🔧 웹 안정화 + 품질 개선</strong><br>
+      CORS 보안 수정 · 서비스 워커 오프라인 지원 · Azure STT 폴백 실험 · 사용자 피드백 수집 폼 · A/B 테스트 인프라 (PostHog)
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="rm-ver">v1.8<span>2026 Q3</span></div>
+    <div class="rm-content">
+      <strong>💳 수익화 준비</strong><br>
+      프리미엄 기능 플래그 활성화 (S.isPremium) · 결제 연동 테스트 (RevenueCat 웹) · 전환 퍼널 분석 · 구독 가격 A/B 테스트
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="rm-ver">v2.0<span>2026 Q4</span></div>
+    <div class="rm-content">
+      <strong>📱 네이티브 앱 출시 (iOS + Android)</strong><br>
+      React Native (Expo) · 소셜 로그인 · 인앱 구독 · 푸시 알림 · 스트릭 뱃지 · 가나 모드 · 앱스토어 제출
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="rm-ver">v2.1<span>2027 Q1</span></div>
+    <div class="rm-content">
+      <strong>🎯 AI 고도화</strong><br>
+      Azure STT 음소 단위 평가 (fluency-analyzer 스킬 연동) · AI 발음 코치 대화형 피드백 · 개인화 커리큘럼 생성 (contextual-generator 연동)
+    </div>
+  </div>
+
+  <div class="roadmap-row" style="border-left-color:transparent;">
+    <div class="rm-ver">v3.0<span>2027 Q2+</span></div>
+    <div class="rm-content">
+      <strong>🌏 확장</strong><br>
+      일본어 중급 커리큘럼 (N4~N3) · 한국어 → 중국어 버전 실험 · B2B (기업 출장 패키지) · 글로벌 마켓 진출
+    </div>
+  </div>
+
+  <div class="callout success" style="margin-top:1.5rem;">
+    <strong>📌 현재 집중 우선순위 (2026 Q2~Q3):</strong>
+    ① 웹 DAU 1,000명 달성 → ② D7 리텐션 20% 검증 → ③ 유료 전환 5% 확인 → ④ 앱 개발 착수.
+    데이터 없이 앱 개발 시작하면 방향이 틀릴 수 있다. 웹에서 PMF를 먼저 검증하라.
+  </div>
+</section>
+
+<hr>
+<div style="text-align:center;color:var(--ink3);font-size:.8rem;padding-bottom:1rem;">
+  말트임 일본어 PRD v1.0 · 2026-05-29 · CTO/PM 작성<br>
+  다음 리뷰: v1.7 스프린트 플래닝 시
+</div>
+
+</main>
+</body>
+</html>
